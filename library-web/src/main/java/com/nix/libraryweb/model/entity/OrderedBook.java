@@ -12,8 +12,6 @@ public class OrderedBook {
     private UUID id;
     @ManyToOne
     private Book book;
-    @ManyToOne
-    private OrderInfo orderInfo;
 
     public UUID getId() {
         return id;
@@ -29,13 +27,5 @@ public class OrderedBook {
 
     public void setBook(Book book) {
         this.book = book;
-    }
-
-    public OrderInfo getOrderInfo() {
-        return orderInfo;
-    }
-
-    public void setOrderInfo(OrderInfo orderInfo) {
-        this.orderInfo = orderInfo;
     }
 }

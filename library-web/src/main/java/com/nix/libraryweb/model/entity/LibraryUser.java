@@ -21,7 +21,7 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-public class User {
+public class LibraryUser {
     public enum Gender {
         MALE, FEMALE
     }
@@ -33,8 +33,6 @@ public class User {
     @Email
     private String email;
     @JsonProperty(access = WRITE_ONLY)
-    @Size(min = 4, max = 20)
-    @Pattern(regexp = "\\w+")
     private String password;
     @Temporal(TIMESTAMP)
     private Date birthday;
