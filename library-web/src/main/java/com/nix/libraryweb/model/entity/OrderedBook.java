@@ -2,10 +2,12 @@ package com.nix.libraryweb.model.entity;
 
 import java.util.UUID;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+@Entity
 public class OrderedBook {
     @Id
     @GeneratedValue
