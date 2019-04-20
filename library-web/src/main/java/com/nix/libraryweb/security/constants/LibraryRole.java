@@ -1,9 +1,8 @@
 package com.nix.libraryweb.security.constants;
 
-public enum LibraryRole {
-    ADMIN, VISITOR;
+public final class LibraryRole {
+    private LibraryRole(){}
 
-    public String getName() {
-        return this.name();
-    }
+    public final static String ADMIN = "admin";
+    public final static String VISITOR = "visitor";
 }

@@ -9,6 +9,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import com.nix.libraryweb.model.entity.LibraryUser;
 import com.nix.libraryweb.model.projection.SecurityUser;
 
+@RestResource(path = "/users")
 public interface UserRepository extends PagingAndSortingRepository<LibraryUser, UUID> {
     @RestResource(exported = false)
     Optional<SecurityUser> findByName(String name);
