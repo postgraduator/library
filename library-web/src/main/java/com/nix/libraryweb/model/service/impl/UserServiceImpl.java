@@ -8,16 +8,16 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
-import com.nix.libraryweb.model.entity.Permission;
-import com.nix.libraryweb.model.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nix.libraryweb.exceptions.EntityNotFoundException;
 import com.nix.libraryweb.model.entity.LibraryUser;
+import com.nix.libraryweb.model.entity.Permission;
 import com.nix.libraryweb.model.projection.SecurityUser;
 import com.nix.libraryweb.model.repository.UserRepository;
+import com.nix.libraryweb.model.service.PermissionService;
 import com.nix.libraryweb.model.service.UserService;
 
 @Service
