@@ -1,5 +1,6 @@
 package com.nix.libraryweb.model.service.impl;
 
+import static com.nix.libraryweb.security.constants.LibraryRole.VISITOR;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.util.Optional;
@@ -7,6 +8,8 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import com.nix.libraryweb.model.entity.Permission;
+import com.nix.libraryweb.model.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,11 +23,13 @@ import com.nix.libraryweb.model.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final PermissionService permissionService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PermissionService permissionService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.permissionService = permissionService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -35,6 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public LibraryUser createUser(LibraryUser user) {
+        user.setPermission(permissionService.findPermissionByName(VISITOR));
         return saveUserWithNewPassword(user);
     }
 
@@ -47,18 +53,31 @@ public class UserServiceImpl implements UserService {
         return saveUserWithNewPassword(user);
     }
 
+    @Override
+    @Transactional
+    public LibraryUser changeUserPermission(UUID userId, String permissionName) {
+        Permission permission = permissionService.findPermissionByName(permissionName);
+        return userRepository.findById(userId)
+                .map(user -> {
+                    user.setPermission(permission);
+                    return user;
+                })
+                .orElseThrow(() -> new EntityNotFoundException("User", "id", userId.toString()));
+    }
+
     private LibraryUser saveUserWithNewPassword(LibraryUser user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
-    private LibraryUser saveUserWithCurrentPassword(UUID userId, LibraryUser user) {
+    private LibraryUser saveUserWithCurrentPassword(UUID userId, LibraryUser libraryUser) {
         return userRepository
                 .findById(userId)
-                .map(LibraryUser::getPassword)
-                .map(password -> {
-                    user.setPassword(password);
-                    return user;
+                .map(user -> {
+                    libraryUser.setId(user.getId());
+                    libraryUser.setPassword(user.getPassword());
+                    libraryUser.setPermission(user.getPermission());
+                    return libraryUser;
                 })
                 .map(userRepository::save)
                 .orElseThrow(() -> new EntityNotFoundException("Library user", "id", userId.toString()));
