@@ -1,6 +1,7 @@
 package com.nix.libraryweb.configuration;
 
 import static com.nix.libraryweb.security.constants.LibraryRole.ADMIN;
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
 
@@ -44,6 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/")
                 .authenticated()
+                .antMatchers(GET, baseUri + "/users")
+                .hasRole(ADMIN)
                 .antMatchers(POST, baseUri + "/users")
                 .permitAll()
                 .antMatchers(PUT, baseUri + "/users/{id}")

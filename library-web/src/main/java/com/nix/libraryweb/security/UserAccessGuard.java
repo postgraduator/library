@@ -1,7 +1,5 @@
 package com.nix.libraryweb.security;
 
-import java.util.UUID;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,8 @@
 package com.nix.libraryweb.model.entity;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
+import static javax.persistence.CascadeType.DETACH;
+import static javax.persistence.CascadeType.REFRESH;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 import java.util.Date;
@@ -16,8 +18,6 @@ import javax.persistence.Temporal;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -38,7 +38,7 @@ public class LibraryUser {
     @Temporal(TIMESTAMP)
     private Date birthday;
     private Gender gender;
-    @ManyToOne
+    @ManyToOne(cascade = {REFRESH, DETACH})
     @NotNull
     private Permission permission;
 
