@@ -18,6 +18,7 @@ import javax.persistence.Temporal;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -29,9 +30,10 @@ public class LibraryUser {
     @Id
     @GeneratedValue
     private UUID id;
-    @NotBlank
+    @Size(min = 3, max = 30)
     private String name;
     @Email
+    @NotBlank
     private String email;
     @JsonProperty(access = WRITE_ONLY)
     private String password;
@@ -41,7 +43,6 @@ public class LibraryUser {
     @ManyToOne(cascade = {REFRESH, DETACH})
     @NotNull
     private Permission permission;
-
     @OneToMany
     private Set<OrderInfo> orderInfoSet;
 

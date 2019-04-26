@@ -1,5 +1,6 @@
 package com.nix.libraryweb.model.entity;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ public class OrderedBook {
     private UUID id;
     @ManyToOne
     private Book book;
+    private BigDecimal price;
 
     public UUID getId() {
         return id;
@@ -29,5 +31,13 @@ public class OrderedBook {
 
     public void setBook(Book book) {
         this.book = book;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

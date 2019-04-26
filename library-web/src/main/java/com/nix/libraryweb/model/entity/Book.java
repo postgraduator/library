@@ -6,14 +6,14 @@ import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Book {
     @Id
     @GeneratedValue
     private UUID id;
-    @NotBlank
+    @Size(min = 1, max = 256)
     private String name;
     private String picturePath;
     private int count;
