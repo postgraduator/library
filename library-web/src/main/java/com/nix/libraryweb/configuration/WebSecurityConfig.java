@@ -1,5 +1,7 @@
 package com.nix.libraryweb.configuration;
 
+import static com.nix.libraryweb.controllers.constants.ViewUrl.SIGNIN;
+import static com.nix.libraryweb.controllers.constants.ViewUrl.SIGNUP;
 import static com.nix.libraryweb.security.constants.LibraryRole.ADMIN;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
@@ -53,7 +55,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .access(userIdValidatorExpression)
                 .antMatchers(baseUri + "/users/{id}/**")
                 .access(userIdValidatorExpression + " or " + adminRoleExpression)
-                .antMatchers(POST, baseUri + "/books/**")
-                .hasRole(ADMIN);
+                .antMatchers(POST, baseUri + "/books")
+                .hasRole(ADMIN)
+                .antMatchers(PUT, baseUri + "/books/*")
+                .hasRole(ADMIN)
+                .and()
+                .formLogin()
+                .loginPage(SIGNIN.getUrl())
+                .and()
+                .logout()
+                .logoutUrl(SIGNUP.getUrl())
+                .logoutSuccessUrl(SIGNIN.getUrl())
+                .invalidateHttpSession(true);
     }
 }
