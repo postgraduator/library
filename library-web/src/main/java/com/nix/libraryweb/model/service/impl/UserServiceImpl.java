@@ -47,8 +47,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public LibraryUser updateUser(UUID id, LibraryUser user) {
+        user.setId(id);
         if (isBlank(user.getPassword())) {
-            return saveUserWithCurrentPassword(id, user);
+            return saveUserWithCurrentPassword(user);
         }
         return saveUserWithNewPassword(user);
     }
@@ -70,11 +71,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    private LibraryUser saveUserWithCurrentPassword(UUID userId, LibraryUser libraryUser) {
+    private LibraryUser saveUserWithCurrentPassword(LibraryUser libraryUser) {
+        UUID userId = libraryUser.getId();
         return userRepository
                 .findById(userId)
                 .map(user -> {
-                    libraryUser.setId(user.getId());
                     libraryUser.setPassword(user.getPassword());
                     libraryUser.setPermission(user.getPermission());
                     return libraryUser;
