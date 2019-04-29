@@ -5,3 +5,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+upload:
+  path: /home/vitalii/Templates/storage

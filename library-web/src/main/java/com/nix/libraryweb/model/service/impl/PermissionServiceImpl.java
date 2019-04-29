@@ -1,5 +1,6 @@
 package com.nix.libraryweb.model.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nix.libraryweb.exceptions.EntityNotFoundException;
@@ -12,6 +13,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     private final PermissionRepository permissionRepository;
 
+    @Autowired
     public PermissionServiceImpl(PermissionRepository permissionRepository) {
         this.permissionRepository = permissionRepository;
     }
