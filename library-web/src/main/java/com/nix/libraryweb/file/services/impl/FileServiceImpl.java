@@ -10,9 +10,11 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,24 +32,23 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String save(UUID id, MultipartFile file) {
-        String fileName = createFileName(id, file.getName());
         try {
+            String fileName = createFileName(id, file.getName());
             String fullPath = getFullFilePath(fileName);
             Path newFile = createFile(Paths.get(fullPath));
             write(newFile, file.getBytes());
+            return fileName;
         } catch (IOException e) {
             throw new FileProcessingException("The file " + file.getName() + "can not be saved", e);
         }
-        return fileName;
     }
 
     @Override
-    public byte[] getFileByName(String name) {
-        try {
-            return readAllBytes(Paths.get(getFullFilePath(name)));
-        } catch (IOException e) {
-            throw new FileProcessingException("The problem occured during retrieving file " + name, e);
-        }
+    public FileSystemResource getFileSystemResourceByFileName(String name) {
+        return Optional.of(new FileSystemResource(Paths.get(getFullFilePath(name))))
+                .filter(FileSystemResource::isFile)
+                .orElseThrow(() -> new FileProcessingException("The problem occured during retrieving file " + name));
+
     }
 
     @Override
@@ -62,7 +63,6 @@ public class FileServiceImpl implements FileService {
     private String createFileName(UUID id, String multipartFileName) {
         String dot = ".";
         return id.toString() + dot + substringAfterLast(multipartFileName, dot);
-
     }
 
     private String getFullFilePath(String fileName) {
