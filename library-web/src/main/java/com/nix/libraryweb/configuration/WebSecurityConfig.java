@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 @Configuration
 @EnableWebSecurity
@@ -23,14 +24,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
     @Value("${spring.data.rest.base-path}")
     private String baseUri;
 
     @Autowired
-    public WebSecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public WebSecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, AuthenticationEntryPoint authenticationEntryPoint) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Override
@@ -45,8 +48,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         String userIdValidatorExpression = "@userAccessGuard.validateUserId(authentication, #id)";
         String adminRoleExpression = String.format("hasRole('%s')", ADMIN);
         http.authorizeRequests()
-                .antMatchers("/")
-                .authenticated()
                 .antMatchers(GET, baseUri + "/users")
                 .hasRole(ADMIN)
                 .antMatchers(POST, baseUri + "/users")
@@ -55,10 +56,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .access(userIdValidatorExpression)
                 .antMatchers(baseUri + "/users/{id}/**")
                 .access(userIdValidatorExpression + " or " + adminRoleExpression)
+                .antMatchers(GET, baseUri + "/books")
+                .authenticated()
                 .antMatchers(POST, baseUri + "/books")
                 .hasRole(ADMIN)
                 .antMatchers(PUT, baseUri + "/books/*")
                 .hasRole(ADMIN)
+                .antMatchers("/", baseUri + "/**")
+                .authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .formLogin()
                 .loginPage(SIGNIN.getUrl())

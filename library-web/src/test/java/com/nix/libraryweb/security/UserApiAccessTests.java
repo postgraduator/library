@@ -2,13 +2,13 @@ package com.nix.libraryweb.security;
 
 import static com.nix.libraryweb.security.constants.LibraryRole.ADMIN;
 import static com.nix.libraryweb.security.constants.LibraryRole.VISITOR;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.junit.Assert.assertNotEquals;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

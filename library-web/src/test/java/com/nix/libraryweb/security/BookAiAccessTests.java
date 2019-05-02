@@ -2,8 +2,8 @@ package com.nix.libraryweb.security;
 
 import static com.nix.libraryweb.security.constants.LibraryRole.ADMIN;
 import static com.nix.libraryweb.security.constants.LibraryRole.VISITOR;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.junit.Assert.assertNotEquals;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -39,13 +39,12 @@ public class BookAiAccessTests {
     public void testAuthenticatedAccess() throws Exception {
         mvc.perform(get(apiPath))
                 .andExpect(status().isForbidden());
-
     }
 
     @Test
     @WithMockUser(roles = ADMIN)
     public void testAdminAccessForPost() throws Exception {
-        int responseStatus = mvc.perform(post(apiPath).with(csrf()))
+        int responseStatus = mvc.perform(post(apiPath).with(csrf()).contentType(MULTIPART_FORM_DATA))
                 .andReturn()
                 .getResponse()
                 .getStatus();
@@ -56,18 +55,17 @@ public class BookAiAccessTests {
     @Test
     @WithMockUser(roles = ADMIN)
     public void testAdminAccessForPut() throws Exception {
-        int responseStatus = mvc.perform(put(apiPath).with(csrf()))
+        int responseStatus = mvc.perform(put(apiPath).with(csrf()).contentType(MULTIPART_FORM_DATA))
                 .andReturn()
                 .getResponse()
                 .getStatus();
         assertNotEquals("The admin must have access to add change a book item", HttpStatus.FORBIDDEN.value(), responseStatus);
-
     }
 
     @Test
     @WithMockUser(roles = VISITOR)
     public void testVisitorAccessForPost() throws Exception {
-        mvc.perform(post(apiPath).with(csrf()))
+        mvc.perform(post(apiPath).with(csrf()).contentType(MULTIPART_FORM_DATA))
                 .andExpect(status().isForbidden());
 
     }
@@ -75,7 +73,7 @@ public class BookAiAccessTests {
     @Test
     @WithMockUser(roles = VISITOR)
     public void testVisitorAccessForPut() throws Exception {
-        mvc.perform(put(apiPath + "/" + BOOK_ID).with(csrf()))
+        mvc.perform(put(apiPath + "/" + BOOK_ID).with(csrf()).contentType(MULTIPART_FORM_DATA))
                 .andExpect(status().isForbidden());
 
     }
