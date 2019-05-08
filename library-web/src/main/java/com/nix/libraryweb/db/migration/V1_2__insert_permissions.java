@@ -12,12 +12,12 @@ public class V1_2__insert_permissions extends BaseJavaMigration {
     @Override
     public void migrate(Context context) throws Exception {
         try (Statement insert = context.getConnection().createStatement()){
-            insert.executeUpdate(buildInsertQuery(ADMIN));
-            insert.executeUpdate(buildInsertQuery(VISITOR));
+            insert.executeUpdate(buildInsertQuery(0, ADMIN));
+            insert.executeUpdate(buildInsertQuery(1, VISITOR));
         }
     }
 
-    private String buildInsertQuery(String permissionName) {
-        return "insert into permission (name) values('" + permissionName + "')";
+    private String buildInsertQuery(int id, String permissionName) {
+        return String.format("insert into permission (id, name) values('%d', '%s')", id, permissionName);
     }
 }
