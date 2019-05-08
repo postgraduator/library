@@ -10,19 +10,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 @Configuration
 public class SecurityBeanConfig {
 
-    @Value("${spring.data.rest.base-path}")
-    private String baseUri;
+    private final String baseUri;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public SecurityBeanConfig(@Value("${spring.data.rest.base-path}") String baseUri) {
+        this.baseUri = baseUri;
     }
 
     @Bean

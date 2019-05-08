@@ -1,4 +1,4 @@
-package com.nix.libraryweb.db.migration;
+package db.migration;
 
 import static com.nix.libraryweb.security.constants.LibraryRole.ADMIN;
 import static com.nix.libraryweb.security.constants.LibraryRole.VISITOR;

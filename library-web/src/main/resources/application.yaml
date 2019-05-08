@@ -11,3 +11,12 @@ spring:
 upload:
   path: /home/vitalii/Templates/storage
   context: images
+constraint:
+  password:
+    min: "5"
+    max: "30"
+    pattern: "[a-zA-Z]+"
+user:
+  name: ladmin
+  password: lPassword
+  email: ladmin@service.com
