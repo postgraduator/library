@@ -16,9 +16,12 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 public class SecurityBeanConfig {
 
     private final String baseUri;
+    private final String contextPath;
 
-    public SecurityBeanConfig(@Value("${spring.data.rest.base-path}") String baseUri) {
+    public SecurityBeanConfig(@Value("${spring.data.rest.base-path}") String baseUri,
+                              @Value("${server.servlet.context-path}") String contextPath) {
         this.baseUri = baseUri;
+        this.contextPath = contextPath;
     }
 
     @Bean
@@ -28,7 +31,7 @@ public class SecurityBeanConfig {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }
-            response.sendRedirect(SIGNIN.getUrl());
+            response.sendRedirect(contextPath + SIGNIN.getUrl());
         };
     }
 }

@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Library Login Page</title>
 </head>
 <body>
-
+<div id="signin-app"
+     data-csrf-header="${_csrf.headerName}"
+     data-csrf-token="${_csrf.token}"></div>
+<script type="text/javascript" src="static/js/signin.js"></script>
 </body>
 </html>

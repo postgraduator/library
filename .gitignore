@@ -6,3 +6,4 @@ mvnw.cmd
 HELP.md
 .mvn
 target/
+node_modules/
