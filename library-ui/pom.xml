@@ -33,10 +33,15 @@
                             <goal>npm</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>Build UI application</id>
+                        <goals>
+                            <goal>webpack</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
-
 
 </project>

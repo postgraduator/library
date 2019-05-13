@@ -7,3 +7,5 @@ HELP.md
 .mvn
 target/
 node_modules/
+node/
+package-lock.json

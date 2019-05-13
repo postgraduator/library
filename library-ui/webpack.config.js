@@ -1,13 +1,12 @@
-const path = require("path");
+const path = require('path');
 
 module.exports = {
     entry: {
-        signin: "./src/app/signin.js"
+        signin: './src/app/signin.js'
     },
     output: {
-        path: path.join(__dirname, "target", "classes", "static", "js"),
-        filename: '[name].js',
-        sourceMapFilename: '[name].map'
+        path: path.join(__dirname, 'target', 'classes', 'assets', 'js', '[name]'),
+        filename: '[name]-app.js',
     },
     module: {
         rules: [{

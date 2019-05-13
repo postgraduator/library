@@ -55,7 +55,7 @@ public class BookAiAccessTests {
     @Test
     @WithMockUser(roles = ADMIN)
     public void testAdminAccessForPut() throws Exception {
-        int responseStatus = mvc.perform(put(apiPath).with(csrf()).contentType(MULTIPART_FORM_DATA))
+        int responseStatus = mvc.perform(put(apiPath + "/" + BOOK_ID).with(csrf()).contentType(MULTIPART_FORM_DATA))
                 .andReturn()
                 .getResponse()
                 .getStatus();

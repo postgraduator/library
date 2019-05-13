@@ -62,7 +62,7 @@ public class UserApiAccessTests {
     @Test
     @WithMockUser(value = USER_ID, roles = EMPTY)
     public void testPersonalInfoUpdate() throws Exception {
-        int responseStatus = mvc.perform(put(apiPath).with(csrf()))
+        int responseStatus = mvc.perform(put(apiPath + "/" + USER_ID).with(csrf()))
                 .andReturn()
                 .getResponse()
                 .getStatus();

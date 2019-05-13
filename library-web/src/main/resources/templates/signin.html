@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Library Login Page</title>
 </head>
 <body>
 <div id="signin-app"
-     data-csrf-header="${_csrf.headerName}"
-     data-csrf-token="${_csrf.token}"></div>
-<script type="text/javascript" src="static/js/signin.js"></script>
+     th:attr="data-csrf-header=${_csrf.headerName}"
+     th:attrappend="data-csrf-token=${_csrf.token}" data-csrf-token=""></div>
+<script src="./assets/js/signin-app.js"></script>
 </body>
 </html>
