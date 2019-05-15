@@ -1,6 +1,5 @@
-import React from "react";
+import "./common";
 import {render} from "react-dom";
+import SigninPage from "./signin/SigninPage"
 
-const HelloSigninPage = ({message = "Hello Sign In Page"}) => (<div>{message}</div>);
-
-render(<HelloSigninPage/>, document.getElementById("signin-app"));
+render(<SigninPage/>, document.getElementById("signin-app"));

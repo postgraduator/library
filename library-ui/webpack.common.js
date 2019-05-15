@@ -1,4 +1,6 @@
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     entry: {
@@ -16,6 +18,25 @@ module.exports = {
             options: {
                 presets: ['env', 'stage-0', 'react']
             }
+        }, {
+            test: /\.css$/,
+            use: [
+                MiniCssExtractPlugin.loader,
+                {
+                    loader: 'css-loader',
+                    options: {
+                        sourceMap: false
+                    }
+                }
+            ]
         }]
     },
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: '../css/[name].css',
+        }),
+        new webpack.ProvidePlugin({
+            React: 'react'
+        })
+    ]
 };
