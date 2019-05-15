@@ -38,6 +38,9 @@
                         <goals>
                             <goal>webpack</goal>
                         </goals>
+                        <configuration>
+                            <arguments>--env prod</arguments>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
