@@ -2,7 +2,6 @@ package com.nix.libraryweb.file.services.impl;
 
 import static java.nio.file.Files.createFile;
 import static java.nio.file.Files.deleteIfExists;
-import static java.nio.file.Files.readAllBytes;
 import static java.nio.file.Files.write;
 import static org.apache.commons.lang3.StringUtils.substringAfterLast;
 
