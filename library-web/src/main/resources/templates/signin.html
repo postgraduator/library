@@ -6,13 +6,14 @@
     <title>Library Login Page</title>
 </head>
 <body>
-<th:block th:with="error=${param.error} ? 'The username or password is wrong. Please try again.' : ''">
+<th:block th:with="error=${#request.getParameter('error')} ? #{message.badCredentials} : ''">
     <div id="signin-app"
          th:attr="data-csrf-header=${_csrf.headerName},
                 data-csrf-parameter-name=${_csrf.parameterName},
                 data-csrf-token=${_csrf.token},
                 data-error=${error},
-                data-signin-url=${#servletContext.getAttribute('signinUrl')}"></div>
+                data-signin-url=${#servletContext.contextPath +
+                    T(com.nix.libraryweb.controllers.constants.ViewUrl).SIGNIN.getUrl()}"></div>
 </th:block>
 <script th:src="@{/assets/js/signin-app.js}"></script>
 </body>

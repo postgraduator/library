@@ -2,12 +2,10 @@ package com.nix.libraryweb.configuration;
 
 import static com.nix.libraryweb.controllers.constants.ViewUrl.SIGNIN;
 
-import javax.servlet.ServletContext;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.ServletContextInitializer;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -30,7 +28,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public ServletContextInitializer servletContextInitializer(@Value("${server.servlet.context-path}") String contextPath) {
-        return (ServletContext context) -> context.setAttribute("signinUrl", contextPath + SIGNIN.getUrl());
+    MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
     }
 }
