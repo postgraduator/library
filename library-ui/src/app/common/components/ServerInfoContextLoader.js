@@ -1,10 +1,12 @@
 import {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 
-class CsrfContextLoader extends Component {
+class ServerInfoContextLoader extends Component {
     getChildContext() {
         return {
-            csrf: this.csrf
+            csrf: this.csrf,
+            signinUrl: this.signinUrl,
+            error: this.error
         };
     }
     constructor(props) {
@@ -13,20 +15,25 @@ class CsrfContextLoader extends Component {
         const appEntryPointDataSet = document.getElementById(applicationId).dataset;
         this.csrf = {
             header: appEntryPointDataSet.csrfHeader,
+            parameterName: appEntryPointDataSet.csrfParameterName,
             token: appEntryPointDataSet.csrfToken
         };
+        this.signinUrl = appEntryPointDataSet.signinUrl || '';
+        this.error = appEntryPointDataSet.error || '';
     }
     render() {
         return (<Fragment>{this.props.children}</Fragment>);
     }
 }
 
-CsrfContextLoader.propTypes = {
+ServerInfoContextLoader.propTypes = {
     applicationId: PropTypes.string.isRequired,
 };
 
-CsrfContextLoader.childContextTypes = {
-    csrf: PropTypes.object.isRequired
+ServerInfoContextLoader.childContextTypes = {
+    csrf: PropTypes.object.isRequired,
+    error: PropTypes.string.isRequired,
+    signinUrl: PropTypes.string.isRequired
 };
 
-export default CsrfContextLoader;
+export default ServerInfoContextLoader;

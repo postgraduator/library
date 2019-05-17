@@ -1,15 +1,14 @@
 package com.nix.libraryweb.security;
 
+import static com.nix.libraryweb.controllers.constants.ViewUrl.SIGNIN;
+import static com.nix.libraryweb.controllers.constants.ViewUrl.SIGNUP;
+import static org.apache.commons.lang3.StringUtils.endsWith;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.junit.Assert.assertEquals;
-import static org.apache.commons.lang3.StringUtils.endsWith;
-import static com.nix.libraryweb.controllers.constants.ViewUrl.SIGNIN;
-import static com.nix.libraryweb.controllers.constants.ViewUrl.SIGNUP;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -6,9 +6,14 @@
     <title>Library Login Page</title>
 </head>
 <body>
-<div id="signin-app"
-     th:attr="data-csrf-header=${_csrf.headerName}"
-     th:attrappend="data-csrf-token=${_csrf.token}" data-csrf-token=""></div>
+<th:block th:with="error=${param.error} ? 'The username or password is wrong. Please try again.' : ''">
+    <div id="signin-app"
+         th:attr="data-csrf-header=${_csrf.headerName},
+                data-csrf-parameter-name=${_csrf.parameterName},
+                data-csrf-token=${_csrf.token},
+                data-error=${error},
+                data-signin-url=${#servletContext.getAttribute('signinUrl')}"></div>
+</th:block>
 <script th:src="@{/assets/js/signin-app.js}"></script>
 </body>
 </html>

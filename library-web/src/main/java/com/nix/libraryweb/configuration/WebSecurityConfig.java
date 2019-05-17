@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -24,16 +25,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationEntryPoint authenticationEntryPoint;
+    private final AuthenticationEntryPoint apiAuthenticationEntryPoint;
 
     @Value("${spring.data.rest.base-path}")
     private String baseUri;
 
     @Autowired
-    public WebSecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, AuthenticationEntryPoint authenticationEntryPoint) {
+    public WebSecurityConfig(UserDetailsService userDetailsService,
+                             PasswordEncoder passwordEncoder,
+                             AuthenticationEntryPoint apiAuthenticationEntryPoint) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
-        this.authenticationEntryPoint = authenticationEntryPoint;
+        this.apiAuthenticationEntryPoint = apiAuthenticationEntryPoint;
     }
 
     @Override
@@ -47,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         String userIdValidatorExpression = "@userAccessGuard.validateUserId(authentication, #id)";
         String adminRoleExpression = String.format("hasRole('%s')", ADMIN);
+        AntPathRequestMatcher apiAntMatcher = new AntPathRequestMatcher(baseUri + "/**");
         http.authorizeRequests()
                 .antMatchers(GET, baseUri + "/users")
                 .hasRole(ADMIN)
@@ -70,10 +74,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .denyAll()
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint)
+                .defaultAuthenticationEntryPointFor(apiAuthenticationEntryPoint, apiAntMatcher)
                 .and()
                 .formLogin()
                 .loginPage(SIGNIN.getUrl())
+                .defaultSuccessUrl("/")
                 .and()
                 .logout()
                 .logoutUrl(SIGNUP.getUrl())

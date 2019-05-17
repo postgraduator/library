@@ -1,10 +1,10 @@
 import "./common";
 import {render} from "react-dom";
 import SigninPage from "./signin/SigninPage"
-import CsrfContextLoader from "./common/components/CsrfContextLoader";
+import ServerInfoContextLoader from "./common/components/ServerInfoContextLoader";
 
 const appId = 'signin-app';
-const App = () => (<CsrfContextLoader applicationId={appId}>
+const App = () => (<ServerInfoContextLoader applicationId={appId}>
     <SigninPage/>
-</CsrfContextLoader>);
+</ServerInfoContextLoader>);
 render(<App/>, document.getElementById(appId));

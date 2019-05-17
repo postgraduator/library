@@ -25,9 +25,9 @@ public class SecurityBeanConfig {
     }
 
     @Bean
-    public AuthenticationEntryPoint authenticationEntryPoint() {
+    public AuthenticationEntryPoint apiAuthenticationEntryPoint() {
         return (HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) -> {
-            if (startsWith(request.getPathInfo(), baseUri)) {
+            if (startsWith(request.getPathInfo(), baseUri + "/")) {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }
