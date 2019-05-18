@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import SignupButton from "./SignupButton";
 
 const LibraryMainPage = () => (<div className="container">

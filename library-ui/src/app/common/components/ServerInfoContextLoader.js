@@ -1,5 +1,5 @@
-import {Component, Fragment} from "react";
 import PropTypes from "prop-types";
+import {Component, Fragment} from "react";
 
 class ServerInfoContextLoader extends Component {
     getChildContext() {

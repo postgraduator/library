@@ -1,7 +1,7 @@
 import {HashRouter, Route} from "react-router-dom";
-import ROUTER_LINK from "./constants/router-constants";
 import LoginForm from "./components/LoginForm";
 import RegistrationForm from "./components/RegistrationForm";
+import ROUTER_LINK from "./constants/router-constants";
 
 const SigninPage = () => (<div className="container">
     <HashRouter>

@@ -1,5 +1,5 @@
-import "./common";
 import {render} from "react-dom";
+import "./common";
 import ServerInfoContextLoader from "./common/components/ServerInfoContextLoader";
 import LibraryMainPage from "./library/components/LibraryMainPage"
 
