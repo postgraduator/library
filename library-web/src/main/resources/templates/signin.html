@@ -12,7 +12,7 @@
                 data-csrf-parameter-name=${_csrf.parameterName},
                 data-csrf-token=${_csrf.token},
                 data-error=${error},
-                data-signin-url=${#servletContext.contextPath +
+                data-action-url=${#servletContext.contextPath +
                     T(com.nix.libraryweb.controllers.constants.ViewUrl).SIGNIN.getUrl()}"></div>
 </th:block>
 <script th:src="@{/assets/js/signin-app.js}"></script>

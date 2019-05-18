@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +65,11 @@ public class UserServiceImpl implements UserService {
                     return user;
                 })
                 .orElseThrow(() -> new EntityNotFoundException("User", "id", userId.toString()));
+    }
+
+    @Override
+    public UUID getCurrentLibraryUserId() {
+        return UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     private LibraryUser saveUserWithNewPassword(LibraryUser user) {

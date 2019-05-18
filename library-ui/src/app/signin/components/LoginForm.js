@@ -1,12 +1,11 @@
 import PropTypes from "prop-types";
-import {Fragment} from "react";
 import {NavLink} from "react-router-dom";
 import ROUTER_LINK from "../constants/router-constants";
 
-const LoginForm = (props, {csrf, signinUrl, error}) => (<div className="row">
+const LoginForm = (props, {csrf, actionUrl, error}) => (<div className="row">
     <div className="col-sm-4 offset-sm-4">
         {error && <div className="alert alert-danger">{error}</div>}
-        <form action={signinUrl} method="post">
+        <form action={actionUrl} method="post">
             <legend>Library Login form</legend>
             <input type="hidden" name={csrf.parameterName} value={csrf.token}/>
             <div className="form-group">
@@ -27,7 +26,7 @@ const LoginForm = (props, {csrf, signinUrl, error}) => (<div className="row">
 
 LoginForm.contextTypes = {
     csrf: PropTypes.object,
-    signinUrl: PropTypes.string,
+    actionUrl: PropTypes.string,
     error: PropTypes.string
 };
 

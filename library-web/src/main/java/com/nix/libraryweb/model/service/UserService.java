@@ -14,4 +14,6 @@ public interface UserService {
     LibraryUser updateUser(UUID id, LibraryUser user);
 
     LibraryUser changeUserPermission(UUID userId, String permissionName);
+
+    UUID getCurrentLibraryUserId();
 }

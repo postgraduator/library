@@ -5,7 +5,7 @@ class ServerInfoContextLoader extends Component {
     getChildContext() {
         return {
             csrf: this.csrf,
-            signinUrl: this.signinUrl,
+            actionUrl: this.actionUrl,
             error: this.error
         };
     }
@@ -18,7 +18,7 @@ class ServerInfoContextLoader extends Component {
             parameterName: appEntryPointDataSet.csrfParameterName,
             token: appEntryPointDataSet.csrfToken
         };
-        this.signinUrl = appEntryPointDataSet.signinUrl || '';
+        this.actionUrl = appEntryPointDataSet.actionUrl || '';
         this.error = appEntryPointDataSet.error || '';
     }
     render() {
@@ -33,7 +33,7 @@ ServerInfoContextLoader.propTypes = {
 ServerInfoContextLoader.childContextTypes = {
     csrf: PropTypes.object.isRequired,
     error: PropTypes.string.isRequired,
-    signinUrl: PropTypes.string.isRequired
+    actionUrl: PropTypes.string.isRequired
 };
 
 export default ServerInfoContextLoader;

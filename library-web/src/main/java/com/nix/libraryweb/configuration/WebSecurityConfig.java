@@ -56,6 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasRole(ADMIN)
                 .antMatchers(POST, baseUri + "/users")
                 .permitAll()
+                .antMatchers(GET, baseUri + "/users/search/current")
+                .authenticated()
                 .antMatchers(PUT, baseUri + "/users/{id}")
                 .access(userIdValidatorExpression)
                 .antMatchers(baseUri + "/users/{id}/**")
