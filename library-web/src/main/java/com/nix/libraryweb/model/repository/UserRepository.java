@@ -19,7 +19,7 @@ public interface UserRepository extends PagingAndSortingRepository<LibraryUser, 
     @RestResource(exported = false)
     <S extends LibraryUser> S save(S entity);
 
-    @Query(value = "FROM LibraryUser WHERE id = ?#{@userServiceImpl.getCurrentLibraryUserId()}")
+    @Query(value = "FROM LibraryUser user WHERE user.id = ?#{@userServiceImpl.currentLibraryUserId}")
     @RestResource(rel = "current", path = "current")
     Optional<LibraryUser> findCurrentUser();
 }
