@@ -1,13 +1,16 @@
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
 
-const SignupButton = (props, {actionUrl, csrf}) => (<form action={actionUrl} method="POST">
-    <input type="hidden" name={csrf.parameterName} value={csrf.token}/>
-    <button type="submit" className="btn btn-link">Sign Up</button>
-</form>);
-
-SignupButton.contextTypes = {
-    actionUrl: PropTypes.string,
-    csrf: PropTypes.object
+const SignupButton = ({actionUrl, csrf}) => {
+    return (<form action={actionUrl} method="POST">
+        <input type="hidden" name={csrf.parameterName} value={csrf.token}/>
+        <button type="submit" className="btn btn-link">Sign Up</button>
+    </form>)
 };
 
-export default SignupButton;
+SignupButton.propTypes = {
+    actionUrl: PropTypes.string.isRequired,
+    csrf: PropTypes.object.isRequired
+};
+
+export default connect(({context}) => ({actionUrl: context.actionUrl, csrf: context.csrf}))(SignupButton);

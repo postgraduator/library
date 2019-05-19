@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
 import {Fragment} from "react";
-import {NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 import ROUTER_LINK from "../constants/router-constants";
+import {ServerInfoContext} from "../context";
 
-const LoginForm = (props, {csrf, actionUrl, getErrorMessage}) => {
-    const error = getErrorMessage();
+const LoginForm = ({csrf, actionUrl, errorMessage}) => {
     return (<Fragment>
-        {error && <div className="alert alert-danger">{error}</div>}
+        {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
         <form action={actionUrl} method="post">
             <legend>Library Login form</legend>
             <input type="hidden" name={csrf.parameterName} value={csrf.token}/>
@@ -22,16 +22,18 @@ const LoginForm = (props, {csrf, actionUrl, getErrorMessage}) => {
             </div>
             <button className="btn btn-primary" type="submit">Sign In</button>
         </form>
-        <NavLink className="float-right" to={ROUTER_LINK.registration}>
+        <Link className="float-right" to={ROUTER_LINK.registration}>
             <small>Go to Registration Form></small>
-        </NavLink>
+        </Link>
     </Fragment>)
 };
 
-LoginForm.contextTypes = {
-    csrf: PropTypes.object,
-    actionUrl: PropTypes.string,
-    getErrorMessage: PropTypes.func
+LoginForm.propTypes = {
+    csrf: PropTypes.object.isRequired,
+    actionUrl: PropTypes.string.isRequired,
+    errorMessage: PropTypes.string.isRequired
 };
 
-export default LoginForm;
+export default ({errorMessage}) => (<ServerInfoContext.Consumer>
+    {({csrf, actionUrl}) => (<LoginForm csrf={csrf} actionUrl={actionUrl} errorMessage={errorMessage}/>)}
+</ServerInfoContext.Consumer>);

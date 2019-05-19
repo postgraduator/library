@@ -1,17 +1,13 @@
 import "lodash";
 import {render} from "react-dom";
 import "./common";
-import ServerInfoContextLoader from "./common/components/ServerInfoContextLoader";
 import LibraryMainPage from "./library/components/LibraryMainPage"
 import LibraryStoreProvider from "./library/components/LibraryStoreProvider";
+import {LIBRARY_APP_ID} from "./library/context";
 import {stateInitializer} from "./library/store/utils/helper";
 
-const appId = 'library-spa';
+const App = () => (<LibraryStoreProvider>
+    <LibraryMainPage/>
+</LibraryStoreProvider>);
 
-const App = () => (<ServerInfoContextLoader applicationId={appId}>
-    <LibraryStoreProvider>
-        <LibraryMainPage/>
-    </LibraryStoreProvider>
-</ServerInfoContextLoader>);
-
-render(<App/>, document.getElementById(appId));
+render(<App/>, document.getElementById(LIBRARY_APP_ID));
