@@ -6,7 +6,8 @@ class ServerInfoContextLoader extends Component {
         return {
             csrf: this.csrf,
             actionUrl: this.actionUrl,
-            error: this.error
+            error: this.error,
+            apiPath: this.apiPath
         };
     }
     constructor(props) {
@@ -20,6 +21,7 @@ class ServerInfoContextLoader extends Component {
         };
         this.actionUrl = appEntryPointDataSet.actionUrl || '';
         this.error = appEntryPointDataSet.error || '';
+        this.apiPath = appEntryPointDataSet.apiPath;
     }
     render() {
         return (<Fragment>{this.props.children}</Fragment>);
@@ -33,7 +35,8 @@ ServerInfoContextLoader.propTypes = {
 ServerInfoContextLoader.childContextTypes = {
     csrf: PropTypes.object.isRequired,
     error: PropTypes.string.isRequired,
-    actionUrl: PropTypes.string.isRequired
+    actionUrl: PropTypes.string.isRequired,
+    apiPath: PropTypes.string.isRequired
 };
 
 export default ServerInfoContextLoader;

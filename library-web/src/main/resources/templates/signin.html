@@ -12,6 +12,7 @@
                 data-csrf-parameter-name=${_csrf.parameterName},
                 data-csrf-token=${_csrf.token},
                 data-error=${error},
+                data-api-path=${@environment.getProperty('spring.data.rest.base-path')},
                 data-action-url=${#servletContext.contextPath +
                     T(com.nix.libraryweb.controllers.constants.ViewUrl).SIGNIN.getUrl()}"></div>
 </th:block>

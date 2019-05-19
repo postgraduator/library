@@ -1,9 +1,11 @@
 import PropTypes from "prop-types";
+import {Fragment} from "react";
 import {NavLink} from "react-router-dom";
 import ROUTER_LINK from "../constants/router-constants";
 
-const LoginForm = (props, {csrf, actionUrl, error}) => (<div className="row">
-    <div className="col-sm-4 offset-sm-4">
+const LoginForm = (props, {csrf, actionUrl, getErrorMessage}) => {
+    const error = getErrorMessage();
+    return (<Fragment>
         {error && <div className="alert alert-danger">{error}</div>}
         <form action={actionUrl} method="post">
             <legend>Library Login form</legend>
@@ -20,14 +22,16 @@ const LoginForm = (props, {csrf, actionUrl, error}) => (<div className="row">
             </div>
             <button className="btn btn-primary" type="submit">Sign In</button>
         </form>
-        <NavLink className="float-right" to={ROUTER_LINK.registration}><small>Go to Registration Form></small></NavLink>
-    </div>
-</div>);
+        <NavLink className="float-right" to={ROUTER_LINK.registration}>
+            <small>Go to Registration Form></small>
+        </NavLink>
+    </Fragment>)
+};
 
 LoginForm.contextTypes = {
     csrf: PropTypes.object,
     actionUrl: PropTypes.string,
-    error: PropTypes.string
+    getErrorMessage: PropTypes.func
 };
 
 export default LoginForm;

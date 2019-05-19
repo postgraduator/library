@@ -10,6 +10,7 @@
      th:attr="data-csrf-header=${_csrf.headerName},
                 data-csrf-parameter-name=${_csrf.parameterName},
                 data-csrf-token=${_csrf.token},
+                data-api-path=${@environment.getProperty('spring.data.rest.base-path')},
                 data-action-url=${#servletContext.contextPath +
                     T(com.nix.libraryweb.controllers.constants.ViewUrl).SIGNUP.getUrl()}"></div>
 <script th:src="@{/assets/js/library-app.js}"></script>
