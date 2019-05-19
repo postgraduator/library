@@ -2,6 +2,7 @@ import {getServerInfoContext} from "../common/utils/server-info";
 
 const LIBRARY_APP_ID = 'library-spa';
 
-const contextReducer = () => getServerInfoContext(LIBRARY_APP_ID);
+const serverInfo = getServerInfoContext(LIBRARY_APP_ID);
+const contextReducer = () => ({...serverInfo});
 
 export {contextReducer, LIBRARY_APP_ID};

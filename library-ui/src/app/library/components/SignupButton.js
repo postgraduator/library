@@ -13,4 +13,4 @@ SignupButton.propTypes = {
     csrf: PropTypes.object.isRequired
 };
 
-export default connect(({context}) => ({actionUrl: context.actionUrl, csrf: context.csrf}))(SignupButton);
+export default connect(({serverInfo}) => ({actionUrl: serverInfo.actionUrl, csrf: serverInfo.csrf}))(SignupButton);

@@ -10,7 +10,7 @@ import {initState} from "../store/utils/helper";
 export default class LibraryStoreProvider extends Component {
     constructor(props) {
         super(props);
-        this.reduxStore = createStore(combineReducers({user, context: contextReducer}));
+        this.reduxStore = createStore(combineReducers({user, serverInfo: contextReducer}));
     }
     componentWillMount() {
         initState([{action: fetchUser, restAction: fetchCurrentUser}], this.reduxStore.dispatch.bind(this.reduxStore));
