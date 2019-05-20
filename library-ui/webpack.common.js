@@ -1,5 +1,5 @@
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -19,23 +19,14 @@ module.exports = {
             options: {
                 presets: ['env', 'stage-0', 'react']
             }
-        }, {
-            test: /\.css$/,
-            use: [
-                MiniCssExtractPlugin.loader,
-                {
-                    loader: 'css-loader',
-                    options: {
-                        sourceMap: false
-                    }
-                }
-            ]
         }]
     },
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: '../css/[name].css',
-        }),
+        new CopyWebpackPlugin([{
+            from: path.resolve(__dirname, 'node_modules', 'bootstrap', 'dist', 'css', 'bootstrap.min.css'),
+            to: path.resolve(__dirname, 'target', 'classes', 'assets', 'css', 'bootstrap.css'),
+            toType: 'file'
+        }]),
         new webpack.ProvidePlugin({
             React: 'react'
         })
