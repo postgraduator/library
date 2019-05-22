@@ -2,25 +2,38 @@ import PropTypes from "prop-types";
 import {Fragment} from "react";
 import {Link} from "react-router-dom";
 import ROUTER_LINK from "../constants/router-constants";
-import {ServerInfoContext} from "../context";
+import {ServerInfoContext, StateContext} from "../context";
+import Message from "./Message";
 
-const LoginForm = ({csrf, actionUrl, errorMessage}) => {
+const LoginForm = ({action, message, showAuthErrorMessage}) => {
+    let usernameInput, passwordInput;
+    const submit = (event) => {
+        event.preventDefault();
+        action.signin({username: usernameInput.value, password: passwordInput.value})
+            .then(() => {
+                location.replace('./');
+            })
+            .catch((response) => {
+                showAuthErrorMessage();
+            })
+    };
     return (<Fragment>
-        {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
-        <form action={actionUrl} method="post">
+        <Message message={message} className="alert alert-danger"/>
+        <form noValidate>
             <legend>Library Login form</legend>
-            <input type="hidden" name={csrf.parameterName} value={csrf.token}/>
             <div className="form-group">
                 <label htmlFor="username">User name</label>
-                <input className="form-control" id="username" type="text" name="username"
+                <input ref={(input) => usernameInput = input} className="form-control" id="username" type="text"
+                       name="username"
                        placeholder="Enter user name"/>
             </div>
             <div className="form-group">
                 <label htmlFor="password">Passowrd</label>
-                <input className="form-control" id="password" type="password" name="password"
+                <input ref={(input) => passwordInput = input} className="form-control" id="password" type="password"
+                       name="password"
                        placeholder="Enter password"/>
             </div>
-            <button className="btn btn-primary" type="submit">Sign In</button>
+            <button className="btn btn-primary" onClick={submit}>Sign In</button>
         </form>
         <Link className="float-right" to={ROUTER_LINK.registration}>
             <small>Go to Registration Form></small>
@@ -29,11 +42,18 @@ const LoginForm = ({csrf, actionUrl, errorMessage}) => {
 };
 
 LoginForm.propTypes = {
-    csrf: PropTypes.object.isRequired,
-    actionUrl: PropTypes.string.isRequired,
-    errorMessage: PropTypes.string.isRequired
+    action: PropTypes.object.isRequired,
+    message: PropTypes.string,
+    showAuthErrorMessage: PropTypes.func.isRequired,
 };
 
-export default ({errorMessage}) => (<ServerInfoContext.Consumer>
-    {({csrf, actionUrl}) => (<LoginForm csrf={csrf} actionUrl={actionUrl} errorMessage={errorMessage}/>)}
-</ServerInfoContext.Consumer>);
+export default ({authErrorMessage}) => (
+    <StateContext.Consumer>
+        {({showAuthErrorMessage}) => (
+            <ServerInfoContext.Consumer>
+                {({action}) => (
+                    <LoginForm action={action} message={authErrorMessage} showAuthErrorMessage={showAuthErrorMessage}/>)}
+            </ServerInfoContext.Consumer>
+        )}
+    </StateContext.Consumer>
+);

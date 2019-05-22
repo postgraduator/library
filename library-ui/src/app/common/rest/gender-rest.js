@@ -8,4 +8,4 @@ GenderRest.prototype = function () {
     return axios.get(this._genderPath);
 };
 
-export default (apiPath) => new GenderRest(apiPath);
+export const createGenderRest = (apiPath) => new GenderRest(apiPath);

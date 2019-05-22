@@ -1,7 +1,9 @@
+import set from "lodash/set";
+
 export const getServerInfoContext = (applicationId) => {
     const appEntryPointDataSet = document.getElementById(applicationId).dataset;
     const csrf = {
-        header: appEntryPointDataSet.csrfHeader,
+        header: set({}, appEntryPointDataSet.csrfHeader, appEntryPointDataSet.csrfToken),
         parameterName: appEntryPointDataSet.csrfParameterName,
         token: appEntryPointDataSet.csrfToken
     };

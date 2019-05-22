@@ -17,6 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -26,6 +28,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationEntryPoint apiAuthenticationEntryPoint;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
 
     @Value("${spring.data.rest.base-path}")
     private String baseUri;
@@ -33,10 +37,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public WebSecurityConfig(UserDetailsService userDetailsService,
                              PasswordEncoder passwordEncoder,
-                             AuthenticationEntryPoint apiAuthenticationEntryPoint) {
+                             AuthenticationEntryPoint apiAuthenticationEntryPoint,
+                             AuthenticationSuccessHandler authenticationSuccessHandler,
+                             AuthenticationFailureHandler authenticationFailureHandler) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.apiAuthenticationEntryPoint = apiAuthenticationEntryPoint;
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+        this.authenticationFailureHandler = authenticationFailureHandler;
     }
 
     @Override
@@ -72,15 +80,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .antMatchers(SIGNIN.getUrl(), "/assets/**")
                 .permitAll()
-                .antMatchers("/**")
-                .denyAll()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .exceptionHandling()
                 .defaultAuthenticationEntryPointFor(apiAuthenticationEntryPoint, apiAntMatcher)
                 .and()
                 .formLogin()
                 .loginPage(SIGNIN.getUrl())
-                .defaultSuccessUrl("/")
+                .successHandler(authenticationSuccessHandler)
+                .failureHandler(authenticationFailureHandler)
                 .and()
                 .logout()
                 .logoutUrl(SIGNUP.getUrl())

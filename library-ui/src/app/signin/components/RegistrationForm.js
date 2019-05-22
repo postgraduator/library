@@ -1,14 +1,9 @@
-import PropTypes from "prop-types";
 import {Fragment} from "react";
 import {Link} from "react-router-dom";
-import createGenderRest from "../../common/rest/gender-rest";
-import createUserRest from "../../common/rest/user-rest";
 import ROUTER_LINK from "../constants/router-constants";
 import {ServerInfoContext} from "../context";
 
-const RegistrationForm = ({apiPath}) => {
-    const genderRest = createGenderRest(apiPath);
-    const userRest = createUserRest(apiPath);
+const RegistrationForm = () => {
     return (<Fragment>
         <div>Registration Form</div>
         <Link className="float-right" to={ROUTER_LINK.root}>
@@ -17,10 +12,6 @@ const RegistrationForm = ({apiPath}) => {
     </Fragment>)
 };
 
-RegistrationForm.propTypes = {
-    apiPath: PropTypes.string.isRequired
-};
-
 export default () => (<ServerInfoContext.Consumer>
-    {({apiPath}) => (<RegistrationForm apiPath={apiPath}/>)}
+    {() => (<RegistrationForm/>)}
 </ServerInfoContext.Consumer>);

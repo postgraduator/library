@@ -6,16 +6,14 @@
     <title>Library Login Page</title>
 </head>
 <body>
-<th:block th:with="error=${#request.getParameter('error')} ? #{message.badCredentials} : ''">
-    <div id="signin-app"
-         th:attr="data-csrf-header=${_csrf.headerName},
+<div id="signin-app"
+     th:attr="data-csrf-header=${_csrf.headerName},
                 data-csrf-parameter-name=${_csrf.parameterName},
                 data-csrf-token=${_csrf.token},
-                data-error=${error},
+                data-error=#{message.badCredentials},
                 data-api-path=${@environment.getProperty('spring.data.rest.base-path')},
                 data-action-url=${#servletContext.contextPath +
                     T(com.nix.libraryweb.controllers.constants.ViewUrl).SIGNIN.getUrl()}"></div>
-</th:block>
 <script th:src="@{/assets/js/signin-app.js}"></script>
 </body>
 </html>

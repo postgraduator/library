@@ -1,13 +1,14 @@
 import axios from "axios";
 
-const UserRest = function (apiPath) {
+const UserRest = function (apiPath, csrf) {
     this._basePath = apiPath + '/users';
+    this._csrf = csrf;
 };
 
-UserRest.prototype.addUser = function (user, csrf) {
-    return axios.post(this._basePath, user, {headers: csrf});
+UserRest.prototype.addUser = function (user) {
+    return axios.post(this._basePath, user, {headers: this._csrf.header});
 };
 
 export {UserRest};
 
-export default (apiPath) => new UserRest(apiPath);
+export const createUserRest = (apiPath) => new UserRest(apiPath);
