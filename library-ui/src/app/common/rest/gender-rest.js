@@ -4,7 +4,7 @@ const GenderRest = function (apiPath) {
     this._genderPath = apiPath + '/genders';
 };
 
-GenderRest.prototype = function () {
+GenderRest.prototype.getGenders = function () {
     return axios.get(this._genderPath);
 };
 

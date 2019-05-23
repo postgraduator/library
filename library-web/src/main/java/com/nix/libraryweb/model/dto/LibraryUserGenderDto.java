@@ -1,8 +1,5 @@
 package com.nix.libraryweb.model.dto;
 
-
-import com.nix.libraryweb.model.entity.LibraryUser.Gender;
-
 public class LibraryUserGenderDto {
     private String value;
     private String view;

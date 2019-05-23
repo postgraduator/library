@@ -78,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasRole(ADMIN)
                 .antMatchers("/")
                 .authenticated()
-                .antMatchers(SIGNIN.getUrl(), "/assets/**")
+                .antMatchers(baseUri + "/genders", SIGNIN.getUrl(), "/assets/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

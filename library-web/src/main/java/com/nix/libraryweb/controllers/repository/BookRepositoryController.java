@@ -47,6 +47,4 @@ public class BookRepositoryController {
         bookResource.add(linkTo(methodOn(BookRepositoryController.class).updateBook(bookId, file, updatedBook)).withSelfRel());
         return ResponseEntity.ok(bookResource);
     }
-
-
 }
