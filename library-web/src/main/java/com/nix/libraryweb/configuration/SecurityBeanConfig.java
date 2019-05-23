@@ -2,15 +2,20 @@ package com.nix.libraryweb.configuration;
 
 import static com.nix.libraryweb.controllers.constants.ViewUrl.SIGNIN;
 import static org.apache.commons.lang3.StringUtils.startsWith;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -40,10 +45,15 @@ public class SecurityBeanConfig {
     }
 
     @Bean
-    public AuthenticationFailureHandler authenticationFailureHandler() {
+    @Autowired
+    public AuthenticationFailureHandler authenticationFailureHandler(ReloadableResourceBundleMessageSource messageSource) {
+        String[] codes = {"message.badCredentials"};
+        MessageSourceResolvable messageResolvable = new DefaultMessageSourceResolvable(codes, UNAUTHORIZED.getReasonPhrase());
         return (request, response, exception) -> {
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.setContentType(MediaType.TEXT_PLAIN_VALUE);
+            response.setStatus(UNAUTHORIZED.value());
+            String authMessage = messageSource.getMessage(messageResolvable, response.getLocale());
+            response.getWriter().print(String.format("{\"message\": \"%s\"}", authMessage));
+            response.setContentType(APPLICATION_JSON_VALUE);
         };
     }
 

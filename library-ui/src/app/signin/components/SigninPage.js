@@ -8,9 +8,8 @@ import Message from "./Message";
 import RegistrationForm from "./RegistrationForm";
 
 class SigninPage extends Component {
-    constructor(props, {error, action}) {
+    constructor(props, {action}) {
         super(props);
-        this.error = error;
         this.signinAction = action;
         this.stateContext = {
             makeSigninRequest: this.makeSigninRequest.bind(this),
@@ -23,7 +22,11 @@ class SigninPage extends Component {
             .then(() => {
                 location.replace('./');
             })
-            .catch(() => this.setState({authErrorMessage: this.error}));
+            .catch(({response}) => {
+                this.setState({
+                    authErrorMessage: get(response, 'data.message')
+                })
+            });
     }
 
     removeAuthMessages() {

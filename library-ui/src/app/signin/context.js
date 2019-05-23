@@ -10,7 +10,6 @@ const processServerInfoContext = (serverInfo) => {
     return {
         RestService: createRestService(serverInfo),
         action: createSigninUserAction(serverInfo.actionUrl, serverInfo.csrf),
-        error: serverInfo.error
     };
 };
 

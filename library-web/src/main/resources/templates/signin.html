@@ -10,7 +10,6 @@
      th:attr="data-csrf-header=${_csrf.headerName},
                 data-csrf-parameter-name=${_csrf.parameterName},
                 data-csrf-token=${_csrf.token},
-                data-error=#{message.badCredentials},
                 data-api-path=${@environment.getProperty('spring.data.rest.base-path')},
                 data-action-url=${#servletContext.contextPath +
                     T(com.nix.libraryweb.controllers.constants.ViewUrl).SIGNIN.getUrl()}"></div>
