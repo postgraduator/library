@@ -2,23 +2,15 @@ import PropTypes from "prop-types";
 import {Fragment} from "react";
 import {Link} from "react-router-dom";
 import ROUTER_LINK from "../constants/router-constants";
-import {ServerInfoContext, StateContext} from "../context";
-import Message from "./Message";
+import {StateContext} from "../context";
 
-const LoginForm = ({action, message, showAuthErrorMessage}) => {
+const LoginForm = ({action}) => {
     let usernameInput, passwordInput;
     const submit = (event) => {
         event.preventDefault();
-        action.signin({username: usernameInput.value, password: passwordInput.value})
-            .then(() => {
-                location.replace('./');
-            })
-            .catch((response) => {
-                showAuthErrorMessage();
-            })
+        action({username: usernameInput.value, password: passwordInput.value});
     };
     return (<Fragment>
-        <Message message={message} className="alert alert-danger"/>
         <form noValidate>
             <legend>Library Login form</legend>
             <div className="form-group">
@@ -42,18 +34,9 @@ const LoginForm = ({action, message, showAuthErrorMessage}) => {
 };
 
 LoginForm.propTypes = {
-    action: PropTypes.object.isRequired,
-    message: PropTypes.string,
-    showAuthErrorMessage: PropTypes.func.isRequired,
+    action: PropTypes.func.isRequired,
 };
 
-export default ({authErrorMessage}) => (
-    <StateContext.Consumer>
-        {({showAuthErrorMessage}) => (
-            <ServerInfoContext.Consumer>
-                {({action}) => (
-                    <LoginForm action={action} message={authErrorMessage} showAuthErrorMessage={showAuthErrorMessage}/>)}
-            </ServerInfoContext.Consumer>
-        )}
-    </StateContext.Consumer>
-);
+export default () => (<StateContext.Consumer>
+    {({makeSigninRequest}) => (<LoginForm action={makeSigninRequest}/>)}
+</StateContext.Consumer>) ;
