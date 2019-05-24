@@ -13,23 +13,26 @@ class SigninPage extends Component {
         this.signinAction = action;
         this.userService = RestService.user;
         RestService.gender.getGenders()
-            .then(({data}) => this.setState({
-                context: {
-                    ...this.state.context,
-                    genders: get(data, '_embedded.genders')
-                }
-            }))
+            .then(({genders}) => this.setState({genders}))
             .catch(() => this.setState({genderError: 'The gender list can not bew retrieved'}));
     }
 
-    componentWillMount() {
-        this.setState({
-            context: {
-                makeSigninRequest: this.makeSigninRequest.bind(this),
-                removeAuthMessage: this.removeAuthMessages.bind(this),
-                registerUser: (data) => data
-            }
-        });
+    _getStateContext() {
+        return {
+            makeSigninRequest: this.makeSigninRequest.bind(this),
+            removeAuthMessage: this.removeAuthMessages.bind(this),
+            removeRegistrationMessage: this.removeRegistrationMessage.bind(this),
+            registerUser: this.registerUser.bind(this)
+        };
+    }
+
+    registerUser(params) {
+        return this.userService.addUser(params)
+            .then(({data}) => {
+                    return this.setState({successRegistrationMessage: `The user '${data.name}' is registered`})
+                }
+            )
+            .catch(() => this.setState({errorRegistrationMessage: 'The user can not be added.'}))
     }
 
     makeSigninRequest(params) {
@@ -49,14 +52,24 @@ class SigninPage extends Component {
         authErrorMessage && this.setState({authErrorMessage: ''});
     }
 
+    removeRegistrationMessage() {
+        let {successRegistrationMessage, errorRegistrationMessage} = this.state || {};
+        (successRegistrationMessage || errorRegistrationMessage) &&
+        this.setState({successRegistrationMessage: '', errorRegistrationMessage: ''});
+    }
+
+    _getErrorMessage() {
+        let {genderError, authErrorMessage, errorRegistrationMessage} = this.state || {};
+        return genderError || authErrorMessage || errorRegistrationMessage || '';
+    }
+
     render() {
         return (
-            <StateContext.Provider value={get(this.state, 'context')}>
+            <StateContext.Provider value={{...this._getStateContext(), genders: get(this.state, 'genders')}}>
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-4 offset-sm-4">
-                            <Message message={get(this.state, 'genderError')} className="alert alert-danger"/>
-                            <Message message={get(this.state, 'authErrorMessage')} className="alert alert-danger"/>
+                            <Message message={this._getErrorMessage()} className="alert alert-danger"/>
                             <HashRouter>
                                 <Route exact path={ROUTER_LINK.root} component={LoginForm}/>
                                 <Route path={ROUTER_LINK.registration} component={RegistrationForm}/>
