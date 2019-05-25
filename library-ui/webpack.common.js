@@ -4,8 +4,8 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        signin: './src/app/signin.js',
-        library: './src/app/library.js'
+        signin: './src/app/signin/index.js',
+        library: './src/app/library/index.js'
     },
     output: {
         path: path.join(__dirname, 'target', 'classes', 'assets', 'js'),
