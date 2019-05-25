@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
 const SignupButton = ({actionUrl, csrf}) => {
-    return (<form action={actionUrl} method="POST">
+    return (<form className="form-inline" action={actionUrl} method="POST">
         <input type="hidden" name={csrf.parameterName} value={csrf.token}/>
         <button type="submit" className="btn btn-link">Sign Up</button>
     </form>)
