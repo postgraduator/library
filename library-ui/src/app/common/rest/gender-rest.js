@@ -1,5 +1,4 @@
 import axios from "axios";
-import get from "lodash/get";
 import {CommonRest} from "./common-rest";
 
 const GenderRest = function (apiPath) {
@@ -7,10 +6,10 @@ const GenderRest = function (apiPath) {
     this._genderPath = apiPath + '/genders';
 };
 
+GenderRest.prototype = Object.create(CommonRest.prototype);
+
 GenderRest.prototype.getGenders = function () {
-    return axios.get(this._genderPath).then(({data}) => {
-        return get(data, this._embedded)
-    });
+    return axios.get(this._genderPath).then(this._getEmbedded.bind(this));
 };
 
 export const createGenderRest = (apiPath) => new GenderRest(apiPath);

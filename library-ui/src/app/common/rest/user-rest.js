@@ -8,6 +8,9 @@ const UserRest = function (apiPath, csrf) {
     this._csrf = csrf;
 };
 
+UserRest.prototype = Object.create(CommonRest);
+UserRest.prototype = CommonRest;
+
 UserRest.prototype._updateGender = (user) => user.gender ? user : set(user, 'gender', null);
 
 UserRest.prototype.addUser = function (user) {
