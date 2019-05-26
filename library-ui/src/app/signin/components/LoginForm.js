@@ -4,7 +4,8 @@ import {Link} from "react-router-dom";
 import ROUTER_LINK from "../constants/router-constants";
 import {StateContext} from "../context";
 
-const LoginForm = ({action}) => {
+const LoginForm = ({action, removeRegistrationMessage}) => {
+    removeRegistrationMessage();
     let usernameInput, passwordInput;
     const submit = (event) => {
         event.preventDefault();
@@ -35,8 +36,11 @@ const LoginForm = ({action}) => {
 
 LoginForm.propTypes = {
     action: PropTypes.func.isRequired,
+    removeRegistrationMessage: PropTypes.func.isRequired
 };
 
 export default () => (<StateContext.Consumer>
-    {({makeSigninRequest}) => (<LoginForm action={makeSigninRequest}/>)}
+    {({makeSigninRequest, removeRegistrationMessage}) => (
+        <LoginForm action={makeSigninRequest} removeRegistrationMessage={removeRegistrationMessage}/>
+    )}
 </StateContext.Consumer>) ;

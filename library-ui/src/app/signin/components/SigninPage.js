@@ -29,7 +29,10 @@ class SigninPage extends Component {
     registerUser(params) {
         return this.userService.addUser(params)
             .then(({data}) => {
-                    return this.setState({successRegistrationMessage: `The user '${data.name}' is registered`})
+                    return this.setState({
+                        successRegistrationMessage: `The user '${data.name}' is registered`,
+                        errorRegistrationMessage: ''
+                    })
                 }
             )
             .catch(() => this.setState({errorRegistrationMessage: 'The user can not be added.'}))
@@ -70,6 +73,7 @@ class SigninPage extends Component {
                     <div className="row">
                         <div className="col-sm-4 offset-sm-4">
                             <Message message={this._getErrorMessage()} className="alert alert-danger"/>
+                            <Message message={get(this.state, 'successRegistrationMessage')} className="alert alert-success" />
                             <HashRouter>
                                 <Route exact path={ROUTER_LINK.root} component={LoginForm}/>
                                 <Route path={ROUTER_LINK.registration} component={RegistrationForm}/>

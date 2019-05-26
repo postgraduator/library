@@ -4,6 +4,7 @@ import static com.nix.libraryweb.controllers.constants.ViewUrl.SIGNIN;
 import static org.apache.commons.lang3.StringUtils.startsWith;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,6 +60,9 @@ public class SecurityBeanConfig {
 
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return ((request, response, authentication) -> response.setStatus(HttpStatus.OK.value()));
+        return ((request, response, authentication) -> {
+            response.setStatus(HttpStatus.OK.value());
+            response.setContentType(TEXT_PLAIN_VALUE);
+        });
     }
 }

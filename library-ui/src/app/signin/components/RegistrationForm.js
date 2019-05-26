@@ -57,12 +57,17 @@ const RegistrationForm = ({genders, removeAuthMessage, registerUser}) => {
             }}
             validateOnChange={false}
             validationSchema={validationSchema}
-            onSubmit={(values, {setSubmitting}) => {
+            onSubmit={(values, {setSubmitting, resetForm}) => {
                 registerUser(omit(values, 'confirmedPassword'))
-                    .then(() => setSubmitting(false));
+                    .then(() => {
+                        setSubmitting(false);
+                        resetForm();
+                    })
+                    .catch(() => setSubmitting(false));
             }}>
             {({handleSubmit, isSubmitting, isValidating}) => (
                 <form onSubmit={handleSubmit} noValidate>
+                    <input type="password" style={{visibility: 'hidden'}}/>
                     <legend>Registration Form</legend>
                     <div className="form-group">
                         <label htmlFor="name">Name</label>
@@ -91,6 +96,8 @@ const RegistrationForm = ({genders, removeAuthMessage, registerUser}) => {
                                name="password"
                                placeholder="Enter password"/>
                         <ErrorMessage className="text-danger" component="small" name="password"/>
+                    </div>
+                    <div className="form-group">
                         <label htmlFor="confirmedPassword">Confirm password</label>
                         <Field id="confirmedPassword"
                                className="form-control"

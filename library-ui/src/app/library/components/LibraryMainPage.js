@@ -1,6 +1,7 @@
 import {Fragment} from "react";
-import {HashRouter} from "react-dom"
 import {connect} from "react-redux";
+import {HashRouter} from "react-router-dom";
+import {Menu, RouterMain} from "./RouterMenu";
 import SignupButton from "./SignupButton";
 
 const LibraryMainPage = ({user}) => (<Fragment>
@@ -15,15 +16,17 @@ const LibraryMainPage = ({user}) => (<Fragment>
     <main>
         <div className="container">
             <div className="row">
-                <div className="col-sm-2">
-                    Menu
-                </div>
-                <div className="col-sm-10">
-                    Router
-                </div>
+                <HashRouter>
+                    <div className="col-sm-2">
+                        <Menu/>
+                    </div>
+                    <div className="col-sm-10">
+                        <RouterMain/>
+                    </div>
+                </HashRouter>
             </div>
         </div>
     </main>
 </Fragment>);
 
-export default connect((state) => ({user: {...state.user}}))(LibraryMainPage);
+export default connect(({user}) => ({user: {...user}}))(LibraryMainPage);
