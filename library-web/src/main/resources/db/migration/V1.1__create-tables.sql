@@ -1,6 +1,6 @@
 CREATE TABLE BOOK
 (
-  id           BINARY(16) PRIMARY KEY,
+  id           UUID PRIMARY KEY,
   name         VARCHAR(256) UNIQUE NOT NULL,
   picture_path VARCHAR(256),
   count        INT                 NOT NULL CHECK ( count >= 0 ),
@@ -9,34 +9,34 @@ CREATE TABLE BOOK
 
 CREATE TABLE LIBRARY_USER
 (
-  id            BINARY(16) PRIMARY KEY,
+  id            UUID PRIMARY KEY,
   name          VARCHAR(30) UNIQUE  NOT NULL,
   email         VARCHAR(256) UNIQUE NOT NULL,
   password      VARCHAR(60)         NOT NULL,
   birthday      DATE,
   gender        VARCHAR(6),
-  permission_id INT(2)              NOT NULL
+  permission_id NUMERIC(2)              NOT NULL
 );
 
 CREATE TABLE ORDERED_BOOK
 (
-  id            BINARY(16) PRIMARY KEY,
-  book_id       BINARY(16)     NOT NULL,
-  order_info_id BINARY(16)     NOT NULL,
+  id            UUID PRIMARY KEY,
+  book_id       UUID     NOT NULL,
+  order_info_id UUID     NOT NULL,
   price         DECIMAL(20, 2) NOT NULL
 );
 
 CREATE TABLE ORDER_INFO
 (
-  id              BINARY(16) PRIMARY KEY,
-  library_user_id BINARY(16) NOT NULL,
+  id              UUID PRIMARY KEY,
+  library_user_id UUID NOT NULL,
   created_on      TIMESTAMP  NOT NULL,
   closed_on       TIMESTAMP  NOT NULL
 );
 
 CREATE TABLE PERMISSION
 (
-  id   INT(2) PRIMARY KEY,
+  id   NUMERIC(2) PRIMARY KEY,
   name VARCHAR(20) UNIQUE
 );
 

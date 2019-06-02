@@ -8,6 +8,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+  datasource:
+    url: jdbc:postgresql://localhost:${db-port}/${db-name}
+    hikari:
+      password: ${db-password}
+      username: ${db-username}
+  flyway:
+    user: ${db-username}
+    password: ${db-password}
 upload:
   path: /home/vitalii/Templates/storage
   context: images
