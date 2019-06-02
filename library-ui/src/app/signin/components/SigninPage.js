@@ -13,7 +13,7 @@ class SigninPage extends Component {
         this.signinAction = action;
         this.userService = RestService.user;
         RestService.gender.getGenders()
-            .then(({genders}) => this.setState({genders}))
+            .then(({data}) => this.setState({genders: data}))
             .catch(() => this.setState({genderError: 'The gender list can not bew retrieved'}));
     }
 

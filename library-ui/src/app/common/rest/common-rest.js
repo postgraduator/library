@@ -1,11 +1,12 @@
 import get from "lodash/get";
+import set from "lodash/set";
 
-const CommonRest = function () {
-    this._embedded = '_embedded';
+const CommonRest = function (collectionName) {
+    this._embeddedCollectionPath = `_embedded.${collectionName}`;
 };
 
-CommonRest.prototype._getEmbedded = function ({data}) {
-    return get(data, this._embedded, {});
+CommonRest.prototype._getEmbeddedCollection = function ({data}) {
+    return set({}, 'data', get(data, this._embeddedCollectionPath, {}));
 };
 
 export {CommonRest};
