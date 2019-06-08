@@ -1,5 +1,5 @@
-const modalIds = {
+const MODAL_IDS = {
     NEW_BOOK_MODAL: 'new-book-modal'
 };
 
-export {modalIds};
+export {MODAL_IDS};

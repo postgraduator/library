@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import {Fragment} from "react";
 import {connect} from "react-redux";
 import {showModal} from "../store/actions/modal-actions";
-import {modalIds} from "./modals/modal-ids";
+import {MODAL_IDS} from "./modals/modal-ids";
 import NewBookModal from "./modals/NewBookModal";
 
 const BookEditorList = ({showNewBookModal}) => (
@@ -20,5 +20,5 @@ BookEditorList.propTypes = {
 };
 
 export default connect(null, dispatch => ({
-    showNewBookModal: () => dispatch(showModal(modalIds.NEW_BOOK_MODAL))
+    showNewBookModal: () => dispatch(showModal(MODAL_IDS.NEW_BOOK_MODAL))
 }))(BookEditorList);
