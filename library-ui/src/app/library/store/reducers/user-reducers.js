@@ -1,4 +1,4 @@
-import actions from "../constants/user-constants";
+import {actions} from "../constants/user-constants";
 import {extractEventData} from "../utils/helper";
 
 export const user = (state = {}, action) => {

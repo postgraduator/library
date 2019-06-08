@@ -1,10 +1,12 @@
 import {Component} from "react";
 import {Provider} from "react-redux";
 import {combineReducers, createStore} from "redux";
+import {reducer as formReducer} from "redux-form";
 import {getServerInfoContext} from "../../common/utils/server-info";
 import {LIBRARY_APP_ID} from "../context";
 import {fetchCurrentUser} from "../rest/users";
 import {fetchUser} from "../store/actions/user-actions";
+import {modal} from "../store/reducers/modal-reducers";
 import {user} from "../store/reducers/user-reducers";
 import {initState} from "../store/utils/helper";
 
@@ -12,7 +14,7 @@ export default class LibraryStoreProvider extends Component {
     constructor(props) {
         super(props);
         this.reduxStore = createStore(
-            combineReducers({user, serverContext: (state = {}) => state}),
+            combineReducers({user, modal, form: formReducer, serverContext: (state = {}) => state}),
             {serverContext: getServerInfoContext(LIBRARY_APP_ID)}
         );
     }

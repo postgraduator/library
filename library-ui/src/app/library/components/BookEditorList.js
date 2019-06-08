@@ -1,5 +1,24 @@
+import PropTypes from "prop-types";
 import {Fragment} from "react";
+import {connect} from "react-redux";
+import {showModal} from "../store/actions/modal-actions";
+import {modalIds} from "./modals/modal-ids";
+import NewBookModal from "./modals/NewBookModal";
 
-const BookEditorList = () => (<Fragment>Book editor</Fragment>);
+const BookEditorList = ({showNewBookModal}) => (
+    <Fragment>
+        <button type="button" className="btn btn-primary" onClick={showNewBookModal}>Add New Book</button>
+        <NewBookModal/>
+        <div className="container">
+            Book Editor
+        </div>
+    </Fragment>
+);
 
-export default BookEditorList;
+BookEditorList.propTypes = {
+    showNewBookModal: PropTypes.func.isRequired
+};
+
+export default connect(null, dispatch => ({
+    showNewBookModal: () => dispatch(showModal(modalIds.NEW_BOOK_MODAL))
+}))(BookEditorList);
