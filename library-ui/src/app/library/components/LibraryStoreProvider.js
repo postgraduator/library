@@ -1,9 +1,7 @@
 import {Component} from "react";
 import {Provider} from "react-redux";
 import {combineReducers, createStore} from "redux";
-import {getServerInfoContext} from "../../common/utils/server-info";
-import {LIBRARY_APP_ID} from "../context";
-import {fetchCurrentUser} from "../rest/users";
+import {rest} from "../context";
 import {fetchUser} from "../store/actions/user-actions";
 import {modal} from "../store/reducers/modal-reducers";
 import {user} from "../store/reducers/user-reducers";
@@ -12,14 +10,14 @@ import {initState} from "../store/utils/helper";
 export default class LibraryStoreProvider extends Component {
     constructor(props) {
         super(props);
+        this.fetchCurrentUser = () => rest.user.fetchCurrentUser();
         this.reduxStore = createStore(
-            combineReducers({user, modal, serverContext: (state = {}) => state}),
-            {serverContext: getServerInfoContext(LIBRARY_APP_ID)}
+            combineReducers({user, modal})
         );
     }
 
-    componentWillMount() {
-        initState([{action: fetchUser, restAction: fetchCurrentUser}], this.reduxStore.dispatch.bind(this.reduxStore));
+    componentDidMount() {
+        initState([{action: fetchUser, restAction: this.fetchCurrentUser}], this.reduxStore.dispatch.bind(this.reduxStore));
     }
 
     render() {

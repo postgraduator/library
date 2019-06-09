@@ -60,10 +60,9 @@ const RegistrationForm = ({genders, removeAuthMessage, registerUser}) => {
             onSubmit={(values, {setSubmitting, resetForm}) => {
                 registerUser(omit(values, 'confirmedPassword'))
                     .then(() => {
-                        setSubmitting(false);
                         resetForm();
                     })
-                    .catch(() => setSubmitting(false));
+                    .finally(() => setSubmitting(false));
             }}>
             {({handleSubmit, isSubmitting, isValidating}) => (
                 <form onSubmit={handleSubmit} noValidate>

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
+import {serverInfoContext} from "../context";
 
 const SignupButton = ({actionUrl, csrf}) => {
     return (<form className="form-inline" action={actionUrl} method="POST">
@@ -13,4 +13,4 @@ SignupButton.propTypes = {
     csrf: PropTypes.object.isRequired
 };
 
-export default connect(({serverContext}) => ({actionUrl: serverContext.actionUrl, csrf: serverContext.csrf}))(SignupButton);
+export default () => SignupButton(serverInfoContext);

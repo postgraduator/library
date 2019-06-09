@@ -2,6 +2,7 @@ package com.nix.libraryweb.controllers.repository;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 import java.util.UUID;
 
@@ -26,9 +27,9 @@ public class BookRepositoryController {
         this.bookService = bookService;
     }
 
-    @PostMapping("/books")
+    @PostMapping(value = "/books", consumes = MULTIPART_FORM_DATA_VALUE)
     public @ResponseBody
-    ResponseEntity<Resource> saveNewBook(@RequestPart("image") MultipartFile file,
+    ResponseEntity<Resource> saveNewBook(@RequestPart(value = "image", required = false) MultipartFile file,
                                          @RequestPart("book") Book book) {
         Book newBook = bookService.save(file, book);
         Resource<Book> bookResource = new Resource<>(newBook);
@@ -36,10 +37,10 @@ public class BookRepositoryController {
         return ResponseEntity.ok(bookResource);
     }
 
-    @PutMapping("/books/{id}")
+    @PutMapping(value = "/books/{id}", consumes = MULTIPART_FORM_DATA_VALUE)
     public @ResponseBody
     ResponseEntity<Resource> updateBook(@PathVariable("id") UUID bookId,
-                                         @RequestPart("image") MultipartFile file,
+                                         @RequestPart(value = "image", required = false) MultipartFile file,
                                          @RequestPart("book") Book book) {
         book.setId(bookId);
         Book updatedBook = bookService.save(file, book);

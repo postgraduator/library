@@ -32,13 +32,13 @@ public class FileServiceImpl implements FileService {
     @Override
     public String save(UUID id, MultipartFile file) {
         try {
-            String fileName = createFileName(id, file.getName());
+            String fileName = createFileName(id, file.getOriginalFilename());
             String fullPath = getFullFilePath(fileName);
             Path newFile = createFile(Paths.get(fullPath));
             write(newFile, file.getBytes());
             return fileName;
         } catch (IOException e) {
-            throw new FileProcessingException("The file " + file.getName() + "can not be saved", e);
+            throw new FileProcessingException("The file " + file.getName() + " can not be saved", e);
         }
     }
 
