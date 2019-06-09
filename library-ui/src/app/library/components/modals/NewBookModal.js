@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import {Modal} from "react-bootstrap";
 import {bindDispa, connect} from "react-redux";
+import {addNewBook, removeBookMessage} from "../../store/actions/book-actions";
 import {hideModal} from "../../store/actions/modal-actions";
 import NewBookForm from "../forms/NewBookForm";
 import {MODAL_IDS} from "./modal-ids";
@@ -10,7 +11,7 @@ const NewBookModal = ({modalId, show, hideModal}) => (<Modal id={modalId} size="
         <Modal.Title>Add New Book</Modal.Title>
     </Modal.Header>
     <Modal.Body>
-        <NewBookForm hideModal={() => hideModal()}/>
+        <NewBookForm hideModal={book => hideModal(book)}/>
     </Modal.Body>
 </Modal>);
 
@@ -27,7 +28,10 @@ export default connect(
             show: _.get(modal, MODAL_IDS.NEW_BOOK_MODAL + '.opened')
         }),
     dispatch => ({
-        hideModal: () => dispatch(hideModal(MODAL_IDS.NEW_BOOK_MODAL))
+        hideModal: book => {
+            dispatch(hideModal(MODAL_IDS.NEW_BOOK_MODAL));
+            book ? dispatch(addNewBook(book)) : dispatch(removeBookMessage());
+        }
     }))(NewBookModal);
 
 
