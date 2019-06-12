@@ -11,7 +11,7 @@ class BookEditorList extends Component{
         const {showNewBookModal, message} = this.props;
         return <Fragment>
             {_.isEmpty(message) || <div className={message.className}>{message.text}</div>}
-            <button type="button" className="btn btn-primary" onClick={showNewBookModal}>Add New Book</button>
+            <button type="button" className="btn btn-secondary btn-sm" onClick={showNewBookModal}>Add New Book</button>
             <NewBookModal/>
             <div className="container">
                 Book Editor

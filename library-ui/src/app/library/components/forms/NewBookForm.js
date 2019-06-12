@@ -4,7 +4,6 @@ import {Fragment} from "react";
 import * as Yup from "yup";
 import {rest} from "../../context";
 import {createValidationSchema} from "../../utils/validator";
-import BootstrapModalFooter from "../modals/BootstrapModalFooter";
 import {FORM_IDS} from "./form-ids";
 
 const validators = {
@@ -22,7 +21,7 @@ const validators = {
         .moreThan(0, 'The min count must be more than 0')
 };
 
-const NewBookForm = ({hideModal}) => {
+const NewBookForm = ({successSubmit, formSubmitter}) => {
     let errorMessage;
     return <Formik
         id={FORM_IDS.NEW_BOOK_FORM}
@@ -34,10 +33,11 @@ const NewBookForm = ({hideModal}) => {
         validationSchema={createValidationSchema(validators)}
         onSubmit={(values, {setSubmitting}) => rest.book
             .addNewBook({name: values.name, price: values.price, count: values.count}, _.head(values.picture) || null)
-            .then(({data}) => hideModal(data))
+            .then(successSubmit)
             .catch(({message}) => {errorMessage = message})
             .finally(() => setSubmitting(false))}>
         {({handleSubmit, setFieldValue, submitForm}) => {
+            formSubmitter(() => submitForm());
             return <Fragment>
                 {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
                 <form onSubmit={handleSubmit}>
@@ -52,7 +52,7 @@ const NewBookForm = ({hideModal}) => {
                         <ErrorMessage className="text-danger" component="small" name="name"/>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="book-price">Book name</label>
+                        <label htmlFor="book-price">Book price</label>
                         <Field id="book-price"
                                className="form-control"
                                name="price"
@@ -84,15 +84,14 @@ const NewBookForm = ({hideModal}) => {
                                }}/>
                     </div>
                 </form>
-                <BootstrapModalFooter saveModalTitle={'Save book'} saveModal={() => submitForm()}
-                                      hideModal={() => hideModal()}/>
             </Fragment>
         }}
     </Formik>
 };
 
 NewBookForm.propTypes = {
-    hideModal: PropTypes.func.isRequired
+    successSubmit: PropTypes.func.isRequired,
+    formSubmitter: PropTypes.func.isRequired
 };
 
 export default NewBookForm;

@@ -22,7 +22,7 @@ spring:
     user: ${db-username}
     password: ${db-password}
 upload:
-  path: /home/vitalii/Templates/storage
+  path: ${file-storage}
   context: images
 constraint:
   password:
