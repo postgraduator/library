@@ -10,15 +10,21 @@ export default connect(
         {
             modalId: MODAL_IDS.NEW_BOOK_MODAL,
             show: _.get(modal, MODAL_IDS.NEW_BOOK_MODAL + '.opened'),
-            ActionForm: NewBookForm,
             saveModalTitle: 'Save book'
         }),
-    dispatch => ({
-        hideModal: book => {
+    dispatch => {
+        const successSubmit = (book) => {
             dispatch(hideModal(MODAL_IDS.NEW_BOOK_MODAL));
-            book ? dispatch(addNewBook(book)) : dispatch(removeBookMessage());
+            dispatch(addNewBook(book));
+        };
+        return {
+            hideModal: () => {
+                dispatch(hideModal(MODAL_IDS.NEW_BOOK_MODAL));
+                dispatch(removeBookMessage());
+            },
+            ActionForm: ({formSubmitter}) => (<NewBookForm formSubmitter={formSubmitter} successSubmit={successSubmit}/>)
         }
-    }))(FormModal);
+    })(FormModal);
 
 
 

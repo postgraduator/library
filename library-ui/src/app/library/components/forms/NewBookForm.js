@@ -33,7 +33,7 @@ const NewBookForm = ({successSubmit, formSubmitter}) => {
         validationSchema={createValidationSchema(validators)}
         onSubmit={(values, {setSubmitting}) => rest.book
             .addNewBook({name: values.name, price: values.price, count: values.count}, _.head(values.picture) || null)
-            .then(successSubmit)
+            .then(({data}) => successSubmit(data))
             .catch(({message}) => {errorMessage = message})
             .finally(() => setSubmitting(false))}>
         {({handleSubmit, setFieldValue, submitForm}) => {

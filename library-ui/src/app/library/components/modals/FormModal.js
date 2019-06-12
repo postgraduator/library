@@ -8,7 +8,7 @@ const FormModal = ({modalId, show, ActionForm, hideModal, saveModalTitle, closeM
             <Modal.Title>Add New Book</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <ActionForm successSubmit={({data}) => hideModal(data)} formSubmitter={submitter => submitForm = submitter}/>
+            <ActionForm formSubmitter={submitter => submitForm = submitter}/>
         </Modal.Body>
         <Modal.Footer>
             <div className="float-right">
