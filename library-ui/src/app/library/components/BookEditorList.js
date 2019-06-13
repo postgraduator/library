@@ -5,6 +5,7 @@ import {removeBookMessage} from "../store/actions/book-actions";
 import {showModal} from "../store/actions/modal-actions";
 import {MODAL_IDS} from "./modals/modal-ids";
 import NewBookModal from "./modals/NewBookModal";
+import BookEditorTable from "./tables/BookEditorTable";
 
 class BookEditorList extends Component{
     render() {
@@ -14,7 +15,7 @@ class BookEditorList extends Component{
             <button type="button" className="btn btn-secondary btn-sm" onClick={showNewBookModal}>Add New Book</button>
             <NewBookModal/>
             <div className="container">
-                Book Editor
+                <BookEditorTable/>
             </div>
         </Fragment>
     }

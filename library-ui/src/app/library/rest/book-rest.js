@@ -17,7 +17,7 @@ BookRest.prototype.addNewBook = function(book, file) {
 };
 
 BookRest.prototype.getBooks = function (params) {
-    return axios.get(this._basePath, {params});
+    return axios.get(this._basePath, {params}).then(this._getEmbeddedCollection.bind(this));
 };
 
 export const createBookRest = ({apiPath, csrf}) => new BookRest(apiPath, csrf);
