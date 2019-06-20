@@ -2,7 +2,6 @@ import {ErrorMessage, Field, Formik} from "formik";
 import PropTypes from "prop-types";
 import {Fragment} from "react";
 import * as Yup from "yup";
-import {rest} from "../../context";
 import {createValidationSchema} from "../../utils/validator";
 import {FORM_IDS} from "./form-ids";
 
@@ -21,19 +20,13 @@ const validators = {
         .moreThan(0, 'The min count must be more than 0')
 };
 
-const NewBookForm = ({successSubmit, formSubmitter}) => {
+const BookForm = ({applyChanges, formSubmitter, initialValues}) => {
     let errorMessage;
     return <Formik
         id={FORM_IDS.NEW_BOOK_FORM}
-        initialValues={{
-            name: '',
-            count: 1,
-            price: ''
-        }}
+        initialValues={initialValues}
         validationSchema={createValidationSchema(validators)}
-        onSubmit={(values, {setSubmitting}) => rest.book
-            .addNewBook({name: values.name, price: values.price, count: values.count}, _.head(values.picture) || null)
-            .then(({data}) => successSubmit(data))
+        onSubmit={(values, {setSubmitting}) => applyChanges(values)
             .catch(({message}) => {errorMessage = message})
             .finally(() => setSubmitting(false))}>
         {({handleSubmit, setFieldValue, submitForm}) => {
@@ -89,9 +82,11 @@ const NewBookForm = ({successSubmit, formSubmitter}) => {
     </Formik>
 };
 
-NewBookForm.propTypes = {
-    successSubmit: PropTypes.func.isRequired,
-    formSubmitter: PropTypes.func.isRequired
+BookForm.propTypes = {
+    applyChanges: PropTypes.func.isRequired,
+    formSubmitter: PropTypes.func.isRequired,
+    initialValues: PropTypes.object.isRequired,
+
 };
 
-export default NewBookForm;
+export default BookForm;

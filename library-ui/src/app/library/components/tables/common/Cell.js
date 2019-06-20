@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 
 const Cell = ({column, item}) => {
-    const {field, Component} = column;
-    return <td>
+    const {field, Component, width} = column;
+    return <td width={width}>
         {Component ? <Component item={item}/> : _.get(item, field)}
     </td>
 };

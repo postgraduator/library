@@ -1,0 +1,11 @@
+.page-link {
+    cursor: pointer;
+}
+
+.page-link.disabled {
+    cursor: none;
+}
+
+tfoot ul.pagination {
+    justify-content: center;
+}

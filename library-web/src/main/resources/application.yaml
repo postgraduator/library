@@ -5,6 +5,7 @@ spring:
   data:
     rest:
       base-path: /api
+      default-page-size: 5
   jpa:
     hibernate:
       ddl-auto: none

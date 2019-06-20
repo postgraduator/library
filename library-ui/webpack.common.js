@@ -19,6 +19,9 @@ module.exports = {
             options: {
                 presets: ['env', 'stage-0', 'react']
             }
+        }, {
+            test: /\.css$/i,
+            use: ['style-loader', 'css-loader'],
         }]
     },
     plugins: [

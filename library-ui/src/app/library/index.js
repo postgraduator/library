@@ -1,3 +1,4 @@
+import "./css/style.css";
 import "lodash";
 import React from "react";
 import {render} from "react-dom";
