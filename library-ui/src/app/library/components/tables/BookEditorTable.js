@@ -1,14 +1,20 @@
+import {Fragment} from "react";
 import {connect} from "react-redux";
 import {rest} from "../../context";
 import {getBooks, showBookErrorMessage} from "../../store/actions/book-actions";
 import {showModal} from "../../store/actions/modal-actions";
+import {OutlineDangerButton, OutlineSecondaryButton} from "../buttons/ActionLauncher";
+import LibraryImage from "../images/LibraryImage"
 import {MODAL_IDS} from "../modals/common/modal-ids";
-import {UpdateModalLauncher} from "./buttons/ModalLauncher";
 import Table from "./common/Table";
 
 const UpdateBookModalLauncher = connect(null, (dispatch, {book}) => ({
     launcher: () => dispatch(showModal(MODAL_IDS.UPDATE_BOOK_MODAL, book))
-}))(({launcher}) => (<UpdateModalLauncher launcher={launcher} title={'Update book'}/>));
+}))(({launcher}) => (<OutlineSecondaryButton launcher={launcher} title={'Update'}/>));
+
+const DeleteBookModalLauncher = connect(null, (dispatch, {book}) => ({
+    launcher: () => dispatch(showModal(MODAL_IDS.DELETE_BOOK_MODAL, book))
+}))(({launcher}) => (<OutlineDangerButton launcher={launcher} title={'Delete'}/>));
 
 export default connect(({books}) => ({
         data: _.get(books, 'items', []),
@@ -17,7 +23,7 @@ export default connect(({books}) => ({
         columns: [{
             field: 'name',
             header: 'Name',
-            width: '60%'
+            width: '50%'
         }, {
             field: 'price',
             header: 'Price',
@@ -27,14 +33,22 @@ export default connect(({books}) => ({
             header: 'Count',
             width: '5%'
         }, {
+            field: 'picturePath',
+            header: 'Picture',
+            width: '10%',
+            Component: ({item}) => (<LibraryImage path={item.picturePath && `book/${item.picturePath}`}/>)
+        }, {
             field: 'crud',
             header: null,
             width: '20%',
-            Component: ({item}) => (<UpdateBookModalLauncher book={item}/>)
+            Component: ({item}) => (<Fragment>
+                <UpdateBookModalLauncher book={item}/>
+                <DeleteBookModalLauncher book={item}/>
+            </Fragment>)
         }]
     }),
     dispath => ({
-        pageFetcher: ({page}) => rest.book.getBooks({page})
+        pageFetcher: ({page}) => rest.book.getBooks({page, sort: 'name'})
             .then(({data, pagination}) => dispath(getBooks({books: data, pagination})))
             .catch(({message}) => dispath(showBookErrorMessage({text: message})))
     })

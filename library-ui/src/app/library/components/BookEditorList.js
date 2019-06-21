@@ -3,19 +3,21 @@ import {Component, Fragment} from "react";
 import {connect} from "react-redux";
 import {removeBookMessage} from "../store/actions/book-actions";
 import {showModal} from "../store/actions/modal-actions";
-import {NewBookModal, UpdateBookModal} from "./modals/BookModal";
+import {CommonAlert} from "./alerts/Alert";
+import {SecondaryButton} from "./buttons/ActionLauncher";
+import {DeleteBookModal, NewBookModal, UpdateBookModal} from "./modals/BookModal";
 import {MODAL_IDS} from "./modals/common/modal-ids";
 import BookEditorTable from "./tables/BookEditorTable";
-import {AddModalLauncher} from "./tables/buttons/ModalLauncher";
 
 class BookEditorList extends Component {
     render() {
         const {showNewBookModal, message} = this.props;
         return <Fragment>
-            {_.isEmpty(message) || <div className={message.className}>{message.text}</div>}
-            <AddModalLauncher title={'Add New Book'} launcher={showNewBookModal}/>
+            <CommonAlert text={message.text} className={message.className}/>
+            <SecondaryButton title={'Add New Book'} launcher={showNewBookModal}/>
             <NewBookModal/>
             <UpdateBookModal/>
+            <DeleteBookModal/>
             <div className="container">
                 <BookEditorTable/>
             </div>

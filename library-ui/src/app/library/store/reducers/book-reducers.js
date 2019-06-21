@@ -8,12 +8,9 @@ export const books = (state = {message: {}, items: [], pagination: {number: 0}, 
         case actions.UPDATE_BOOK :
             return _.assign({...state}, extractEventData(action));
         case actions.GET_BOOKS :
-            const eventData = extractEventData(action);
-            return  _.assign({...state}, {
-                items: _.get(eventData, 'items'),
-                pagination: _.get(eventData, 'pagination'),
-                refreshed: _.get(eventData, 'refreshed')
-            });
+            return  _.assign({...state}, extractEventData(action));
+        case actions.DELETE_BOOK :
+            return _.assign({...state}, extractEventData(action));
         case actions.SHOW_BOOK_ERROR_MESSAGE :
             return _.assign({...state}, extractEventData(action));
         case actions.REMOVE_BOOK_MESSAGE :

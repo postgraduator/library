@@ -25,7 +25,7 @@ BookRest.prototype.addNewBook = function (book) {
 BookRest.prototype.updateBook = function (book) {
     const formData = new FormData();
     const file = _.head(book.picture) || null;
-    const preparedBook = _.flow(_.omit, this._removeEntityLinks.bind(this))(book, 'picture');
+    const preparedBook = _.flow(_.omit, this._removeEntityLinks)(book, 'picture');
     formData.append('book', new Blob([JSON.stringify(preparedBook)], {type: 'application/json'}));
     formData.append('image', file);
     return axios.put(this._getEntityLink(book), formData, {
@@ -42,6 +42,11 @@ BookRest.prototype.getBooks = function (params) {
             ...this._getEmbeddedCollection({data}),
             pagination: _.get(data, 'page')
         }));
+};
+
+BookRest.prototype.deleteBook = function (book) {
+    return axios.delete(this._getEntityLink(book), {headers: {...this._csrf.header}})
+        .then(() => this._removeEntityLinks(book));
 };
 
 export const createBookRest = ({apiPath, csrf}) => new BookRest(apiPath, csrf);

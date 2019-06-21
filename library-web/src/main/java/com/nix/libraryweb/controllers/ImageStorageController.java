@@ -16,7 +16,7 @@ public class ImageStorageController {
         this.fileService = fileService;
     }
 
-    @GetMapping("/${upload.context}/book/{fileName}")
+    @GetMapping("${upload.context}/book/{fileName:.+}")
     public @ResponseBody
     FileSystemResource
     getBookImages(@PathVariable String fileName) {

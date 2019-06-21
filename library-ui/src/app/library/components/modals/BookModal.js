@@ -1,8 +1,9 @@
 import {rest} from "../../context";
-import {addNewBook, removeBookMessage, updateBook} from "../../store/actions/book-actions";
+import {addNewBook, deleteBook, removeBookMessage, updateBook} from "../../store/actions/book-actions";
 import BookForm from "../forms/BookForm";
+import ReduxBookModal from "./common/DeleteModal"
+import ReduxFormModal from "./common/FormModal";
 import {MODAL_IDS} from "./common/modal-ids";
-import ReduxFormModal from "./FormModal"
 
 export const NewBookModal = () => (<ReduxFormModal modalId={MODAL_IDS.NEW_BOOK_MODAL}
                                                    createTitle={() => 'Add New Book'}
@@ -19,6 +20,11 @@ export const UpdateBookModal = () => (<ReduxFormModal modalId={MODAL_IDS.UPDATE_
                                                       serverAction={(values) => rest.book.updateBook(values)}
                                                       removeMessage={removeBookMessage}
                                                       ActionForm={BookForm}/>);
+
+export const DeleteBookModal = () => (<ReduxBookModal modalId={MODAL_IDS.DELETE_BOOK_MODAL}
+                                                      createText={({name}) => `Book '${name}' will be removed. Enter Delete button to proceed.`}
+                                                      action={deleteBook}
+                                                      serverAction={book => rest.book.deleteBook(book)}/>);
 
 
 

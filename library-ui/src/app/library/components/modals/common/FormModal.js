@@ -1,21 +1,23 @@
 import PropTypes from "prop-types";
 import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
-import {hideModal} from "../../store/actions/modal-actions";
+import {hideModal} from "../../../store/actions/modal-actions";
+import {LightButton, PrimaryButton} from "../../buttons/ActionLauncher";
 
 const FormModal = ({modalId, title, show, initialValues, ActionForm, hideModal, saveModalTitle, closeModalTitle = 'Close'}) => {
     let submitForm = data => data;
+    const formSubmitter = submitter => submitForm = submitter;
     return <Modal id={modalId} size="lg" show={show} onHide={hideModal}>
         <Modal.Header closeButton>
             <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <ActionForm formSubmitter={submitter => submitForm = submitter} initialValues={initialValues}/>
+            <ActionForm formSubmitter={formSubmitter} initialValues={initialValues}/>
         </Modal.Body>
         <Modal.Footer>
             <div className="float-right">
-                <button type="button" className="btn btn-primary" onClick={() => submitForm()}>{saveModalTitle}</button>
-                <button type="button" className="btn btn-light" onClick={() => hideModal()}>{closeModalTitle}</button>
+                <PrimaryButton title={saveModalTitle} launcher={() => submitForm()}/>
+                <LightButton title={closeModalTitle} launcher={() => hideModal()}/>
             </div>
         </Modal.Footer>
     </Modal>
@@ -45,7 +47,6 @@ const ReduxFormModal = connect(
         const successSubmit = (book) => {
             dispatch(hideModal(modalId));
             dispatch(action(book));
-            rest.book.getBooks()
         };
         return {
             hideModal: () => {

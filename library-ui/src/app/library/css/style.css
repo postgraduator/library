@@ -9,3 +9,18 @@
 tfoot ul.pagination {
     justify-content: center;
 }
+
+img.image {
+    max-height: 80px;
+    width: auto;
+}
+
+img.image.image-sm {
+    max-height: 40px;
+    width: auto;
+}
+
+img.image.image-lg {
+    max-height: 120px;
+    width: auto;
+}

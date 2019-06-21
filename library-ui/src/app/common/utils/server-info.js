@@ -10,6 +10,7 @@ export const getServerInfoContext = (applicationId) => {
     return {
         csrf: csrf,
         actionUrl: appEntryPointDataSet.actionUrl || '',
-        apiPath: appEntryPointDataSet.apiPath
+        apiPath: appEntryPointDataSet.apiPath,
+        uploadContext: appEntryPointDataSet.uploadContext
     };
 };

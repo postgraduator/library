@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {Fragment} from "react";
 import * as Yup from "yup";
 import {createValidationSchema} from "../../utils/validator";
+import {DangerAlert} from "../alerts/Alert";
 import {FORM_IDS} from "./form-ids";
 
 const validators = {
@@ -32,7 +33,7 @@ const BookForm = ({applyChanges, formSubmitter, initialValues}) => {
         {({handleSubmit, setFieldValue, submitForm}) => {
             formSubmitter(() => submitForm());
             return <Fragment>
-                {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+                <DangerAlert text={errorMessage}/>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="book-name">Book name</label>

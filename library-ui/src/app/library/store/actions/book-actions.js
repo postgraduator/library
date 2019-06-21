@@ -17,6 +17,14 @@ export const updateBook = book => setEventData(actions.UPDATE_BOOK, {
     refreshed: false
 });
 
+export const deleteBook = book => setEventData(actions.DELETE_BOOK, {
+    message: {
+        text: `The book '${book.name}' was deleted.`,
+        className: 'alert alert-warning'
+    },
+    refreshed: false
+});
+
 export const showBookErrorMessage = text => setEventData(actions.SHOW_BOOK_ERROR_MESSAGE, {
     message: {
         text,
