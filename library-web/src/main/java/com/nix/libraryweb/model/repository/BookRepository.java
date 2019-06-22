@@ -11,4 +11,8 @@ public interface BookRepository extends PagingAndSortingRepository<Book, UUID> {
     @Override
     @RestResource(exported = false)
     <S extends Book> Iterable<S> saveAll(Iterable<S> entities);
+
+    @Override
+    @RestResource(exported = false)
+    <S extends Book> S save(S entity);
 }

@@ -5,6 +5,7 @@ spring:
   data:
     rest:
       base-path: /api
+      default-page-size: 5
   jpa:
     hibernate:
       ddl-auto: none
@@ -23,7 +24,7 @@ spring:
     password: ${db-password}
 upload:
   path: ${file-storage}
-  context: images
+  context: /images
 constraint:
   password:
     min: "5"

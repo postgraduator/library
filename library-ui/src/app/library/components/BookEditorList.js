@@ -3,21 +3,27 @@ import {Component, Fragment} from "react";
 import {connect} from "react-redux";
 import {removeBookMessage} from "../store/actions/book-actions";
 import {showModal} from "../store/actions/modal-actions";
-import {MODAL_IDS} from "./modals/modal-ids";
-import NewBookModal from "./modals/NewBookModal";
+import {CommonAlert} from "./alerts/Alert";
+import {SecondaryButton} from "./buttons/ActionLauncher";
+import {DeleteBookModal, NewBookModal, UpdateBookModal} from "./modals/BookModal";
+import {MODAL_IDS} from "./modals/common/modal-ids";
+import BookEditorTable from "./tables/BookEditorTable";
 
-class BookEditorList extends Component{
+class BookEditorList extends Component {
     render() {
         const {showNewBookModal, message} = this.props;
         return <Fragment>
-            {_.isEmpty(message) || <div className={message.className}>{message.text}</div>}
-            <button type="button" className="btn btn-secondary btn-sm" onClick={showNewBookModal}>Add New Book</button>
+            <CommonAlert text={message.text} className={message.className}/>
+            <SecondaryButton title={'Add New Book'} launcher={showNewBookModal}/>
             <NewBookModal/>
+            <UpdateBookModal/>
+            <DeleteBookModal/>
             <div className="container">
-                Book Editor
+                <BookEditorTable/>
             </div>
         </Fragment>
     }
+
     componentWillUnmount() {
         const {removeModalMessage, message} = this.props;
         _.isEmpty(message) || removeModalMessage();
@@ -31,6 +37,10 @@ BookEditorList.propTypes = {
 };
 
 export default connect(({books}) => ({message: books.message}), dispatch => ({
-    showNewBookModal: () => dispatch(showModal(MODAL_IDS.NEW_BOOK_MODAL)),
+    showNewBookModal: () => dispatch(showModal(MODAL_IDS.NEW_BOOK_MODAL, {
+        name: '',
+        count: 1,
+        price: ''
+    })),
     removeModalMessage: () => dispatch(removeBookMessage())
 }))(BookEditorList);

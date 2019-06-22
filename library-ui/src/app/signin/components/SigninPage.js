@@ -1,6 +1,6 @@
 import get from "lodash/get";
 import {Component} from "react";
-import {HashRouter, Route} from "react-router-dom";
+import {HashRouter, Route, Switch} from "react-router-dom";
 import ROUTER_LINK from "../constants/router-constants";
 import {ServerInfoContext, StateContext} from "../context";
 import LoginForm from "./LoginForm";
@@ -73,10 +73,14 @@ class SigninPage extends Component {
                     <div className="row">
                         <div className="col-sm-4 offset-sm-4">
                             <Message message={this._getErrorMessage()} className="alert alert-danger"/>
-                            <Message message={get(this.state, 'successRegistrationMessage')} className="alert alert-success" />
+                            <Message message={get(this.state, 'successRegistrationMessage')}
+                                     className="alert alert-success"/>
                             <HashRouter>
-                                <Route exact path={ROUTER_LINK.root} component={LoginForm}/>
-                                <Route path={ROUTER_LINK.registration} component={RegistrationForm}/>
+                                <Switch>
+                                    <Route exact path={ROUTER_LINK.root} component={LoginForm}/>
+                                    <Route path={ROUTER_LINK.registration} component={RegistrationForm}/>
+                                    <Route component={LoginForm}/>
+                                </Switch>
                             </HashRouter>
                         </div>
                     </div>
