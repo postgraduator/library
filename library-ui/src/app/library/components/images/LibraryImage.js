@@ -3,7 +3,9 @@ import {Fragment} from "react";
 import {serverInfoContext} from "../../context";
 
 const LibraryImage = ({path, size = 'sm'}) => (<Fragment>
-    {path && <img alt={'Picture'} src={`${serverInfoContext.uploadContext}/${path}`} className={`image image-${size}`}/>}
+    {path && <img alt={'Picture'}
+                  src={_.startsWith(path, 'blob') ? path : serverInfoContext.uploadContext + '/' + path}
+                  className={`image image-${size}`}/>}
 </Fragment>);
 
 LibraryImage.propTypes = {

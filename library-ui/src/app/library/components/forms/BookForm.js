@@ -4,7 +4,12 @@ import {Fragment} from "react";
 import * as Yup from "yup";
 import {createValidationSchema} from "../../utils/validator";
 import {DangerAlert} from "../alerts/Alert";
+import LibraryImage from "../images/LibraryImage";
 import {FORM_IDS} from "./form-ids";
+
+const getBookImagePath = ({picture, picturePath}) => {
+    return _.isArray(picture) ? window.URL.createObjectURL(_.head(picture)) : (picturePath && `book/${picturePath}`);
+};
 
 const validators = {
     name: () => {
@@ -30,7 +35,7 @@ const BookForm = ({applyChanges, formSubmitter, initialValues}) => {
         onSubmit={(values, {setSubmitting}) => applyChanges(values)
             .catch(({message}) => {errorMessage = message})
             .finally(() => setSubmitting(false))}>
-        {({handleSubmit, setFieldValue, submitForm}) => {
+        {({handleSubmit, setFieldValue, submitForm, values}) => {
             formSubmitter(() => submitForm());
             return <Fragment>
                 <DangerAlert text={errorMessage}/>
@@ -76,6 +81,9 @@ const BookForm = ({applyChanges, formSubmitter, initialValues}) => {
                                    const files = [...e.target.files];
                                    setFieldValue('picture', files);
                                }}/>
+                               <div className="float-right">
+                                   <LibraryImage size={'lg'} path={getBookImagePath(values)}/>
+                               </div>
                     </div>
                 </form>
             </Fragment>
