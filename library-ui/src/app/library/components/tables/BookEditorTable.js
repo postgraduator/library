@@ -50,6 +50,6 @@ export default connect(({books}) => ({
     dispath => ({
         pageFetcher: ({page}) => rest.book.getBooks({page, sort: 'name'})
             .then(({data, pagination}) => dispath(getBooks({books: data, pagination})))
-            .catch(({message}) => dispath(showBookErrorMessage({text: message})))
+            .catch(({message}) => dispath(showBookErrorMessage(message)))
     })
 )(Table);

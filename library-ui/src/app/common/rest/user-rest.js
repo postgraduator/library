@@ -3,7 +3,7 @@ import set from "lodash/set";
 import {CommonRest} from "./common-rest";
 
 const UserRest = function (apiPath, csrf) {
-    CommonRest.call(this, 'users');
+    CommonRest.call(this, 'libraryUsers');
     this._basePath = apiPath + '/users';
     this._csrf = csrf;
 };

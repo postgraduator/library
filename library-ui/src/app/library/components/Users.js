@@ -1,5 +1,25 @@
-import {Fragment} from "react";
+import {Fragment, Component} from "react";
+import {connect} from "react-redux";
+import {CommonAlert} from "./alerts/Alert";
+import UserEditorTable from "./tables/UserEditorTable"
 
-const Users = () => (<Fragment>Users</Fragment>);
+class Users extends Component{
+    render() {
+        const {message} = this.props;
+        return <Fragment>
+            <CommonAlert text={message.text} className={message.className}/>
+            <div className="container">
+                <UserEditorTable/>
+            </div>
+        </Fragment>
+    }
 
-export default Users;
+    componentDidMount() {
+        const {removeModalMessage, message} = this.props;
+        _.isEmpty(message) || removeModalMessage();
+    }
+}
+
+export default connect(({users}) => ({
+    message: _.get(users, 'message', {})
+}))(Users);

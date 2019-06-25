@@ -5,7 +5,7 @@ import {rest} from "../context";
 import {fetchUser} from "../store/actions/user-actions";
 import {books} from "../store/reducers/book-reducers";
 import {modal} from "../store/reducers/modal-reducers";
-import {user} from "../store/reducers/user-reducers";
+import {users} from "../store/reducers/user-reducers";
 import {initState} from "../store/utils/helper";
 
 export default class LibraryStoreProvider extends Component {
@@ -13,7 +13,7 @@ export default class LibraryStoreProvider extends Component {
         super(props);
         this.fetchCurrentUser = () => rest.user.fetchCurrentUser();
         this.reduxStore = createStore(
-            combineReducers({user, modal, books})
+            combineReducers({users, modal, books})
         );
     }
 

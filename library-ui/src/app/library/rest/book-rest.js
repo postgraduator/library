@@ -37,11 +37,7 @@ BookRest.prototype.updateBook = function (book) {
 };
 
 BookRest.prototype.getBooks = function (params) {
-    return axios.get(this._basePath, {params})
-        .then(({data}) => ({
-            ...this._getEmbeddedCollection({data}),
-            pagination: _.get(data, 'page')
-        }));
+    return this._getPagedCollection(params);
 };
 
 BookRest.prototype.deleteBook = function (book) {
