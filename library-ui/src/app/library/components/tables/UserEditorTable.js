@@ -1,3 +1,4 @@
+import format from "date-fns/format";
 import {Fragment} from "react";
 import {connect} from "react-redux";
 import {rest} from "../../context";
@@ -26,7 +27,10 @@ export default connect(({users}) => ({
         }, {
             field: 'birthday',
             header: 'Birthday',
-            width: '10%'
+            width: '10%',
+            Component: ({item}) => (<Fragment>
+                {item.birthday && format(item.birthday, 'MM/DD/YYYY')}
+            </Fragment>)
         }]
     }),
     dispatch => ({

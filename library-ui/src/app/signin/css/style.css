@@ -1,0 +1,7 @@
+.form-group > .react-datepicker-wrapper {
+    display: block;
+}
+
+.form-group > .react-datepicker-wrapper > .react-datepicker__input-container {
+    display: block;
+}

@@ -3,7 +3,7 @@ package com.nix.libraryweb.model.entity;
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 import static javax.persistence.CascadeType.DETACH;
 import static javax.persistence.CascadeType.REFRESH;
-import static javax.persistence.TemporalType.TIMESTAMP;
+import static javax.persistence.TemporalType.DATE;
 
 import java.util.Date;
 import java.util.Set;
@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -39,7 +40,8 @@ public class LibraryUser {
     private String email;
     @JsonProperty(access = WRITE_ONLY)
     private String password;
-    @Temporal(TIMESTAMP)
+    @Temporal(DATE)
+    @JsonFormat(timezone = "UTC")
     private Date birthday;
     private Gender gender;
     @ManyToOne(cascade = {REFRESH, DETACH})
