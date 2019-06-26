@@ -3,6 +3,7 @@ package com.nix.libraryweb.configuration;
 import static com.nix.libraryweb.controllers.constants.ViewUrl.SIGNIN;
 import static com.nix.libraryweb.controllers.constants.ViewUrl.SIGNUP;
 import static com.nix.libraryweb.security.constants.LibraryRole.ADMIN;
+import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
@@ -75,6 +76,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(POST, baseUri + "/books")
                 .hasRole(ADMIN)
                 .antMatchers(PUT, baseUri + "/books/*")
+                .hasRole(ADMIN)
+                .antMatchers(DELETE)
                 .hasRole(ADMIN)
                 .antMatchers("/")
                 .authenticated()
