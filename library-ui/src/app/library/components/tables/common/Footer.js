@@ -10,7 +10,7 @@ const Footer = ({pagination, pageFetcher, columnCount}) => {
         const activeModifier = item.value === number ? 'active' : '';
         return _.trim(`${disabledModifier} ${activeModifier}`);
     };
-    const hidden = _.isEmpty(pagination) || totalPages < 2;
+    const hidden = _.isEmpty(pagination) || !(_.isNumber(totalPages) && totalPages >= 2);
     return <Fragment>
         {hidden || (
             <tfoot>
