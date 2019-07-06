@@ -8,9 +8,16 @@ import {OutlineDangerButton} from "../buttons/ActionLauncher";
 import {MODAL_IDS} from "../modals/common/modal-ids";
 import Table from "./common/Table";
 
-const DeleteUserButton = connect(null, (dispatch, {user}) => ({
-    launcher: () => dispatch(showModal(MODAL_IDS.DELETE_USER_MODAL, user))
-}))(({launcher}) => (<OutlineDangerButton title={'Delete'} launcher={launcher}/>));
+const DeleteUserButton = connect(
+    ({users}, {user}) => ({
+        visible: _.get(users, 'current.name') !== user.name
+    }),
+    (dispatch, {user}) => ({
+        launcher: () => dispatch(showModal(MODAL_IDS.DELETE_USER_MODAL, user))
+    }))(({launcher, visible}) => (
+    <Fragment>
+        {visible && <OutlineDangerButton title={'Delete'} launcher={launcher}/>}
+    </Fragment>));
 
 export default connect(({users}) => ({
         data: _.get(users, 'items', []),
