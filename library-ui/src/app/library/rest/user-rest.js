@@ -20,4 +20,11 @@ UserRest.prototype.deleteUser = function (user) {
         .then(() => this._removeEntityLinks(user));
 };
 
+UserRest.prototype.updatePermission = function ({user, newPermission}) {
+    return axios.put(`${this._getEntityLink(user)}/change-permission`, null, {
+        params: {name: newPermission},
+        headers: {...this._csrf.header}
+    })
+};
+
 export const createUserRest = ({apiPath, csrf}) => new UserRest(apiPath, csrf);

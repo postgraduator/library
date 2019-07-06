@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {hideModal} from "../../../store/actions/modal-actions";
 import {LightButton, PrimaryButton} from "../../buttons/ActionLauncher";
 
-const FormModal = ({modalId, title, show, initialValues, ActionForm, hideModal, saveModalTitle, closeModalTitle = 'Close'}) => {
+const FormModal = ({modalId, title, show, initialValues, ActionForm, hideModal, saveModalTitle, data, closeModalTitle = 'Close'}) => {
     let submitForm = data => data;
     const formSubmitter = submitter => submitForm = submitter;
     return <Modal id={modalId} size="lg" show={show} onHide={hideModal}>
@@ -12,7 +12,7 @@ const FormModal = ({modalId, title, show, initialValues, ActionForm, hideModal, 
             <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <ActionForm formSubmitter={formSubmitter} initialValues={initialValues}/>
+            <ActionForm formSubmitter={formSubmitter} initialValues={initialValues} data={data}/>
         </Modal.Body>
         <Modal.Footer>
             <div className="float-right">
@@ -29,14 +29,17 @@ FormModal.propTypes = {
     ActionForm: PropTypes.elementType.isRequired,
     hideModal: PropTypes.func.isRequired,
     initialValues: PropTypes.object.isRequired,
-    title: PropTypes.string
+    title: PropTypes.string,
+    data: PropTypes.object
 };
 
 const ReduxFormModal = connect(
-    ({modal}, {buttonTitle, modalId, createTitle}) => {
+    (state, {buttonTitle, modalId, createTitle, formDataCollector}) => {
+        const {modal} = state;
         const modalData = _.get(modal, modalId + '.data', {});
         return {
             modalId,
+            data: _.isFunction(formDataCollector) ? formDataCollector(state) : {},
             title: createTitle(modalData),
             show: _.get(modal, modalId + '.opened'),
             initialValues: modalData,
@@ -53,10 +56,11 @@ const ReduxFormModal = connect(
                 dispatch(hideModal(modalId));
                 dispatch(removeMessage());
             },
-            ActionForm: ({formSubmitter, initialValues}) => (<ActionForm formSubmitter={formSubmitter}
-                                                                       initialValues={initialValues}
-                                                                       applyChanges={values => serverAction(values)
-                                                                           .then(({data}) => successSubmit(data))}/>)
+            ActionForm: ({formSubmitter, initialValues, data}) => (<ActionForm formSubmitter={formSubmitter}
+                                                                               initialValues={initialValues}
+                                                                               data={data}
+                                                                               applyChanges={values => serverAction(values)
+                                                                                   .then(({data}) => successSubmit(data))}/>)
         }
     })(FormModal);
 
@@ -67,7 +71,8 @@ ReduxFormModal.propTypes = {
     action: PropTypes.func.isRequired,
     serverAction: PropTypes.func.isRequired,
     removeMessage: PropTypes.func.isRequired,
-    ActionForm: PropTypes.elementType.isRequired
+    ActionForm: PropTypes.elementType.isRequired,
+    formDataCollector: PropTypes.func
 };
 
 export default ReduxFormModal;

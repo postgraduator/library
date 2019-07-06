@@ -9,6 +9,10 @@ export const users = (state = {message: {}, current: {},items: [], pagination: {
             return _.assign({...state}, extractEventData(action));
         case actions.DELETE_USER :
             return _.assign({...state}, extractEventData(action));
+        case actions.UPDATE_USER_PERMISSION :
+            return _.assign({...state}, extractEventData(action));
+        case actions.REMOVE_USER_MESSAGE :
+            return _.assign({...state}, extractEventData(action));
         default :
             return state;
     }

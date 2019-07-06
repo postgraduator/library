@@ -1,5 +1,7 @@
 package com.nix.libraryweb.model.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +24,10 @@ public class PermissionServiceImpl implements PermissionService {
     public Permission findPermissionByName(String name) {
         return permissionRepository.findByName(name)
                 .orElseThrow(() -> new EntityNotFoundException("Permission", "name", name));
+    }
+
+    @Override
+    public List<Permission> findAll() {
+        return permissionRepository.findAllByOrderByName();
     }
 }

@@ -94,8 +94,7 @@ const BookForm = ({applyChanges, formSubmitter, initialValues}) => {
 BookForm.propTypes = {
     applyChanges: PropTypes.func.isRequired,
     formSubmitter: PropTypes.func.isRequired,
-    initialValues: PropTypes.object.isRequired,
-
+    initialValues: PropTypes.object.isRequired
 };
 
 export default BookForm;

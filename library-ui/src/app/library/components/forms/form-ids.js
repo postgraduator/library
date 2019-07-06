@@ -1,5 +1,6 @@
 const FORM_IDS = {
-    NEW_BOOK_FORM: 'new-book-form'
+    NEW_BOOK_FORM: 'new-book-form',
+    PERMISSION_FORM: 'permission-form'
 };
 
 export {FORM_IDS};

@@ -44,7 +44,7 @@ public class UserRepositoryController {
         return ResponseEntity.ok(userResource);
     }
 
-    @PostMapping("/users/{id}/changePermission")
+    @PutMapping("/users/{id}/change-permission")
     public @ResponseBody ResponseEntity<Resource> changeUserPermission(@PathVariable UUID id, @RequestParam String name) {
         LibraryUser libraryUser = userService.changeUserPermission(id, name);
         Resource<LibraryUser> userResource = new Resource<>(libraryUser);
