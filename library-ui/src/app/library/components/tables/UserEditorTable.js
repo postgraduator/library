@@ -2,8 +2,15 @@ import format from "date-fns/format";
 import {Fragment} from "react";
 import {connect} from "react-redux";
 import {rest} from "../../context";
+import {showModal} from "../../store/actions/modal-actions";
 import {getUsers, showUserErrorMessage} from "../../store/actions/user-actions";
+import {OutlineDangerButton} from "../buttons/ActionLauncher";
+import {MODAL_IDS} from "../modals/common/modal-ids";
 import Table from "./common/Table";
+
+const DeleteUserButton = connect(null, (dispatch, {user}) => ({
+    launcher: () => dispatch(showModal(MODAL_IDS.DELETE_USER_MODAL, user))
+}))(({launcher}) => (<OutlineDangerButton title={'Delete'} launcher={launcher}/>));
 
 export default connect(({users}) => ({
         data: _.get(users, 'items', []),
@@ -31,6 +38,11 @@ export default connect(({users}) => ({
             Component: ({item}) => (<Fragment>
                 {item.birthday && format(item.birthday, 'MM/DD/YYYY')}
             </Fragment>)
+        }, {
+            field: 'crud',
+            header: null,
+            width: '20%',
+            Component: ({item}) => (<DeleteUserButton user={item}/>)
         }]
     }),
     dispatch => ({

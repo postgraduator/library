@@ -14,7 +14,7 @@ const DeleteModal = ({modalId, text, show, hideModal, action, data}) => {
             {text}
         </Modal.Body>
         <Modal.Footer>
-            <PrimaryButton title={'Delete'} launcher={() => action(data).catch(({message}) => errorMessage = message)}/>
+            <PrimaryButton title={'Delete'} launcher={() => action(data).catch(({message}) => errorMessage = message || 'An unexpected server error occured.')}/>
             <LightButton title={'Cancel'} launcher={hideModal}/>
         </Modal.Footer>
     </Modal>

@@ -12,6 +12,7 @@ import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -29,6 +30,7 @@ public class LibraryUser {
     public enum Gender {
         MALE, FEMALE
     }
+
     @Id
     @GeneratedValue
     private UUID id;
@@ -47,7 +49,8 @@ public class LibraryUser {
     @ManyToOne(cascade = {REFRESH, DETACH})
     @NotNull
     private Permission permission;
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "library_user_id")
     private Set<OrderInfo> orderInfoSet;
 
     public UUID getId() {

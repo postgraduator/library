@@ -15,4 +15,9 @@ UserRest.prototype.getUsers = function (params) {
     return this._getPagedCollection(params);
 };
 
+UserRest.prototype.deleteUser = function (user) {
+    return axios.delete(this._getEntityLink(user), {headers: {...this._csrf.header}})
+        .then(() => this._removeEntityLinks(user));
+};
+
 export const createUserRest = ({apiPath, csrf}) => new UserRest(apiPath, csrf);

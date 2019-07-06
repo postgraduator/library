@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,7 +22,8 @@ public class OrderInfo {
     @Column(updatable = false)
     private Date createdOn;
     private Date closedOn;
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "ordered_info_id")
     private Set<OrderedBook> orderedBooks;
 
     public UUID getId() {

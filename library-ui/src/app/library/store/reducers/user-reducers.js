@@ -7,6 +7,8 @@ export const users = (state = {message: {}, current: {},items: [], pagination: {
             return _.assign({...state}, extractEventData(action));
         case actions.GET_PAGE_OF_USERS :
             return _.assign({...state}, extractEventData(action));
+        case actions.DELETE_USER :
+            return _.assign({...state}, extractEventData(action));
         default :
             return state;
     }
