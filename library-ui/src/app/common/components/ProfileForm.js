@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import Datepicker from "react-datepicker/es";
 import {createValidationSchemaFrom} from "../validation/yup-schema-reducer";
 
-const ProfileStatelessForm = ({handleSubmit, isSubmitting, isValidating, values, setFieldValue, minAge, genders = []}) => (
+const ProfileStatelessForm = ({handleSubmit, isSubmitting, isValidating, values, setFieldValue, minAge, genders = [], buttonName}) => (
     <form onSubmit={handleSubmit} noValidate>
         <input type="password" style={{visibility: 'hidden'}}/>
         <legend>Registration Form</legend>
@@ -67,7 +67,7 @@ const ProfileStatelessForm = ({handleSubmit, isSubmitting, isValidating, values,
                     <option key={gender.value} value={gender.value}>{gender.view}</option>))}
             </Field>
         </div>
-        <button type="submit" className="btn btn-primary" disabled={isSubmitting || isValidating}>Register
+        <button type="submit" className="btn btn-primary" disabled={isSubmitting || isValidating}>{buttonName}
         </button>
     </form>);
 
@@ -78,18 +78,20 @@ ProfileStatelessForm.propTypes = {
     values: PropTypes.object.isRequired,
     setFieldValue: PropTypes.func.isRequired,
     minAge: PropTypes.number.isRequired,
-    genders: PropTypes.array
+    genders: PropTypes.array,
+    buttonName: PropTypes.string.isRequired
 };
 
 
-const ProfileForm = ({genders, minAge, formAction, restrictions, initialValues}) => (<Formik
+const ProfileForm = ({genders, minAge, formAction, restrictions, initialValues, buttonName = 'Register'}) => (<Formik
     initialValues={initialValues}
     validateOnChange={false}
     validationSchema={createValidationSchemaFrom(restrictions)}
     onSubmit={(values, {setSubmitting, resetForm}) => {
         formAction(omit(values, 'confirmedPassword'))
-            .then(() => {
+            .then(({data}) => {
                 resetForm();
+                return {data};
             })
             .finally(() => setSubmitting(false));
     }}>
@@ -99,6 +101,7 @@ const ProfileForm = ({genders, minAge, formAction, restrictions, initialValues})
                                genders={genders}
                                isValidating={isValidating} setFieldValue={setFieldValue}
                                isSubmitting={isSubmitting}
+                               buttonName={buttonName}
                                values={values}/>)}
 </Formik>);
 
@@ -107,7 +110,8 @@ ProfileForm.propTypes = {
     genders: PropTypes.array,
     minAge: PropTypes.number.isRequired,
     restrictions: PropTypes.object,
-    initialValues: PropTypes.object.isRequired
+    initialValues: PropTypes.object.isRequired,
+    buttonName: PropTypes.string
 };
 
 

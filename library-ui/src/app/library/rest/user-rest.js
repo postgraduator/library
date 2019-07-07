@@ -27,4 +27,8 @@ UserRest.prototype.updatePermission = function ({user, newPermission}) {
     })
 };
 
+UserRest.prototype.updateProfile = function (user) {
+    return axios.put(this._getEntityLink(user), this._updateGender(this._removeEntityLinks(user)), {headers: {...this._csrf.header}})
+};
+
 export const createUserRest = ({apiPath, csrf}) => new UserRest(apiPath, csrf);

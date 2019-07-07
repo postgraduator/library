@@ -22,7 +22,7 @@ public class OrderInfo {
     @Column(updatable = false)
     private Date createdOn;
     private Date closedOn;
-    @OneToMany(orphanRemoval = true)
+    @OneToMany
     @JoinColumn(name = "ordered_info_id")
     private Set<OrderedBook> orderedBooks;
 

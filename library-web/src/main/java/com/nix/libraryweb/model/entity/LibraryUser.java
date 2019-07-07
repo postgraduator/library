@@ -49,7 +49,7 @@ public class LibraryUser {
     @ManyToOne(cascade = {REFRESH, DETACH})
     @NotNull
     private Permission permission;
-    @OneToMany(orphanRemoval = true)
+    @OneToMany
     @JoinColumn(name = "library_user_id")
     private Set<OrderInfo> orderInfoSet;
 

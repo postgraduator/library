@@ -2,10 +2,6 @@ import {actions} from "../constants/user-constants";
 import {setEventData} from "../utils/helper";
 import {dangerAction, fetchAction, removeMessage, successCrudAction, warningCrudAction} from "./common-actions";
 
-export const fetchUser = user => setEventData(actions.GET_USER, {
-    current: {...user}
-});
-
 export const getUsers = ({users, pagination}) => setEventData(actions.GET_PAGE_OF_USERS, fetchAction(users, pagination));
 
 export const showUserErrorMessage = text => setEventData(actions.SHOW_USER_ERROR_MESSAGE, dangerAction(text));

@@ -2,8 +2,10 @@ import {Component} from "react";
 import {Provider} from "react-redux";
 import {combineReducers, createStore} from "redux";
 import {rest} from "../context";
-import {fetchUser} from "../store/actions/user-actions";
+import {fetchUser} from "../store/actions/current-user-actions";
 import {books} from "../store/reducers/book-reducers";
+import {current} from "../store/reducers/current-user-reducers";
+import {genders} from "../store/reducers/gender-reducers";
 import {modal} from "../store/reducers/modal-reducers";
 import {permissions} from "../store/reducers/permission-reducer";
 import {users} from "../store/reducers/user-reducers";
@@ -14,7 +16,7 @@ export default class LibraryStoreProvider extends Component {
         super(props);
         this.fetchCurrentUser = () => rest.user.fetchCurrentUser();
         this.reduxStore = createStore(
-            combineReducers({users, modal, books, permissions})
+            combineReducers({users, modal, books, permissions, genders, current})
         );
     }
 

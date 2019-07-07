@@ -29,4 +29,4 @@ const LibraryMainPage = ({user}) => (<Fragment>
     </main>
 </Fragment>);
 
-export default connect(({users}) => ({user: {...users.current}}))(LibraryMainPage);
+export default connect(({current}) => ({user: {...current.user}}))(LibraryMainPage);

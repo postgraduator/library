@@ -1,5 +1,5 @@
 import "react-datepicker/dist/react-datepicker.css";
-import "./css/style.css";
+import "../common/css/style.css";
 import React from "react";
 import {render} from "react-dom";
 import SigninPage from "./components/SigninPage"

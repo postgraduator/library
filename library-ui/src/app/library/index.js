@@ -1,3 +1,5 @@
+import "react-datepicker/dist/react-datepicker.css";
+import "../common/css/style.css";
 import "./css/style.css";
 import "lodash";
 import React from "react";

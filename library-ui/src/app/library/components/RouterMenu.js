@@ -18,7 +18,7 @@ const MainMenu = ({user, routes}) => {
     </ul>)
 };
 
-export const Menu = connect(({users}) => ({user: {...users.current}, routes: ROUTE_LIST}))(MainMenu);
+export const Menu = connect(({current}) => ({user: {...current.user}, routes: ROUTE_LIST}))(MainMenu);
 
 const HashRouterMain = ({user, routes}) => {
     const availableRoutes = _.isEmpty(user) ? [] : _.filter(routes, permissionFilter(user));
@@ -39,4 +39,4 @@ const HashRouterMain = ({user, routes}) => {
     </Switch>)
 };
 
-export const RouterMain = connect(({users}) => ({user: {...users.current}, routes: ROUTE_LIST}))(HashRouterMain);
+export const RouterMain = connect(({current}) => ({user: {...current.user}, routes: ROUTE_LIST}))(HashRouterMain);

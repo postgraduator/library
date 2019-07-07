@@ -73,6 +73,9 @@ public class UserServiceImpl implements UserService {
     }
 
     private LibraryUser saveUserWithNewPassword(LibraryUser user) {
+        String permissionName = user.getPermission() != null ? user.getPermission().getName() : VISITOR;
+        Permission permission = permissionService.findPermissionByName(permissionName);
+        user.setPermission(permission);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
