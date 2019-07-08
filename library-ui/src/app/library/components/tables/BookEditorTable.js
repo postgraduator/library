@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {rest} from "../../context";
 import {getBooks, showBookErrorMessage} from "../../store/actions/book-actions";
 import {showModal} from "../../store/actions/modal-actions";
-import {OutlineDangerButton, OutlineSecondaryButton} from "../buttons/ActionLauncher";
+import {OutlineDangerButton, OutlineSecondaryButton} from "../buttons/action-launcher";
 import LibraryImage from "../images/LibraryImage"
 import {MODAL_IDS} from "../modals/common/modal-ids";
 import Table from "./common/Table";

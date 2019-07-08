@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import {hideModal} from "../../../store/actions/modal-actions";
-import {DangerAlert} from "../../alerts/Alert";
-import {LightButton, PrimaryButton} from "../../buttons/ActionLauncher";
+import {DangerAlert} from "../../alerts/alert";
+import {LightButton, PrimaryButton} from "../../buttons/action-launcher";
 
 const DeleteModal = ({modalId, text, show, hideModal, action, data}) => {
     let errorMessage = '';

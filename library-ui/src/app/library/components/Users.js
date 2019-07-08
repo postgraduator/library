@@ -4,8 +4,8 @@ import {connect} from "react-redux";
 import {rest} from "../context";
 import {fetchAllPermissions} from "../store/actions/permission-actions";
 import {removeUserMessage} from "../store/actions/user-actions";
-import {CommonAlert} from "./alerts/Alert";
-import {DeleteUserModal, UpdatePermissionModal} from "./modals/UserModal";
+import {CommonAlert} from "./alerts/alert";
+import {DeleteUserModal, UpdatePermissionModal} from "./modals/user-modal";
 import UserEditorTable from "./tables/UserEditorTable";
 
 class Users extends Component {

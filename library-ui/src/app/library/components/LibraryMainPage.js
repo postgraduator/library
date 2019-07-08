@@ -1,7 +1,7 @@
 import {Fragment} from "react";
 import {connect} from "react-redux";
 import {HashRouter} from "react-router-dom";
-import {Menu, RouterMain} from "./RouterMenu";
+import {Menu, RouterMain} from "./router-menu";
 import SignupButton from "./SignupButton";
 
 const LibraryMainPage = ({user}) => (<Fragment>

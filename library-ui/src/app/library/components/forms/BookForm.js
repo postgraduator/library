@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {Fragment} from "react";
 import * as Yup from "yup";
 import {createValidationSchema} from "../../utils/validator";
-import {DangerAlert} from "../alerts/Alert";
+import {DangerAlert} from "../alerts/alert";
 import LibraryImage from "../images/LibraryImage";
 import {FORM_IDS} from "./form-ids";
 

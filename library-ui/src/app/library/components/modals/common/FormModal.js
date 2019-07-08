@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import {hideModal} from "../../../store/actions/modal-actions";
-import {LightButton, PrimaryButton} from "../../buttons/ActionLauncher";
+import {LightButton, PrimaryButton} from "../../buttons/action-launcher";
 
 const FormModal = ({modalId, title, show, initialValues, ActionForm, hideModal, saveModalTitle, data, closeModalTitle = 'Close'}) => {
     let submitForm = data => data;

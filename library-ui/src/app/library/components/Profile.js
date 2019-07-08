@@ -6,7 +6,7 @@ import {profileRestrictions, USER_MIN_AGE} from "../../common/validation/profile
 import {rest} from "../context";
 import {removeCurrentUserMessage, showCurrentUserErrorMessage, updateCurrentUser} from "../store/actions/current-user-actions";
 import {getGenders} from "../store/actions/gender-actions"
-import {CommonAlert} from "./alerts/Alert";
+import {CommonAlert} from "./alerts/alert";
 
 class Profile extends Component {
     render() {
