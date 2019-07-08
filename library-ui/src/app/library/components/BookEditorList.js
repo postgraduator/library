@@ -3,9 +3,9 @@ import {Component, Fragment} from "react";
 import {connect} from "react-redux";
 import {removeBookMessage} from "../store/actions/book-actions";
 import {showModal} from "../store/actions/modal-actions";
-import {CommonAlert} from "./alerts/Alert";
-import {SecondaryButton} from "./buttons/ActionLauncher";
-import {DeleteBookModal, NewBookModal, UpdateBookModal} from "./modals/BookModal";
+import {CommonAlert} from "./alerts/alert";
+import {SecondaryButton} from "./buttons/action-launcher";
+import {DeleteBookModal, NewBookModal, UpdateBookModal} from "./modals/book-modal";
 import {MODAL_IDS} from "./modals/common/modal-ids";
 import BookEditorTable from "./tables/BookEditorTable";
 
