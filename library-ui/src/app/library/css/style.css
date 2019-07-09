@@ -24,3 +24,15 @@ img.image.image-lg {
     max-height: 120px;
     width: auto;
 }
+
+.column-sort-asc:before {
+    content: '\25B2';
+}
+
+.column-sort-desc:before {
+    content: '\25BC';
+}
+
+.column-sort {
+    cursor: pointer;
+}

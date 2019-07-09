@@ -13,3 +13,13 @@ export const bindRestWithDispatcher = ({action, restAction, dispatch}) => (param
 export const initState = (rests, dispatch, params) => {
     _.forEach(rests, (rest) => bindRestWithDispatcher({...rest, dispatch})(params));
 };
+
+export const createReducer = (defaultState, actions) => (state = defaultState, action) => {
+    const available = _(actions)
+        .values()
+        .some(availableActionType => availableActionType === action.type);
+    if (available) {
+        return _.assign({...state}, extractEventData(action));
+    }
+    return state;
+};

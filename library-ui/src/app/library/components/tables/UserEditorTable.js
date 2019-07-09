@@ -27,10 +27,12 @@ const UpdatePermissionButton = connect(null,
 export default connect(({users}) => ({
         data: _.get(users, 'items', []),
         pagination: _.get(users, 'pagination', {number: 0}),
-        refreshed: _.get(users, 'refreshed', false),
+        sort: _.get(users, 'sort', {}),
+        filters: _.get(users, 'filters', {}),
         columns: [{
             field: 'name',
             header: 'Name',
+            sortable: true,
             width: '20%'
         }, {
             field: 'email',
@@ -65,7 +67,7 @@ export default connect(({users}) => ({
         }]
     }),
     dispatch => ({
-        pageFetcher: ({page}) => rest.user.getUsers({page, sort: 'name'})
-            .then(({data, pagination}) => dispatch(getUsers({users: data, pagination})))
-            .catch(({message}) => dispatch(showUserErrorMessage(message)))
+        pageFetcher: params => rest.user.getUsers(params)
+            .catch(({message}) => dispatch(showUserErrorMessage(message))),
+        setStateData: props => dispatch(getUsers(props))
     }))(Table);

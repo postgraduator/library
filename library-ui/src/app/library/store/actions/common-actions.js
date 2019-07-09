@@ -1,23 +1,21 @@
 export const warningCrudAction = text => ({
     pagination: {
-        number: 0
+        number: -1
     },
     message: {
         text,
         className: 'alert alert-warning'
-    },
-    refreshed: false
+    }
 });
 
 export const successCrudAction = text => ({
     pagination: {
-        number: 0
+        number: -1
     },
     message: {
         text,
         className: 'alert alert-success'
-    },
-    refreshed: false
+    }
 });
 
 export const dangerAction = text => ({
@@ -27,10 +25,11 @@ export const dangerAction = text => ({
     }
 });
 
-export const fetchAction = (items, pagination) => ({
+export const fetchAction = (items, pagination, sort, filters) => ({
     items: _.isArray(items) ? [...items] : [],
     pagination,
-    refreshed: true
+    sort,
+    filters
 });
 
 export const removeMessage = () => ({message: {}});

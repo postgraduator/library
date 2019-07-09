@@ -19,14 +19,17 @@ const DeleteBookModalLauncher = connect(null, (dispatch, {book}) => ({
 export default connect(({books}) => ({
         data: _.get(books, 'items', []),
         pagination: _.get(books, 'pagination', {number: 0}),
-        refreshed: _.get(books, 'refreshed', false),
+        sort: _.get(books, 'sort', {}),
+        filters: _.get(books, 'filters', {}),
         columns: [{
             field: 'name',
             header: 'Name',
+            sortable: true,
             width: '50%'
         }, {
             field: 'price',
             header: 'Price',
+            sortable: true,
             width: '15%'
         }, {
             field: 'count',
@@ -47,9 +50,9 @@ export default connect(({books}) => ({
             </Fragment>)
         }]
     }),
-    dispath => ({
-        pageFetcher: ({page}) => rest.book.getBooks({page, sort: 'name'})
-            .then(({data, pagination}) => dispath(getBooks({books: data, pagination})))
-            .catch(({message}) => dispath(showBookErrorMessage(message)))
+    dispatch => ({
+        pageFetcher: params => rest.book.getBooks(params)
+            .catch(({message}) => dispatch(showBookErrorMessage(message))),
+        setStateData: props => dispatch(getBooks(props))
     })
 )(Table);

@@ -11,8 +11,18 @@ CommonRest.prototype._getEmbeddedCollection = function ({data}) {
     return set({}, 'data', get(data, this._embeddedCollectionPath, {}));
 };
 
-CommonRest.prototype._getPagedCollection = function (params) {
-    return axios.get(this._basePath, {params})
+CommonRest.prototype._getPagedCollection = function ({page, sort}) {
+    return axios
+        .get(this._basePath, {
+            params: {
+                page,
+                sort: _(sort)
+                    .mapValues((value, key) => value ? `${key},${value}` : null)
+                    .values()
+                    .compact()
+                    .join(',')
+            }
+        })
         .then(({data}) => ({
             ...this._getEmbeddedCollection({data}),
             pagination: get(data, 'page')

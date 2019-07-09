@@ -47,9 +47,9 @@ const ReduxFormModal = connect(
         }
     },
     (dispatch, {action, serverAction, removeMessage, modalId, ActionForm}) => {
-        const successSubmit = (book) => {
+        const successSubmit = data => {
             dispatch(hideModal(modalId));
-            dispatch(action(book));
+            dispatch(action(data));
         };
         return {
             hideModal: () => {

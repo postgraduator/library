@@ -10,6 +10,9 @@ export const deleteBook = book => setEventData(actions.DELETE_BOOK, warningCrudA
 
 export const showBookErrorMessage = text => setEventData(actions.SHOW_BOOK_ERROR_MESSAGE, dangerAction(text));
 
-export const getBooks = ({books, pagination}) => setEventData(actions.GET_BOOKS, fetchAction(books, pagination));
+export const getBooks = ({data, pagination, sort, filters}) =>
+    setEventData(actions.GET_BOOKS, fetchAction(data, pagination, sort, filters));
 
 export const removeBookMessage = () => setEventData(actions.REMOVE_BOOK_MESSAGE, removeMessage());
+
+export const sortBooks = sort => setEventData(actions.SORT_BOOKS, sort);

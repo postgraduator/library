@@ -22,7 +22,7 @@ const Footer = ({pagination, pageFetcher, columnCount}) => {
                                 {_.map(paginationList, item => (
                                     <li key={item.view} className={`page-item ${calculateClassModifier(item)}`}>
                                         <a className="page-link"
-                                           onClick={() => pageFetcher({page: item.value})}>{item.view}</a>
+                                           onClick={() => pageFetcher(item.value)}>{item.view}</a>
                                     </li>))}
                             </ul>
                         </div>

@@ -3,30 +3,49 @@ import {Component, Fragment} from "react";
 import Cell from "./Cell";
 import Footer from "./Footer";
 import Header from "./Header";
-import {createFooterPageFetcher} from "./helper";
 
 class Table extends Component {
     render() {
-        const {tableClassName, columns, pagination, data, pageFetcher} = this.props;
+        const {tableClassName, columns, pagination, data, pageFetcher, sort, filters, setStateData} = this.props;
         return <Fragment>
             <table className={tableClassName}>
-                <Header columns={columns}/>
+                <Header columns={columns} sort={sort} setSort={sort => setStateData({data, pagination, sort, filters})}/>
                 <tbody>
                 {_.map(data, (item, index) => (<tr key={`table-${index}`}>
                     {_.map(columns, column => <Cell key={column.field} column={column} item={item}/>)}
                 </tr>))}
                 </tbody>
-                <Footer pagination={pagination} columnCount={columns.length} pageFetcher={pageFetcher}/>
+                <Footer pagination={pagination}
+                        columnCount={columns.length}
+                        pageFetcher={number => setStateData({data, pagination: {number}, sort, filters})}/>
             </table>
         </Fragment>;
     }
+    static _getPage(pagination) {
+        const page = _.get(pagination, 'number', 0);
+        return page > -1 ? page : 0;
+    }
+    _isUpdateNecessary(prevProps) {
+        const isPageChanged = ({pagination}) => {
+            const previousPage = Table._getPage(prevProps.pagination);
+            const currentPage = _.get(pagination, 'number', 0);
+            return currentPage !== previousPage;
+        };
+        const isSortChanged = ({sort}) => {
+            return !_.isEqual(sort, prevProps.sort);
+        };
+
+        return _.overSome(isPageChanged, isSortChanged)(this.props);
+    }
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {pageFetcher, pagination, refreshed} = this.props;
-        refreshed || pageFetcher({page: _.get(pagination, 'number', 0)});
+        const {pageFetcher, pagination, sort, filters, setStateData} = this.props;
+        this._isUpdateNecessary(prevProps) && pageFetcher({page: Table._getPage(pagination), sort, filters})
+            .then(({data, pagination}) => setStateData({data, pagination, sort, filters}));
     }
     componentDidMount() {
-        const {pageFetcher, pagination} = this.props;
-        pageFetcher({page: _.get(pagination, 'number', 0)});
+        const {pageFetcher, pagination, sort, filters, setStateData} = this.props;
+        pageFetcher({page: Table._getPage(pagination), sort, filters})
+            .then(({data, pagination}) => setStateData({data, pagination, sort, filters}));
     }
 }
 
@@ -40,7 +59,9 @@ Table.propTypes = {
     data: PropTypes.array.isRequired,
     pagination: PropTypes.object.isRequired,
     pageFetcher: PropTypes.func.isRequired,
-    refreshed: PropTypes.bool.isRequired
+    setStateData: PropTypes.func.isRequired,
+    sort: PropTypes.object,
+    filters: PropTypes.object
 };
 
 export default Table;
