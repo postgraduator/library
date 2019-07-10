@@ -1,11 +1,14 @@
-import {subYears} from "date-fns";
+import {subYears, parse} from "date-fns";
 import {ErrorMessage, Field, Formik} from "formik";
+import isDate from "lodash/isDate";
 import isEmpty from "lodash/isEmpty";
 import map from "lodash/map";
 import omit from "lodash/omit";
 import PropTypes from "prop-types";
 import Datepicker from "react-datepicker/es";
 import {createValidationSchemaFrom} from "../validation/yup-schema-reducer";
+
+const transformToDate = date => isDate(date) || !date ? date : parse(date);
 
 const ProfileStatelessForm = ({handleSubmit, isSubmitting, isValidating, values, setFieldValue, minAge, genders = [], buttonName}) => (
     <form onSubmit={handleSubmit} noValidate>
@@ -51,7 +54,7 @@ const ProfileStatelessForm = ({handleSubmit, isSubmitting, isValidating, values,
         <div className="form-group">
             <label htmlFor="birthday">Birthday</label>
             <Datepicker id="birthday"
-                        selected={values.birthday}
+                        selected={transformToDate(values.birthday)}
                         onChange={date => setFieldValue('birthday', date)}
                         showYearDropdown
                         scrollableYearDropdown

@@ -1,9 +1,9 @@
 package com.nix.libraryweb.model.repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -27,5 +27,5 @@ public interface UserRepository extends PagingAndSortingRepository<LibraryUser, 
     Optional<LibraryUser> findCurrentUser();
 
     @RestResource(path = "name-contains", rel = "name-contains")
-    List<LibraryUser> findAllByNameContains(@Param("name") String name, Pageable pageable);
+    Page<LibraryUser> findAllByNameContains(@Param("name") String name, Pageable pageable);
 }

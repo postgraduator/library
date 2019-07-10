@@ -33,10 +33,11 @@ CommonRest.prototype._processCollection = function ({data}) {
 };
 
 CommonRest.prototype._getFilteredPagedCollection = function (params, searchPath) {
-    const nonEmptyFilters = this._getRequestFilters(_.get(params, 'filters'));
+    const {page, sort, filters} = params;
+    const nonEmptyFilters = this._getRequestFilters(filters);
     return _.isEmpty(nonEmptyFilters) ?
         this._getPagedCollection(params) :
-        axios.get(`${this._basePath}/search/${searchPath}`, {params: _.assign(this._prepareRequestParams(params), nonEmptyFilters)})
+        axios.get(`${this._basePath}/search/${searchPath}`, {params: _.assign(this._prepareRequestParams(page, sort), nonEmptyFilters)})
             .then(this._processCollection.bind(this));
 };
 
