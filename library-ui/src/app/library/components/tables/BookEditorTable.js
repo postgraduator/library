@@ -24,6 +24,7 @@ export default connect(({books}) => ({
         columns: [{
             field: 'name',
             header: 'Name',
+            filterable: true,
             sortable: true,
             width: '50%'
         }, {

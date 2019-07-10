@@ -12,7 +12,7 @@ UserRest.prototype.fetchCurrentUser = function () {
 };
 
 UserRest.prototype.getUsers = function (params) {
-    return this._getPagedCollection(params);
+    return this._getFilteredPagedCollection(params, 'name-contains');
 };
 
 UserRest.prototype.deleteUser = function (user) {

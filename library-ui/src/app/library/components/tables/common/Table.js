@@ -6,10 +6,14 @@ import Header from "./Header";
 
 class Table extends Component {
     render() {
-        const {tableClassName, columns, pagination, data, pageFetcher, sort, filters, setStateData} = this.props;
+        const {tableClassName, columns, pagination, data, sort, filters, setStateData} = this.props;
         return <Fragment>
             <table className={tableClassName}>
-                <Header columns={columns} sort={sort} setSort={sort => setStateData({data, pagination, sort, filters})}/>
+                <Header columns={columns}
+                        sort={sort}
+                        setSort={sort => setStateData({data, pagination, sort, filters})}
+                        filters={filters}
+                        setFilter={filter => setStateData({data, pagination, sort, filters: {..._.assign({...filters}, filter)}})}/>
                 <tbody>
                 {_.map(data, (item, index) => (<tr key={`table-${index}`}>
                     {_.map(columns, column => <Cell key={column.field} column={column} item={item}/>)}
@@ -34,8 +38,16 @@ class Table extends Component {
         const isSortChanged = ({sort}) => {
             return !_.isEqual(sort, prevProps.sort);
         };
+        const areFiltersChanged = ({filters}) => {
+            return !_.isEqualWith(filters, prevProps.filters, (thisValue, otherValue) => {
+                if (_.isArray(thisValue)) {
+                    return _.isArray(otherValue) && _.isEqual(_.sortBy(thisValue), _.sortBy(otherValue));
+                }
+                return _.isEqual(thisValue, otherValue);
+            })
+        };
 
-        return _.overSome(isPageChanged, isSortChanged)(this.props);
+        return _.overSome(isPageChanged, isSortChanged, areFiltersChanged)(this.props);
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {pageFetcher, pagination, sort, filters, setStateData} = this.props;

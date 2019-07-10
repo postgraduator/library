@@ -32,6 +32,7 @@ export default connect(({users}) => ({
         columns: [{
             field: 'name',
             header: 'Name',
+            filterable: true,
             sortable: true,
             width: '20%'
         }, {

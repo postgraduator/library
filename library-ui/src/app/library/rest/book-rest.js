@@ -37,7 +37,7 @@ BookRest.prototype.updateBook = function (book) {
 };
 
 BookRest.prototype.getBooks = function (params) {
-    return this._getPagedCollection(params);
+    return this._getFilteredPagedCollection(params, 'name-contains');
 };
 
 BookRest.prototype.deleteBook = function (book) {
