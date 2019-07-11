@@ -49,10 +49,7 @@ export default connect(({users}) => ({
         }, {
             field: 'birthday',
             header: 'Birthday',
-            width: '10%',
-            Component: ({item}) => (<Fragment>
-                {item.birthday && format(item.birthday, 'MM/DD/YYYY')}
-            </Fragment>)
+            width: '10%'
         }, {
             field: 'permission.name',
             header: 'Permission',

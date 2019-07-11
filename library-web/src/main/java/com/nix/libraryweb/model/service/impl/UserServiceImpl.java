@@ -40,8 +40,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public LibraryUser createUser(LibraryUser user) {
-        user.setPermission(permissionService.findPermissionByName(VISITOR));
         return saveUserWithNewPassword(user);
     }
 

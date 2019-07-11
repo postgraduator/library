@@ -3,9 +3,8 @@ package com.nix.libraryweb.model.entity;
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 import static javax.persistence.CascadeType.DETACH;
 import static javax.persistence.CascadeType.REFRESH;
-import static javax.persistence.TemporalType.DATE;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -42,9 +40,8 @@ public class LibraryUser {
     private String email;
     @JsonProperty(access = WRITE_ONLY)
     private String password;
-    @Temporal(DATE)
-    @JsonFormat(timezone = "UTC")
-    private Date birthday;
+    @JsonFormat(pattern = "MM/dd/yyyy")
+    private LocalDate birthday;
     private Gender gender;
     @ManyToOne(cascade = {REFRESH, DETACH})
     @NotNull
@@ -85,11 +82,11 @@ public class LibraryUser {
         this.password = password;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

@@ -29,10 +29,11 @@ class SigninPage extends Component {
     registerUser(params) {
         return this.userService.addUser(params)
             .then(({data}) => {
-                    return this.setState({
+                    this.setState({
                         successRegistrationMessage: `The user '${data.name}' is registered`,
                         errorRegistrationMessage: ''
-                    })
+                    });
+                    return {data}
                 }
             )
             .catch(() => this.setState({errorRegistrationMessage: 'The user can not be added.'}))

@@ -1,6 +1,6 @@
-import {subYears, parse} from "date-fns";
+import {subYears, parse, format} from "date-fns";
 import {ErrorMessage, Field, Formik} from "formik";
-import isDate from "lodash/isDate";
+import isString from "lodash/isString";
 import isEmpty from "lodash/isEmpty";
 import map from "lodash/map";
 import omit from "lodash/omit";
@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import Datepicker from "react-datepicker/es";
 import {createValidationSchemaFrom} from "../validation/yup-schema-reducer";
 
-const transformToDate = date => isDate(date) || !date ? date : parse(date);
+const transformToDate = date => date && isString(date) ? parse(date) : date;
 
 const ProfileStatelessForm = ({handleSubmit, isSubmitting, isValidating, values, setFieldValue, minAge, genders = [], buttonName}) => (
     <form onSubmit={handleSubmit} noValidate>
@@ -55,7 +55,7 @@ const ProfileStatelessForm = ({handleSubmit, isSubmitting, isValidating, values,
             <label htmlFor="birthday">Birthday</label>
             <Datepicker id="birthday"
                         selected={transformToDate(values.birthday)}
-                        onChange={date => setFieldValue('birthday', date)}
+                        onChange={date => setFieldValue('birthday', format(date, 'MM/DD/YYYY'))}
                         showYearDropdown
                         scrollableYearDropdown
                         maxDate={subYears(new Date(), minAge)}
@@ -65,7 +65,7 @@ const ProfileStatelessForm = ({handleSubmit, isSubmitting, isValidating, values,
         </div>
         <div className="form-group">
             <Field component="select" name="gender" className="form-control">
-                <option value='' disabled={true}>Choose gender ...</option>
+                <option value='' disabled>Choose gender ...</option>
                 {isEmpty(genders) || map(genders, (gender) => (
                     <option key={gender.value} value={gender.value}>{gender.view}</option>))}
             </Field>
@@ -93,7 +93,7 @@ const ProfileForm = ({genders, minAge, formAction, restrictions, initialValues, 
     onSubmit={(values, {setSubmitting, resetForm}) => {
         formAction(omit(values, 'confirmedPassword'))
             .then(({data}) => {
-                resetForm();
+                resetForm(initialValues);
                 return {data};
             })
             .finally(() => setSubmitting(false));
