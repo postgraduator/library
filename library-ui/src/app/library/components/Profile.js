@@ -45,9 +45,13 @@ export default connect(({genders, current}) => {
     return {
         genders,
         message: _.get(current, 'message'),
-        initialValues: _(currentUser)
-            .keys()
-            .reduce((user, key) => _.set(user, key, _.get(currentUser, key) || ''), {}),
+        initialValues: {
+            ..._(currentUser)
+                .keys()
+                .reduce((user, key) => _.set(user, key, _.get(currentUser, key) || ''), {}),
+            password: '',
+            confirmedPassword: ''
+        },
         minAge: USER_MIN_AGE,
         restrictions: _.omit(profileRestrictions, 'password.validators.required')
     }
