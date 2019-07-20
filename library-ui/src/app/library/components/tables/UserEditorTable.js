@@ -1,4 +1,3 @@
-import format from "date-fns/format";
 import {Fragment} from "react";
 import {connect} from "react-redux";
 import {rest} from "../../context";
@@ -9,8 +8,8 @@ import {MODAL_IDS} from "../modals/common/modal-ids";
 import Table from "./common/Table";
 
 const DeleteUserButton = connect(
-    ({users}, {user}) => ({
-        visible: _.get(users, 'current.name') !== user.name
+    ({current}, {user}) => ({
+        visible: _.get(user, 'name') !== _.get(current, 'user.name')
     }),
     (dispatch, {user}) => ({
         launcher: () => dispatch(showModal(MODAL_IDS.DELETE_USER_MODAL, user))
