@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,8 +24,11 @@ public class OrderInfo {
     private Date createdOn;
     private Date closedOn;
     @OneToMany
-    @JoinColumn(name = "ordered_info_id")
+    @JoinColumn(name = "order_info_id")
     private Set<OrderedBook> orderedBooks;
+
+    @ManyToOne
+    private LibraryUser libraryUser;
 
     public UUID getId() {
         return id;
@@ -56,5 +60,13 @@ public class OrderInfo {
 
     public void setOrderedBooks(Set<OrderedBook> orderedBooks) {
         this.orderedBooks = orderedBooks;
+    }
+
+    public LibraryUser getLibraryUser() {
+        return libraryUser;
+    }
+
+    public void setLibraryUser(LibraryUser libraryUser) {
+        this.libraryUser = libraryUser;
     }
 }

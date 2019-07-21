@@ -40,6 +40,11 @@ BookRest.prototype.getBooks = function (params) {
     return this._getFilteredPagedCollection(params, 'name-contains');
 };
 
+BookRest.prototype.getAvailableToOrderBooks = function (params) {
+    return axios.get(`${this._basePath}/search/available-to-order`, {params})
+        .then(this._processCollection.bind(this))
+};
+
 BookRest.prototype.deleteBook = function (book) {
     return axios.delete(this._getEntityLink(book), {headers: {...this._csrf.header}})
         .then(() => this._removeEntityLinks(book));

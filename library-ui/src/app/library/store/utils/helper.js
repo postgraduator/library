@@ -23,3 +23,14 @@ export const createReducer = (defaultState, actions) => (state = defaultState, a
     }
     return state;
 };
+
+export const createReducerWithSpecialActions = (defaultState, actions, specialActions) => {
+    const defaultProcessor = createReducer(defaultState, actions);
+    return (state = defaultState, action) => {
+        const specialAction = _.get(specialActions, action.type);
+        if (_.isFunction(specialAction)) {
+            return specialAction(state, extractEventData(action));
+        }
+        return defaultProcessor(state, action);
+    }
+};

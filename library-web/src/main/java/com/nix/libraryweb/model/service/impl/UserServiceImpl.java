@@ -92,4 +92,10 @@ public class UserServiceImpl implements UserService {
                 .map(userRepository::save)
                 .orElseThrow(() -> new EntityNotFoundException("Library user", "id", userId.toString()));
     }
+
+    @Override
+    public LibraryUser getLibraryUserById(UUID userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("LibraryUser", "id", userId.toString()));
+    }
 }

@@ -48,7 +48,7 @@ public class LibraryUser {
     private Permission permission;
     @OneToMany
     @JoinColumn(name = "library_user_id")
-    private Set<OrderInfo> orderInfoSet;
+    private Set<OrderInfo> orderInfos;
 
     public UUID getId() {
         return id;
@@ -98,12 +98,12 @@ public class LibraryUser {
         this.gender = gender;
     }
 
-    public Set<OrderInfo> getOrderInfoSet() {
-        return orderInfoSet;
+    public Set<OrderInfo> getOrderInfos() {
+        return orderInfos;
     }
 
-    public void setOrderInfoSet(Set<OrderInfo> orderInfoSet) {
-        this.orderInfoSet = orderInfoSet;
+    public void setOrderInfos(Set<OrderInfo> orderInfos) {
+        this.orderInfos = orderInfos;
     }
 
     public Permission getPermission() {

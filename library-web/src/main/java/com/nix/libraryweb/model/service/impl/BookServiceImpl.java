@@ -1,5 +1,8 @@
 package com.nix.libraryweb.model.service.impl;
 
+import java.util.Set;
+import java.util.UUID;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +34,10 @@ public class BookServiceImpl implements BookService {
             saved.setPicturePath(savedImageName);
         }
         return saved;
+    }
+
+    @Override
+    public Iterable<Book> findByIds(Set<UUID> ids) {
+        return bookRepository.findAllById(ids);
     }
 }
