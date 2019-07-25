@@ -12,11 +12,12 @@ CommonRest.prototype._getEmbeddedCollection = function ({data}) {
 };
 
 CommonRest.prototype._getRequestFilters = function (filters) {
-    return _.reduce(filters, (result, value, key) => value ? _.set(result, key, value) : result, {});
+    return _.reduce(filters, (result, value, key) => value || _.isNumber(value) ? _.set(result, key, value) : result, {});
 };
 
-CommonRest.prototype._prepareRequestParams = function (page, sort) {
+CommonRest.prototype._prepareRequestParams = function ({page, sort, size}) {
     const params = {page};
+    size > 0 && _.set(params, 'size', size);
     const requestSort = _(sort)
         .mapValues((value, key) => value ? `${key},${value}` : null)
         .values()
@@ -33,18 +34,19 @@ CommonRest.prototype._processCollection = function ({data}) {
 };
 
 CommonRest.prototype._getFilteredPagedCollection = function (params, searchPath) {
-    const {page, sort, filters} = params;
+    const getSearchPath = filters => _.isFunction(searchPath) ? searchPath(filters) : searchPath;
+    const {filters} = params;
     const nonEmptyFilters = this._getRequestFilters(filters);
     return _.isEmpty(nonEmptyFilters) ?
         this._getPagedCollection(params) :
-        axios.get(`${this._basePath}/search/${searchPath}`, {params: _.assign(this._prepareRequestParams(page, sort), nonEmptyFilters)})
+        axios.get(`${this._basePath}/search/${getSearchPath(nonEmptyFilters)}`, {params: _.assign(this._prepareRequestParams(params), nonEmptyFilters)})
             .then(this._processCollection.bind(this));
 };
 
-CommonRest.prototype._getPagedCollection = function ({page, sort}) {
+CommonRest.prototype._getPagedCollection = function (params) {
     return axios
         .get(this._basePath, {
-            params: this._prepareRequestParams(page, sort)
+            params: this._prepareRequestParams(params)
         })
         .then(this._processCollection.bind(this));
 };

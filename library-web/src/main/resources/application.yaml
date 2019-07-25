@@ -22,6 +22,9 @@ spring:
   flyway:
     user: ${db-username}
     password: ${db-password}
+  servlet:
+    multipart:
+      max-file-size: 20MB
 upload:
   path: ${file-storage}
   context: /images

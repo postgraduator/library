@@ -1,4 +1,4 @@
-import {actions} from "../constants/book-constants";
+import {crudActions, nonCrudActions} from "../constants/book-constants";
 import {createReducer} from "../utils/helper";
 
 export const books = createReducer({
@@ -7,5 +7,13 @@ export const books = createReducer({
         items: [],
         pagination: {number: 0}
     },
-    actions
+    _.assign(_.clone(crudActions), nonCrudActions)
 );
+
+export const availableBooks = createReducer({
+    message: {},
+    sort: {name: 'asc'},
+    filters: {count: 0},
+    items: [],
+    pagination: {number: 0}
+}, nonCrudActions);
