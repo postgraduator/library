@@ -1,14 +1,17 @@
 import {Fragment} from "react";
 import {connect} from "react-redux";
 import {HashRouter} from "react-router-dom";
+import {addToOrder} from "../store/actions/order-actions";
+import OrderModal from "./modals/OrderModal"
 import {Menu, RouterMain} from "./router-menu";
 import SignupButton from "./SignupButton";
 
-const LibraryMainPage = ({user}) => (<Fragment>
+const LibraryMainPage = ({user, addToOrder}) => (<Fragment>
     <header>
         <div className="container">
             <nav className="navbar navbar-light bg-light ustify-content-between">
                 <span className="navbar-brand mb-0 h1">Hello {user.name}</span>
+                <OrderModal addToOrder={addToOrder} user={user}/>
                 <SignupButton/>
             </nav>
         </div>
@@ -29,4 +32,11 @@ const LibraryMainPage = ({user}) => (<Fragment>
     </main>
 </Fragment>);
 
-export default connect(({current}) => ({user: {...current.user}}))(LibraryMainPage);
+export default connect(
+    ({current}) => ({
+        user: {...current.user}
+    }),
+    dispatch => ({
+        addToOrder: item => dispatch(addToOrder(item))
+    })
+)(LibraryMainPage);

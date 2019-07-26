@@ -11,18 +11,13 @@ OrderRest.prototype.getOrders = function (params) {
     return this._getPagedCollection(params);
 };
 
-OrderRest.prototype.makeOrder = function (orderedBooks, params) {
-    const requestBody = _.map(orderedBooks, ({book, count}) => {
-        const bookId = _(this._getEntityLink(book))
-            .split('/')
-            .last();
-        return {bookId, count};
-    });
-    return axios.post(this._basePath, requestBody, {
+OrderRest.prototype.makeOrder = function (user, orderedBooks) {
+    const userPath = _.get(user, '_links.self.href');
+    const requestBody = _.map(orderedBooks, (value, key) => ({count: value, bookId: key}));
+    return axios.post(`${userPath}/order-info`, requestBody, {
         headers: {
-            ...this._csrf
-        },
-        params
+            ...this._csrf.header
+        }
     });
 };
 
