@@ -20,6 +20,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.springframework.data.rest.core.annotation.RestResource;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -48,6 +50,7 @@ public class LibraryUser {
     private Permission permission;
     @OneToMany
     @JoinColumn(name = "library_user_id")
+    @RestResource(path = "order-info")
     private Set<OrderInfo> orderInfos;
 
     public UUID getId() {

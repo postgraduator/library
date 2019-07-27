@@ -15,7 +15,10 @@ public class OrderedBook {
     private UUID id;
     @ManyToOne
     private Book book;
+    private int count;
     private BigDecimal price;
+    @ManyToOne
+    private OrderInfo orderInfo;
 
     public UUID getId() {
         return id;
@@ -39,5 +42,21 @@ public class OrderedBook {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public OrderInfo getOrderInfo() {
+        return orderInfo;
+    }
+
+    public void setOrderInfo(OrderInfo orderInfo) {
+        this.orderInfo = orderInfo;
     }
 }

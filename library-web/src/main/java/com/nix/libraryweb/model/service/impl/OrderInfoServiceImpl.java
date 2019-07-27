@@ -18,6 +18,7 @@ import com.nix.libraryweb.model.entity.OrderedBook;
 import com.nix.libraryweb.model.repository.OrderInfoRepository;
 import com.nix.libraryweb.model.service.BookService;
 import com.nix.libraryweb.model.service.OrderInfoService;
+import com.nix.libraryweb.model.service.OrderedBookService;
 import com.nix.libraryweb.model.service.UserService;
 
 @Service
@@ -26,11 +27,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     private final BookService bookService;
     private final OrderInfoRepository orderInfoRepository;
     private final UserService userService;
+    private final OrderedBookService orderedBookService;
 
-    public OrderInfoServiceImpl(BookService bookService, OrderInfoRepository orderInfoRepository, UserService userService) {
+    public OrderInfoServiceImpl(BookService bookService, OrderInfoRepository orderInfoRepository, UserService userService, OrderedBookService orderedBookService) {
         this.bookService = bookService;
         this.orderInfoRepository = orderInfoRepository;
         this.userService = userService;
+        this.orderedBookService = orderedBookService;
     }
 
     @Override
@@ -40,6 +43,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         validateBooks(books, orderDtos);
         Set<OrderedBook> orderedBooks = stream(books.spliterator(), false)
                 .map(this::mapBook)
+                .peek(orderedBook -> orderedBook.setCount(getOrderedCountById(orderedBook.getBook().getId(), orderDtos)))
                 .collect(toSet());
         return saveOrderInfo(userId, orderedBooks);
     }
@@ -49,6 +53,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderedBook.setBook(book);
         orderedBook.setPrice(book.getPrice());
         return orderedBook;
+    }
+
+    private int getOrderedCountById(UUID id, Set<OrderDto> orderDtos) {
+        return orderDtos.stream()
+                .filter(orderDto -> Objects.equals(orderDto.getBookId(), id))
+                .findFirst()
+                .map(OrderDto::getCount)
+                .orElse(0);
     }
 
     private Iterable<Book> fetchOrderedBooks(Set<OrderDto> orderDtos) {
@@ -85,8 +97,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     private OrderInfo saveOrderInfo(UUID userId, Set<OrderedBook> orderedBooks) {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setLibraryUser(userService.getLibraryUserById(userId));
-        orderInfo.setOrderedBooks(orderedBooks);
-        return orderInfoRepository.save(orderInfo);
+        OrderInfo saved = orderInfoRepository.save(orderInfo);
+        orderInfo.setOrderedBooks(orderedBookService.saveALlWithOrderInfo(saved, orderedBooks));
+        return saved;
     }
 
 }
