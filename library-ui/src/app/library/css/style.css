@@ -36,3 +36,7 @@ img.image.image-lg {
 .column-sort {
     cursor: pointer;
 }
+
+.inline-child-element > * {
+    display: inline-block;
+}

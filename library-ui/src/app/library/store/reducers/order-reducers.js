@@ -15,6 +15,12 @@ _.set(specialActions, actions.ADD_ONE_TO_ORDER, (state, book) => {
     return newState;
 });
 
+_.set(specialActions, actions.REMOVE_ORDER_ITEM, (state, book) => {
+    const newState = _.cloneDeep(state);
+    const orderedBooks = _.reject(newState.items, ['book.name', book.name]);
+    return _.set(newState, 'items', orderedBooks);
+});
+
 export const order = createReducerWithSpecialActions({
         message: {},
         items: []

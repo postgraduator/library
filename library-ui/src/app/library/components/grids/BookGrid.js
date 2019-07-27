@@ -17,11 +17,13 @@ const BOOTSTRAP_GRID_SYSTEM_ITEM_COUNT = 12;
 const BookRow = ({bootstrapColNum, books, addToCart}) => (<div className="row">
     {_.map(books, book => {
         const {name, count, picturePath} = book;
-        return <div key={name} className={`col-sm-${bootstrapColNum}`}>
-            <LibraryImage path={picturePath && `book/${picturePath}`} size={'lg'}/>
-            <OutlineSecondaryButton launcher={() => addToCart(book)} title={'Add To Order'}/>
-            <p>{name}</p>
-            <p>Available count: {count}</p>
+        return <div key={name} className={`col-sm-${bootstrapColNum} card`}>
+            <LibraryImage path={picturePath && `book/${picturePath}`} className="card-img-top" size={'lg'}/>
+            <div className="card-body">
+                <p className="card-text">Name: {name}</p>
+                <p className="card-text">Available count: {count}</p>
+                <OutlineSecondaryButton launcher={() => addToCart(book)} title={'Add To Order'}/>
+            </div>
         </div>
     })}
 </div>);

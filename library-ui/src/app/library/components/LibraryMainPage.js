@@ -1,22 +1,27 @@
 import {Fragment} from "react";
 import {connect} from "react-redux";
 import {HashRouter} from "react-router-dom";
-import {addToOrder} from "../store/actions/order-actions";
+import {addToOrder, removeOrderItem} from "../store/actions/order-actions";
+import {CommonAlert} from "./alerts/alert";
 import OrderModal from "./modals/OrderModal"
+import OrderCart from "./OrderCart";
 import {Menu, RouterMain} from "./router-menu";
 import SignupButton from "./SignupButton";
 
-const LibraryMainPage = ({user, addToOrder}) => (<Fragment>
+const LibraryMainPage = ({user, orderMessage, addToOrder, removeItem}) => (<Fragment>
     <header>
         <div className="container">
             <nav className="navbar navbar-light bg-light ustify-content-between">
                 <span className="navbar-brand mb-0 h1">Hello {user.name}</span>
-                <OrderModal addToOrder={addToOrder} user={user}/>
-                <SignupButton/>
+                <div className="inline-child-element">
+                    <OrderCart/>
+                    <SignupButton/>
+                </div>
             </nav>
         </div>
     </header>
     <main>
+        <OrderModal addToOrder={addToOrder} user={user} removeItem={removeItem}/>
         <div className="container">
             <div className="row">
                 <HashRouter>
@@ -24,6 +29,7 @@ const LibraryMainPage = ({user, addToOrder}) => (<Fragment>
                         <Menu/>
                     </div>
                     <div className="col-sm-10">
+                        <CommonAlert text={orderMessage.text} className={orderMessage.className}/>
                         <RouterMain/>
                     </div>
                 </HashRouter>
@@ -33,10 +39,12 @@ const LibraryMainPage = ({user, addToOrder}) => (<Fragment>
 </Fragment>);
 
 export default connect(
-    ({current}) => ({
-        user: {...current.user}
+    ({current, order}) => ({
+        user: {...current.user},
+        orderMessage: _.get(order, 'message', {})
     }),
     dispatch => ({
-        addToOrder: item => dispatch(addToOrder(item))
+        addToOrder: item => dispatch(addToOrder(item)),
+        removeItem: book => dispatch(removeOrderItem(book))
     })
 )(LibraryMainPage);
