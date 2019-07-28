@@ -2,20 +2,22 @@ import {Fragment} from "react";
 import {connect} from "react-redux";
 import {HashRouter} from "react-router-dom";
 import {refreshBookPage} from "../store/actions/book-actions";
-import {addToOrder, clearCart, removeOrderItem} from "../store/actions/order-actions";
+import {addToOrder, clearCart, removeOrderItem, removeOrderMessage} from "../store/actions/order-actions";
 import {CommonAlert} from "./alerts/alert";
 import OrderModal from "./modals/OrderModal"
 import OrderCart from "./OrderCart";
 import {Menu, RouterMain} from "./router-menu";
 import SignupButton from "./SignupButton";
 
-const LibraryMainPage = ({user, orderMessage, addToOrder, removeItem, afterOrderCallback}) => (<Fragment>
+const isOrderAvailable = ({permission}) => _.get(permission, 'name') === 'visitor';
+
+const LibraryMainPage = ({user, orderMessage, addToOrder, removeItem, afterOrderCallback, closeOrderMessage}) => (<Fragment>
     <header>
         <div className="container">
             <nav className="navbar navbar-light bg-light ustify-content-between">
                 <span className="navbar-brand mb-0 h1">Hello {user.name}</span>
                 <div className="inline-child-element">
-                    <OrderCart/>
+                    {isOrderAvailable(user) && <OrderCart/>}
                     <SignupButton/>
                 </div>
             </nav>
@@ -30,7 +32,7 @@ const LibraryMainPage = ({user, orderMessage, addToOrder, removeItem, afterOrder
                         <Menu/>
                     </div>
                     <div className="col-sm-10">
-                        <CommonAlert text={orderMessage.text} className={orderMessage.className}/>
+                        <CommonAlert text={orderMessage.text} className={orderMessage.className} closeMessage={closeOrderMessage}/>
                         <RouterMain/>
                     </div>
                 </HashRouter>
@@ -50,6 +52,7 @@ export default connect(
         afterOrderCallback: () => {
             dispatch(clearCart());
             dispatch(refreshBookPage());
-        }
+        },
+        closeOrderMessage: () => dispatch(removeOrderMessage())
     })
 )(LibraryMainPage);

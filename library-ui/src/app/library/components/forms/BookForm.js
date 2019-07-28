@@ -23,7 +23,7 @@ const validators = {
         .matches(/\d+(\.\d{1,2})*/, 'The price has incorrect format.')
         .required('The price is required.'),
     count: () => Yup.number()
-        .moreThan(0, 'The min count must be more than 0')
+        .moreThan(-1, 'The min count must be positive')
 };
 
 const BookForm = ({applyChanges, formSubmitter, initialValues}) => {
@@ -67,7 +67,7 @@ const BookForm = ({applyChanges, formSubmitter, initialValues}) => {
                                name="count"
                                component="input"
                                type="number"
-                               min="1"/>
+                               min="0"/>
                         <ErrorMessage className="text-danger" component="small" name="count"/>
                     </div>
                     <div className="form-group">
