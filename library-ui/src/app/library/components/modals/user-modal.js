@@ -3,7 +3,7 @@ import {deleteUser, removeUserMessage, updateUserPermission} from "../../store/a
 import UserPermissionForm from "../forms/UserPermissionForm";
 import ReduxDeleteModal from "./common/DeleteModal";
 import ReduxFormModal from "./common/FormModal";
-import {MODAL_IDS} from "./common/modal-ids";
+import {MODAL_IDS} from "./modal-ids";
 
 export const DeleteUserModal = () => (<ReduxDeleteModal modalId={MODAL_IDS.DELETE_USER_MODAL}
                                                         createText={({name}) => `User '${name}' will be removed. Enter Delete button to proceed`}

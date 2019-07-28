@@ -5,7 +5,7 @@ import {getBooks, showBookErrorMessage} from "../../store/actions/book-actions";
 import {showModal} from "../../store/actions/modal-actions";
 import {OutlineDangerButton, OutlineSecondaryButton} from "../buttons/action-launcher";
 import LibraryImage from "../images/LibraryImage"
-import {MODAL_IDS} from "../modals/common/modal-ids";
+import {MODAL_IDS} from "../modals/modal-ids";
 import Table from "./common/Table";
 
 const UpdateBookModalLauncher = connect(null, (dispatch, {book}) => ({

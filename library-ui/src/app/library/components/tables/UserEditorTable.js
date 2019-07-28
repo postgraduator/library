@@ -4,7 +4,7 @@ import {rest} from "../../context";
 import {showModal} from "../../store/actions/modal-actions";
 import {getUsers, showUserErrorMessage} from "../../store/actions/user-actions";
 import {OutlineDangerButton, OutlineSecondaryButton} from "../buttons/action-launcher";
-import {MODAL_IDS} from "../modals/common/modal-ids";
+import {MODAL_IDS} from "../modals/modal-ids";
 import Table from "./common/Table";
 
 const DeleteUserButton = connect(

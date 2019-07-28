@@ -3,7 +3,7 @@ import {addNewBook, deleteBook, removeBookMessage, updateBook} from "../../store
 import BookForm from "../forms/BookForm";
 import ReduxDeleteModal from "./common/DeleteModal"
 import ReduxFormModal from "./common/FormModal";
-import {MODAL_IDS} from "./common/modal-ids";
+import {MODAL_IDS} from "./modal-ids";
 
 export const NewBookModal = () => (<ReduxFormModal modalId={MODAL_IDS.NEW_BOOK_MODAL}
                                                    createTitle={() => 'Add New Book'}

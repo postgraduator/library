@@ -6,7 +6,7 @@ import {showModal} from "../store/actions/modal-actions";
 import {CommonAlert} from "./alerts/alert";
 import {SecondaryButton} from "./buttons/action-launcher";
 import {DeleteBookModal, NewBookModal, UpdateBookModal} from "./modals/book-modal";
-import {MODAL_IDS} from "./modals/common/modal-ids";
+import {MODAL_IDS} from "./modals/modal-ids";
 import BookEditorTable from "./tables/BookEditorTable";
 
 class BookEditorList extends Component {

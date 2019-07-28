@@ -7,7 +7,7 @@ import {LightButton, PrimaryButton} from "../../buttons/action-launcher";
 
 const DeleteModal = ({modalId, text, show, hideModal, action, data}) => {
     let errorMessage = '';
-    return <Modal id={modalId} show={show} size="sm" centered>
+    return <Modal id={modalId} show={show} onHide={hideModal} size="sm" centered>
         <Modal.Header closeButton/>
         <Modal.Body>
             <DangerAlert text={errorMessage}/>

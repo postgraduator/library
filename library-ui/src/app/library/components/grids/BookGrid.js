@@ -9,7 +9,7 @@ import {areFiltersChanged, getPage, isPageChanged, isSortChanged} from "../../ut
 import {OutlineSecondaryButton} from "../buttons/action-launcher";
 import PaginatedComponent from "../common/PaginatedComponent";
 import LibraryImage from "../images/LibraryImage";
-import {MODAL_IDS} from "../modals/common/modal-ids";
+import {MODAL_IDS} from "../modals/modal-ids";
 import Pagination from "../pagination/Pagination";
 
 const BOOTSTRAP_GRID_SYSTEM_ITEM_COUNT = 12;
