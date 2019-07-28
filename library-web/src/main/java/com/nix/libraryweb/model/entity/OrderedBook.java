@@ -8,12 +8,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.springframework.data.rest.core.annotation.RestResource;
+
 @Entity
 public class OrderedBook {
     @Id
     @GeneratedValue
     private UUID id;
     @ManyToOne
+    @RestResource(exported = false)
     private Book book;
     private int count;
     private BigDecimal price;

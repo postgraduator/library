@@ -36,7 +36,7 @@ TablePage.propTypes = {
     filters: PropTypes.object
 };
 
-export default ({tableClassName, columns, pagination, data, sort, filters, setStateData, pageFetcher}) => {
+export default ({tableClassName, columns, pagination, data, sort, filters, setStateData, pageFetcher, fetchParams}) => {
     const Table = () => (<TablePage tableClassName={tableClassName}
                                     setStateData={setStateData}
                                     data={data}
@@ -47,7 +47,7 @@ export default ({tableClassName, columns, pagination, data, sort, filters, setSt
     const isUpdateNecessary = (currentProps, {pageState}) => isPageChanged(currentProps, pageState) ||
         isSortChanged(currentProps, pageState) ||
         areFiltersChanged(currentProps, pageState);
-    const remoteFetcher = () => pageFetcher({page: getPage(pagination), sort, filters})
+    const remoteFetcher = () => pageFetcher({page: getPage(pagination), sort, filters, fetchParams})
         .then(({data, pagination}) => setStateData({data, pagination, sort, filters}));
 
     const pageState = {pagination, sort, filters};

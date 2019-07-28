@@ -3,9 +3,10 @@ import {Fragment} from "react";
 import {serverInfoContext} from "../../context";
 
 const LibraryImage = ({path, size = 'sm', className}) => (<Fragment>
-    {path && <img alt={'Picture'}
+    {path ? <img alt={'It is the place for a picture'}
                   src={_.startsWith(path, 'blob') ? path : serverInfoContext.uploadContext + '/' + path}
-                  className={`image image-${size} ${className}`}/>}
+                  className={`image image-${size} ${className}`}/>
+    : 'There is no picture for this item.'}
 </Fragment>);
 
 LibraryImage.propTypes = {

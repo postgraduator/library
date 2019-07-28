@@ -59,6 +59,11 @@ class OrderForm extends Component {
             ...bookValidationSchema,
             orderCount: Yup.number().moreThan(0, 'You have to add items to the cart')
         });
+        const calculateTotalPrice = values => _.reduce(orderedBooks, (result, {book}) => {
+                const id = getUniqueKey(book);
+                const count = _.get(values, id);
+                return result + count * book.price;
+            }, 0);
         return <Formik
             id={FORM_IDS.ORDER_FORM}
             initialValues={initialValues}
@@ -81,6 +86,7 @@ class OrderForm extends Component {
                         _.map(orderedBooks, ({book}) => <OrderItem key={book.name}
                                                                    book={book}
                                                                    removeItem={removeItem}/>)}
+                    <p>Total price: {calculateTotalPrice(values)}</p>
                     <ErrorMessage className="text-danger" component="small" name="orderCount"/>
                 </Fragment>
             }}

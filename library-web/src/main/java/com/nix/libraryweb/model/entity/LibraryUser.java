@@ -50,7 +50,6 @@ public class LibraryUser {
     private Permission permission;
     @OneToMany
     @JoinColumn(name = "library_user_id")
-    @RestResource(path = "order-info")
     private Set<OrderInfo> orderInfos;
 
     public UUID getId() {

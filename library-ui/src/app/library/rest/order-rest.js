@@ -2,13 +2,16 @@ import axios from "axios";
 import {CommonRest} from "../../common/rest/common-rest";
 
 const OrderRest = function (apiPath, csrf) {
-    CommonRest.call(this, 'orderInfos');
+    CommonRest.call(this, 'order-info');
     this._csrf = csrf;
     this._basePath = apiPath + '/order-info';
 };
 
+OrderRest.prototype = Object.create(CommonRest.prototype);
+
 OrderRest.prototype.getOrders = function (params) {
-    return this._getPagedCollection(params);
+    const orderInfoLink = _.get(params, 'fetchParams.user._links.orderInfos.href');
+    return this._getFilteredPagedCollection(params, orderInfoLink);
 };
 
 OrderRest.prototype.makeOrder = function (user, orderedBooks) {

@@ -7,6 +7,7 @@ import {availableBooks, books} from "../store/reducers/book-reducers";
 import {current} from "../store/reducers/current-user-reducers";
 import {genders} from "../store/reducers/gender-reducers";
 import {modal} from "../store/reducers/modal-reducers";
+import {orderInfo} from "../store/reducers/order-info-reducer";
 import {order} from "../store/reducers/order-reducers";
 import {permissions} from "../store/reducers/permission-reducer";
 import {users} from "../store/reducers/user-reducers";
@@ -17,7 +18,7 @@ export default class LibraryStoreProvider extends Component {
         super(props);
         this.fetchCurrentUser = () => rest.user.fetchCurrentUser();
         this.reduxStore = createStore(
-            combineReducers({users, modal, books, permissions, genders, current, order, availableBooks})
+            combineReducers({users, modal, books, permissions, genders, current, order, availableBooks, orderInfo})
         );
     }
 
