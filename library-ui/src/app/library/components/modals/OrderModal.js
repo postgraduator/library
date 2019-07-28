@@ -5,7 +5,7 @@ import OrderForm from "../forms/OrderForm";
 import ReduxFormModal from "./common/FormModal"
 import {MODAL_IDS} from "./common/modal-ids";
 
-const OrderModal =  ({addToOrder, removeItem, user}) => <ReduxFormModal modalId={MODAL_IDS.ORDER_MODAL}
+const OrderModal =  ({addToOrder, removeItem, user, afterOrderCallback}) => <ReduxFormModal modalId={MODAL_IDS.ORDER_MODAL}
                                                  createTitle={() => 'Current order'}
                                                  buttonTitle={'Order'}
                                                  action={makeOrder}
@@ -13,6 +13,7 @@ const OrderModal =  ({addToOrder, removeItem, user}) => <ReduxFormModal modalId=
                                                  removeMessage={removeOrderMessage}
                                                  formDataCollector={({order}) => ({...order})}
                                                  ActionForm={({applyChanges, formSubmitter, data}) => <OrderForm
+                                                     afterOrderCallback={afterOrderCallback}
                                                      makeOrder={applyChanges}
                                                      formSubmitter={formSubmitter}
                                                      orderedBooks={_.get(data, 'items', [])}
@@ -22,7 +23,8 @@ const OrderModal =  ({addToOrder, removeItem, user}) => <ReduxFormModal modalId=
 OrderModal.propTypes = {
     addToOrder: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    removeItem: PropTypes.func.isRequired
+    removeItem: PropTypes.func.isRequired,
+    afterOrderCallback: PropTypes.func.isRequired
 };
 
 export default OrderModal;

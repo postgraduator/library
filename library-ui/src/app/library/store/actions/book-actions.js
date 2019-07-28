@@ -10,6 +10,8 @@ export const deleteBook = book => setEventData(crudActions.DELETE_BOOK, warningC
 
 export const showBookErrorMessage = text => setEventData(nonCrudActions.SHOW_BOOK_ERROR_MESSAGE, dangerAction(text));
 
+export const refreshBookPage = () => setEventData(nonCrudActions.REFRESH_BOOK_PAGE, {pagination: {number: -1}});
+
 export const getBooks = ({data, pagination, sort, filters}) =>
     setEventData(nonCrudActions.GET_BOOKS, fetchAction(data, pagination, sort, filters));
 

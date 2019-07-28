@@ -7,7 +7,8 @@ const crudActions = {
 const nonCrudActions = {
     GET_BOOKS: 'GET_BOOKS',
     REMOVE_BOOK_MESSAGE: 'REMOVE_MESSAGE',
-    SHOW_BOOK_ERROR_MESSAGE: 'SHOW_BOOK_ERROR_MESSAGE'
+    SHOW_BOOK_ERROR_MESSAGE: 'SHOW_BOOK_ERROR_MESSAGE',
+    REFRESH_BOOK_PAGE: 'REFRESH_BOOK_PAGE'
 };
 
 export {crudActions, nonCrudActions};

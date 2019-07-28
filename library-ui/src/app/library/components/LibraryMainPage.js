@@ -1,14 +1,15 @@
 import {Fragment} from "react";
 import {connect} from "react-redux";
 import {HashRouter} from "react-router-dom";
-import {addToOrder, removeOrderItem} from "../store/actions/order-actions";
+import {refreshBookPage} from "../store/actions/book-actions";
+import {addToOrder, clearCart, removeOrderItem} from "../store/actions/order-actions";
 import {CommonAlert} from "./alerts/alert";
 import OrderModal from "./modals/OrderModal"
 import OrderCart from "./OrderCart";
 import {Menu, RouterMain} from "./router-menu";
 import SignupButton from "./SignupButton";
 
-const LibraryMainPage = ({user, orderMessage, addToOrder, removeItem}) => (<Fragment>
+const LibraryMainPage = ({user, orderMessage, addToOrder, removeItem, afterOrderCallback}) => (<Fragment>
     <header>
         <div className="container">
             <nav className="navbar navbar-light bg-light ustify-content-between">
@@ -21,7 +22,7 @@ const LibraryMainPage = ({user, orderMessage, addToOrder, removeItem}) => (<Frag
         </div>
     </header>
     <main>
-        <OrderModal addToOrder={addToOrder} user={user} removeItem={removeItem}/>
+        <OrderModal addToOrder={addToOrder} user={user} removeItem={removeItem} afterOrderCallback={afterOrderCallback}/>
         <div className="container">
             <div className="row">
                 <HashRouter>
@@ -45,6 +46,10 @@ export default connect(
     }),
     dispatch => ({
         addToOrder: item => dispatch(addToOrder(item)),
-        removeItem: book => dispatch(removeOrderItem(book))
+        removeItem: book => dispatch(removeOrderItem(book)),
+        afterOrderCallback: () => {
+            dispatch(clearCart());
+            dispatch(refreshBookPage());
+        }
     })
 )(LibraryMainPage);

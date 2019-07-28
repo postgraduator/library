@@ -44,6 +44,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         Set<OrderedBook> orderedBooks = stream(books.spliterator(), false)
                 .map(this::mapBook)
                 .peek(orderedBook -> orderedBook.setCount(getOrderedCountById(orderedBook.getBook().getId(), orderDtos)))
+                .map(this::updateBookCount)
                 .collect(toSet());
         return saveOrderInfo(userId, orderedBooks);
     }
@@ -52,6 +53,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         OrderedBook orderedBook = new OrderedBook();
         orderedBook.setBook(book);
         orderedBook.setPrice(book.getPrice());
+        return orderedBook;
+    }
+
+    private OrderedBook updateBookCount(OrderedBook orderedBook) {
+        Book book = orderedBook.getBook();
+        int orderedCount = orderedBook.getCount();
+        book.setCount(book.getCount() - orderedCount);
         return orderedBook;
     }
 

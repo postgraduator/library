@@ -1,10 +1,19 @@
 import {actions} from "../constants/order-constants";
 import {createReducerWithSpecialActions} from "../utils/helper";
 
-const specialActions = _.set({}, actions.ADD_TO_ORDER, (state, {book, count}) => {
+export const getUniqueKey = ({_links}) => {
+    const href = _.get(_links, 'self.href');
+    return _(href)
+        .split('/')
+        .last();
+};
+
+const specialActions = _.set({}, actions.ADD_TO_ORDER, (state, formData) => {
     const newState = _.cloneDeep(state);
-    const orderedBook = _.find(newState.items, ['book.name', book.name]);
-    orderedBook ? _.set(orderedBook, 'count', count) : newState.items.push({book, count});
+    newState.items = _.map(newState.items, ({book}) => {
+        const id = getUniqueKey(book);
+        return {book, count: _.get(formData, id, 1)};
+    });
     return newState;
 });
 
