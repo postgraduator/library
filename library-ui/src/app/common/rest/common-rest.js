@@ -38,14 +38,14 @@ CommonRest.prototype._getFilteredPagedCollection = function (params, searchPath)
     const {filters} = params;
     const nonEmptyFilters = this._getRequestFilters(filters);
     return _.isEmpty(nonEmptyFilters) ?
-        this._getPagedCollection(params) :
+        this._getPagedCollection(params, getSearchPath()) :
         axios.get(`${this._basePath}/search/${getSearchPath(nonEmptyFilters)}`, {params: _.assign(this._prepareRequestParams(params), nonEmptyFilters)})
             .then(this._processCollection.bind(this));
 };
 
-CommonRest.prototype._getPagedCollection = function (params) {
+CommonRest.prototype._getPagedCollection = function (params, path) {
     return axios
-        .get(this._basePath, {
+        .get(path || this._basePath, {
             params: this._prepareRequestParams(params)
         })
         .then(this._processCollection.bind(this));

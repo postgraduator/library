@@ -7,6 +7,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +36,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         this.orderInfoRepository = orderInfoRepository;
         this.userService = userService;
         this.orderedBookService = orderedBookService;
+    }
+
+    @Override
+    public Page<OrderInfo> getOrdersByUserId(UUID userId, Pageable pageable) {
+        return orderInfoRepository.findAllByLibraryUserId(userId, pageable);
     }
 
     @Override
