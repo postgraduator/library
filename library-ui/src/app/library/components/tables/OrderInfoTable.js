@@ -26,7 +26,7 @@ const BookList = ({orderedBooks}) => (<ul className="list-group">
 </ul>);
 
 const OverallPrice = ({orderedBooks}) => (<Fragment>
-        {_.reduce(orderedBooks, (result, {count, price}) => result + count * price,0)}
+        {_.reduce(orderedBooks, (result, {count, price}) => _.floor(result + count * price, 2),0)}
     </Fragment>
 );
 

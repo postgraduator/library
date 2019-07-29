@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import {Fragment} from "react";
 import * as Yup from "yup";
 import {createValidationSchema} from "../../utils/validator";
-import {DangerAlert} from "../alerts/alert";
 import LibraryImage from "../images/LibraryImage";
 import {FORM_IDS} from "./form-ids";
 
@@ -26,19 +25,16 @@ const validators = {
         .moreThan(-1, 'The min count must be positive')
 };
 
-const BookForm = ({applyChanges, formSubmitter, initialValues}) => {
-    let errorMessage;
-    return <Formik
+const BookForm = ({applyChanges, formSubmitter, initialValues}) => (
+    <Formik
         id={FORM_IDS.NEW_BOOK_FORM}
         initialValues={initialValues}
         validationSchema={createValidationSchema(validators)}
         onSubmit={(values, {setSubmitting}) => applyChanges(values)
-            .catch(({message}) => {errorMessage = message})
             .finally(() => setSubmitting(false))}>
         {({handleSubmit, setFieldValue, submitForm, values}) => {
             formSubmitter(() => submitForm());
             return <Fragment>
-                <DangerAlert text={errorMessage}/>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="book-name">Book name</label>
@@ -81,15 +77,15 @@ const BookForm = ({applyChanges, formSubmitter, initialValues}) => {
                                    const files = [...e.target.files];
                                    setFieldValue('picture', files);
                                }}/>
-                               <div className="float-right">
-                                   <LibraryImage size={'lg'} path={getBookImagePath(values)}/>
-                               </div>
+                        <div className="float-right">
+                            <LibraryImage size={'lg'} path={getBookImagePath(values)}/>
+                        </div>
                     </div>
                 </form>
             </Fragment>
         }}
     </Formik>
-};
+);
 
 BookForm.propTypes = {
     applyChanges: PropTypes.func.isRequired,

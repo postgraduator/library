@@ -48,7 +48,6 @@ class OrderForm extends Component {
 
     render() {
         const {makeOrder, formSubmitter, orderedBooks, removeItem, afterOrderCallback} = this.props;
-        let errorMessage;
         const initialValues = _.reduce(orderedBooks, (result, {book, count}) => _.set(result, getUniqueKey(book), count), {});
         _.set(initialValues, 'orderCount', orderedBooks.length);
         const bookValidationSchema = _.reduce(orderedBooks, (result, {book}) => _.set(result, getUniqueKey(book),
@@ -62,7 +61,7 @@ class OrderForm extends Component {
         const calculateTotalPrice = values => _.reduce(orderedBooks, (result, {book}) => {
                 const id = getUniqueKey(book);
                 const count = _.get(values, id);
-                return result + count * book.price;
+                return _.floor(result + count * book.price, 2);
             }, 0);
         return <Formik
             id={FORM_IDS.ORDER_FORM}
@@ -72,9 +71,6 @@ class OrderForm extends Component {
                 .then(data => {
                     afterOrderCallback();
                     return data;
-                })
-                .catch(({message}) => {
-                    errorMessage = message
                 })
                 .finally(() => setSubmitting(false))}>
             {({submitForm, values}) => {

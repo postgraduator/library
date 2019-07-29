@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
-import {hideModal} from "../../../store/actions/modal-actions";
+import {hideModal, showModalMessage} from "../../../store/actions/modal-actions";
+import {DangerAlert} from "../../alerts/alert";
 import {LightButton, PrimaryButton} from "../../buttons/action-launcher";
 
-const FormModal = ({modalId, title, show, initialValues, ActionForm, hideModal, saveModalTitle, data, closeModalTitle = 'Close'}) => {
+const FormModal = ({modalId, title, show, initialValues, ActionForm, hideModal, saveModalTitle, data, closeModalTitle = 'Close'}, errorMessage) => {
     let submitForm = data => data;
     const formSubmitter = submitter => submitForm = submitter;
     return <Modal id={modalId} size="lg" show={show} onHide={hideModal}>
@@ -12,6 +13,7 @@ const FormModal = ({modalId, title, show, initialValues, ActionForm, hideModal, 
             <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+            <DangerAlert text={errorMessage.text}/>
             <ActionForm formSubmitter={formSubmitter} initialValues={initialValues} data={data}/>
         </Modal.Body>
         <Modal.Footer>
@@ -30,7 +32,8 @@ FormModal.propTypes = {
     hideModal: PropTypes.func.isRequired,
     initialValues: PropTypes.object.isRequired,
     title: PropTypes.string,
-    data: PropTypes.object
+    data: PropTypes.object,
+    errorMessage: PropTypes.object
 };
 
 const ReduxFormModal = connect(
@@ -43,7 +46,8 @@ const ReduxFormModal = connect(
             title: createTitle(modalData),
             show: _.get(modal, modalId + '.opened'),
             initialValues: modalData,
-            saveModalTitle: buttonTitle
+            saveModalTitle: buttonTitle,
+            errorMessage: _.get(modal, `${modalId}.message`, {})
         }
     },
     (dispatch, {action, serverAction, removeMessage, modalId, ActionForm}) => {
@@ -51,6 +55,9 @@ const ReduxFormModal = connect(
             dispatch(hideModal(modalId));
             dispatch(action(data));
         };
+        const errorProcessor = () => dispatch(showModalMessage(modalId, {
+            text: 'An unexpected error occurred.'
+        }));
         return {
             hideModal: () => {
                 dispatch(hideModal(modalId));
@@ -60,7 +67,8 @@ const ReduxFormModal = connect(
                                                                                initialValues={initialValues}
                                                                                data={data}
                                                                                applyChanges={values => serverAction(values)
-                                                                                   .then(({data}) => successSubmit(data))}/>)
+                                                                                   .then(({data}) => successSubmit(data))
+                                                                                   .catch(errorProcessor)}/>)
         }
     })(FormModal);
 
