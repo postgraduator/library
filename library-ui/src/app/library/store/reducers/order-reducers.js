@@ -1,12 +1,6 @@
+import {getUniqueKey} from "../../utils/data-utils";
 import {actions} from "../constants/order-constants";
 import {createReducerWithSpecialActions} from "../utils/helper";
-
-export const getUniqueKey = ({_links}) => {
-    const href = _.get(_links, 'self.href');
-    return _(href)
-        .split('/')
-        .last();
-};
 
 const specialActions = _.set({}, actions.ADD_TO_ORDER, (state, formData) => {
     const newState = _.cloneDeep(state);
