@@ -23,8 +23,8 @@ CREATE TABLE LIBRARY_USER
 CREATE TABLE ORDERED_BOOK
 (
     id            UUID PRIMARY KEY,
-    book_id       UUID           NOT NULL,
-    order_info_id UUID           NOT NULL,
+    book_id       UUID,
+    order_info_id UUID,
     count         INT            NOT NULL CHECK ( count > 0 ),
     price         DECIMAL(20, 2) NOT NULL
 );
@@ -32,7 +32,7 @@ CREATE TABLE ORDERED_BOOK
 CREATE TABLE ORDER_INFO
 (
     id              UUID PRIMARY KEY,
-    library_user_id UUID      NOT NULL,
+    library_user_id UUID,
     created_on      TIMESTAMP NOT NULL,
     closed_on       TIMESTAMP
 );

@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -48,7 +49,7 @@ public class LibraryUser {
     @ManyToOne(cascade = {REFRESH, DETACH})
     @NotNull
     private Permission permission;
-    @OneToMany
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "library_user_id")
     private Set<OrderInfo> orderInfos;
 
