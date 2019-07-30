@@ -51,6 +51,7 @@ public class LibraryUser {
     private Permission permission;
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "library_user_id")
+    @RestResource(path = "order-info", rel = "order-info")
     private Set<OrderInfo> orderInfos;
 
     public UUID getId() {

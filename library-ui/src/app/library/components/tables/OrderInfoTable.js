@@ -7,6 +7,7 @@ import {
     removeOrderInfoMessage,
     showOrderInfoErrorMessage
 } from "../../store/actions/order-info-actions";
+import {getUniqueKey} from "../../utils/data-utils";
 import Table from "./common/Table";
 
 const BookList = ({orderedBooks}) => (<ul className="list-group">
@@ -36,7 +37,7 @@ export default connect(
         pagination: _.get(orderInfo, 'pagination', {number: 0}),
         sort: _.get(orderInfo, 'sort', {}),
         filters: _.get(orderInfo, 'filters', {}),
-        fetchParams: {user: _.get(current, 'user', {})},
+        fetchParams: {userId: getUniqueKey(_.get(current, 'user', {}))},
         columns: [{
             field: 'createdOn',
             header: 'Date of creation',

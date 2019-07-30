@@ -4,14 +4,19 @@ import {CommonRest} from "../../common/rest/common-rest";
 const OrderRest = function (apiPath, csrf) {
     CommonRest.call(this, 'order-info');
     this._csrf = csrf;
-    this._basePath = apiPath + '/order-info';
+    this._entityPath = 'order-info';
+    this._basePath = apiPath + '/users';
 };
 
 OrderRest.prototype = Object.create(CommonRest.prototype);
 
 OrderRest.prototype.getOrders = function (params) {
-    const orderInfoLink = _.get(params, 'fetchParams.user._links.orderInfos.href');
+    const orderInfoLink = this.buildBaseLink(_.get(params, 'fetchParams.userId'));
     return this._getFilteredPagedCollection(params, orderInfoLink);
+};
+
+OrderRest.prototype.buildBaseLink = function (userId) {
+    return `${this._basePath}/${userId}/${this._entityPath}`
 };
 
 OrderRest.prototype.makeOrder = function (user, orderedBooks) {

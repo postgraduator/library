@@ -12,7 +12,6 @@ import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,7 +43,7 @@ public class OrderInfoRepositoryController {
         return ResponseEntity.ok(orderInfoResource);
     }
 
-    @GetMapping("/users/{userId}/orderInfos")
+    @GetMapping("/users/{userId}/order-info")
     public ResponseEntity<PagedResources> getOrders(@PathVariable UUID userId, Pageable pageable) {
         Page<OrderInfo> orderInfos = orderInfoService.getOrdersByUserId(userId, pageable);
         PagedResources orderInfoResources = PagedResources.wrap(
