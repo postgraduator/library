@@ -7,7 +7,9 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedResources;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nix.libraryweb.controllers.helper.BasePathAwareLinkBuilderService;
 import com.nix.libraryweb.model.dto.OrderDto;
@@ -44,13 +47,32 @@ public class OrderInfoRepositoryController {
     }
 
     @GetMapping("/users/{userId}/order-info")
-    public ResponseEntity<PagedResources> getOrders(@PathVariable UUID userId, Pageable pageable) {
-        Page<OrderInfo> orderInfos = orderInfoService.getOrdersByUserId(userId, pageable);
+    public ResponseEntity<PagedResources> getOrders(@PathVariable UUID userId, Pageable pageable, @RequestParam(required = false) String sort) {
+        Pageable sortPageable =createSortedPageable(pageable, sort);
+        Page<OrderInfo> orderInfos = orderInfoService.getOrdersByUserId(userId, sortPageable);
         PagedResources orderInfoResources = PagedResources.wrap(
                 orderInfos.getContent(),
                 new PagedResources.PageMetadata(orderInfos.getSize(), orderInfos.getNumber(), orderInfos.getTotalElements(), orderInfos.getTotalPages()));
-        Link resourceLink = basePathAwareLinkBuilderService.buildSelfLink(linkTo(methodOn(OrderInfoRepositoryController.class).getOrders(userId, pageable)));
+        Link resourceLink = basePathAwareLinkBuilderService.buildSelfLink(linkTo(methodOn(OrderInfoRepositoryController.class).getOrders(userId, sortPageable, sort)));
         orderInfoResources.add(resourceLink);
         return ResponseEntity.ok(orderInfoResources);
+    }
+
+    private Pageable createSortedPageable(Pageable pageable, String sortString) {
+        if (sortString == null) {
+            return pageable;
+        }
+        String[] sortParams = sortString.split(",");
+        String property = sortParams[0];
+        String direction = sortParams.length > 1 ? sortParams[1] : null;
+        Sort.Order order = Sort.Order.by(property).with(createDirection(direction));
+        return PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(order));
+    }
+
+    private Sort.Direction createDirection(String direction) {
+        if (direction == null) {
+            return Sort.Direction.ASC;
+        }
+        return Sort.Direction.fromString(direction.toLowerCase());
     }
 }
