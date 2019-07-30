@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
 import {Component, Fragment} from "react";
 import {connect} from "react-redux";
-import {rest} from "../context";
-import {fetchAllPermissions} from "../store/actions/permission-actions";
-import {removeUserMessage} from "../store/actions/user-actions";
-import {CommonAlert} from "./alerts/alert";
-import {DeleteUserModal, UpdatePermissionModal} from "./modals/user-modal";
-import UserEditorTable from "./tables/UserEditorTable";
+import {rest} from "../../context";
+import {fetchAllPermissions} from "../../store/actions/permission-actions";
+import {removeUserMessage} from "../../store/actions/user-actions";
+import {CommonAlert} from "../alerts/alert";
+import {DeleteUserModal, UpdatePermissionModal} from "../modals/user-modal";
+import UserEditorTable from "../tables/UserEditorTable";
 
 class Users extends Component {
     render() {

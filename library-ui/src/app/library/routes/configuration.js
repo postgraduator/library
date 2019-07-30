@@ -1,8 +1,10 @@
+import {Fragment} from "react";
 import BookEditorList from "../components/BookEditorList";
 import Books from "../components/Books";
 import Orders from "../components/Orders";
 import Profile from "../components/Profile";
-import Users from "../components/Users";
+import UserPage from "../components/users/UserPage";
+import Users from "../components/users/Users";
 import {PERMISSIONS} from "./security";
 import {STATES} from "./states";
 
@@ -26,8 +28,18 @@ const ROUTE_LIST = [{
 }, {
     path: STATES.users,
     name: 'Users',
-    component: Users,
-    permissions: [PERMISSIONS.administrator]
+    component: UserPage,
+    permissions: [PERMISSIONS.administrator],
+    children: [{
+        path: STATES.users,
+        exact: true,
+        component: Users,
+        permissions: [PERMISSIONS.administrator]
+    }, {
+        path: STATES.adminUserOrderInfo,
+        component: () => (<Fragment>Orders</Fragment>),
+        permissions: [PERMISSIONS.administrator]
+    }]
 }, {
     path: STATES.bookEditor,
     name: 'Books',

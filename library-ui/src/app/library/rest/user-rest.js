@@ -12,7 +12,8 @@ UserRest.prototype.fetchCurrentUser = function () {
 };
 
 UserRest.prototype.getUsers = function (params) {
-    return this._getFilteredPagedCollection(params, 'name-contains');
+    const searchPath = filters => filters ? 'name-contains' : this._basePath;
+    return this._getFilteredPagedCollection(params, searchPath);
 };
 
 UserRest.prototype.deleteUser = function (user) {

@@ -4,5 +4,6 @@ export const STATES = {
     profile: '/profile',
     bookEditor: '/book-editor',
     orders: '/orders',
-    users: '/users'
+    users: '/users',
+    adminUserOrderInfo: '/users/:id/order-info'
 };

@@ -1,8 +1,10 @@
 import {Fragment} from "react";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 import {rest} from "../../context";
 import {showModal} from "../../store/actions/modal-actions";
 import {getUsers, showUserErrorMessage} from "../../store/actions/user-actions";
+import {getUniqueKey} from "../../utils/data-utils";
 import {OutlineDangerButton, OutlineSecondaryButton} from "../buttons/action-launcher";
 import {MODAL_IDS} from "../modals/modal-ids";
 import Table from "./common/Table";
@@ -33,11 +35,11 @@ export default connect(({users}) => ({
             header: 'Name',
             filterable: true,
             sortable: true,
-            width: '20%'
+            width: '15%'
         }, {
             field: 'email',
             header: 'Email',
-            width: '20%'
+            width: '15%'
         }, {
             field: 'gender',
             header: 'Gender',
@@ -53,6 +55,13 @@ export default connect(({users}) => ({
             field: 'permission.name',
             header: 'Permission',
             width: '5%'
+        }, {
+            field: 'order',
+            header: null,
+            width: '20%',
+            Component: ({item}) => (<Link to={`/users/${getUniqueKey(item)}/order-info`}>
+                Orders
+            </Link>)
         }, {
             field: 'crud',
             header: null,
