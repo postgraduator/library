@@ -2,7 +2,7 @@ import {Component, Fragment} from "react";
 import {connect} from "react-redux";
 import {removeOrderInfoMessage} from "../store/actions/order-info-actions";
 import {CommonAlert} from "./alerts/alert";
-import OrderInfoTable from "./tables/OrderInfoTable";
+import UserOrderInfoTable from "./tables/order-info-table/UserOrderInfoTable";
 
 class Orders extends Component {
     componentWillUnmount() {
@@ -14,7 +14,7 @@ class Orders extends Component {
         const {message} = this.props;
         return <Fragment>
             <CommonAlert text={message.text} className={message.className}/>
-            <OrderInfoTable/>
+            <UserOrderInfoTable/>
         </Fragment>
     }
 }

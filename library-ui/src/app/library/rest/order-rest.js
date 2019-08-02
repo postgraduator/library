@@ -11,7 +11,7 @@ const OrderRest = function (apiPath, csrf) {
 OrderRest.prototype = Object.create(CommonRest.prototype);
 
 OrderRest.prototype.getOrders = function (params) {
-    const orderInfoLink = this.buildBaseLink(_.get(params, 'fetchParams.userId'));
+    const orderInfoLink = () => this.buildBaseLink(_.get(params, 'fetchParams.userId'));
     return this._getFilteredPagedCollection(params, orderInfoLink);
 };
 

@@ -32,4 +32,8 @@ UserRest.prototype.updateProfile = function (user) {
     return axios.put(this._getEntityLink(user), this._updateGender(this._removeEntityLinks(user)), {headers: {...this._csrf.header}})
 };
 
+UserRest.prototype.getUserById = function (userId) {
+    return axios.get(`${this._basePath}/${userId}`);
+};
+
 export const createUserRest = ({apiPath, csrf}) => new UserRest(apiPath, csrf);

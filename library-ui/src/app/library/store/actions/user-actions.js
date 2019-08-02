@@ -12,3 +12,5 @@ export const removeUserMessage = () => setEventData(actions.REMOVE_USER_MESSAGE,
 export const deleteUser = user => setEventData(actions.DELETE_USER, warningCrudAction(`The user '${user.name}' was deleted.`));
 
 export const updateUserPermission = user => setEventData(actions.UPDATE_USER_PERMISSION, successCrudAction(`The permission of '${user.name}' was changed.`));
+
+export const getUserById = user => setEventData(actions.GET_USER_BY_ID, user);

@@ -38,7 +38,7 @@ TablePage.propTypes = {
 
 export default ({tableClassName, columns, pagination, data, sort, filters, setStateData, pageFetcher, fetchParams}) => {
     const Table = () => (<TablePage tableClassName={tableClassName}
-                                    setStateData={setStateData}
+                                    setStateData={params => setStateData({...params, ...fetchParams})}
                                     data={data}
                                     columns={columns}
                                     pagination={pagination}
@@ -48,7 +48,7 @@ export default ({tableClassName, columns, pagination, data, sort, filters, setSt
         isSortChanged(currentProps, pageState) ||
         areFiltersChanged(currentProps, pageState);
     const remoteFetcher = () => pageFetcher({page: getPage(pagination), sort, filters, fetchParams})
-        .then(({data, pagination}) => setStateData({data, pagination, sort, filters}));
+        .then(({data, pagination}) => setStateData({data, pagination, sort, filters, ...fetchParams}));
 
     const pageState = {pagination, sort, filters};
     return <PaginatedComponent pageFetcher={remoteFetcher}

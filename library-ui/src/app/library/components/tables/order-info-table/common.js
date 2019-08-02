@@ -1,14 +1,12 @@
 import {format} from "date-fns";
 import {Fragment} from "react";
-import {connect} from "react-redux";
-import {rest} from "../../context";
+import {rest} from "../../../context";
 import {
     getOrderInfoPage,
     removeOrderInfoMessage,
     showOrderInfoErrorMessage
-} from "../../store/actions/order-info-actions";
-import {getUniqueKey} from "../../utils/data-utils";
-import Table from "./common/Table";
+} from "../../../store/actions/order-info-actions";
+import {DEFAULT_PAGE_STATE} from "../../../store/reducers/order-info-reducer";
 
 const BookList = ({orderedBooks}) => (<ul className="list-group">
     {_.map(orderedBooks, ({book, count, price}) => <li key={book.name} className="list-group-item">
@@ -27,17 +25,19 @@ const BookList = ({orderedBooks}) => (<ul className="list-group">
 </ul>);
 
 const OverallPrice = ({orderedBooks}) => (<Fragment>
-        {_.reduce(orderedBooks, (result, {count, price}) => _.floor(result + count * price, 2),0)}
+        {_.reduce(orderedBooks, (result, {count, price}) => _.floor(result + count * price, 2), 0)}
     </Fragment>
 );
 
-export default connect(
-    ({orderInfo, current}) => ({
-        data: _.get(orderInfo, 'items', []),
-        pagination: _.get(orderInfo, 'pagination', {number: 0}),
-        sort: _.get(orderInfo, 'sort', {}),
-        filters: _.get(orderInfo, 'filters', {}),
-        fetchParams: {userId: getUniqueKey(_.get(current, 'user', {}))},
+export const createOrderInfoStateCollector = userIdGetter => (state, ownProps) => {
+    const {orderInfo} = state;
+    const userId = userIdGetter(state, ownProps);
+    return {
+        data: _.get(orderInfo, `${userId}.items`, []),
+        pagination: _.get(orderInfo, `${userId}.pagination`, DEFAULT_PAGE_STATE.pagination),
+        sort: _.get(orderInfo, `${userId}.sort`, DEFAULT_PAGE_STATE.sort),
+        filters: _.get(orderInfo, `${userId}.filters`, {}),
+        fetchParams: {userId},
         columns: [{
             field: 'createdOn',
             header: 'Date of creation',
@@ -55,14 +55,15 @@ export default connect(
             width: '15%',
             Component: ({item}) => (<OverallPrice orderedBooks={item.orderedBooks}/>)
         }]
-    }),
-    dispatch => ({
-        pageFetcher: params => rest.order.getOrders(params)
-            .then(data => {
-                dispatch(removeOrderInfoMessage());
-                return data;
-            })
-            .catch(() => dispatch(showOrderInfoErrorMessage('An unexpected server error occurred.'))),
-        setStateData: params => dispatch(getOrderInfoPage(params))
-    })
-)(Table);
+    }
+};
+
+export const bindToDispatch = dispatch => ({
+    pageFetcher: params => rest.order.getOrders(params)
+        .then(data => {
+            dispatch(removeOrderInfoMessage());
+            return data;
+        })
+        .catch(() => dispatch(showOrderInfoErrorMessage('An unexpected server error occurred.'))),
+    setStateData: params => dispatch(getOrderInfoPage(params))
+});
