@@ -39,13 +39,14 @@ BookRest.prototype.updateBook = function (book) {
 BookRest.prototype.getBooks = function (params) {
     const filterMap = {
         count: 'greater-than',
-        name: 'name-contains'
+        nameAndAuthor: 'by-name-contains-and-author'
     };
     const searchPath = filters => {
-        const filterKey = _(filters)
-            .keys()
-            .head();
-        return _.get(filterMap, filterKey);
+        const filterKeys = _.keys(filters);
+        if (_.some(filterKeys, key => key === 'name' || key === 'author')) {
+            return _.get(filterMap, 'nameAndAuthor');
+        }
+        return _.get(filterMap, _.head(filterKeys));
     };
     return this._getFilteredPagedCollection(params, searchPath);
 };

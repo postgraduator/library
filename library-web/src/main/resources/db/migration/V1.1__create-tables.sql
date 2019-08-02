@@ -4,6 +4,7 @@ CREATE TABLE BOOK
 (
     id           UUID PRIMARY KEY,
     name         VARCHAR(256) UNIQUE NOT NULL,
+    author       VARCHAR(256)        NOT NULL,
     picture_path VARCHAR(256),
     count        INT                 NOT NULL CHECK ( count >= 0 ),
     price        DECIMAL(20, 2)      NOT NULL

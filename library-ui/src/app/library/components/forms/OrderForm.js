@@ -9,11 +9,14 @@ import {FORM_IDS} from "./form-ids";
 const OrderItem = ({book, removeItem}) => {
     const name = getUniqueKey(book);
     return <div className="form-group row">
-        <div className="col-sm-8">
-            <label>{book.name}</label>
+        <div className="col-sm-5">
+            <p className="book-info"><span>Author:</span> {book.author} <span>Name:</span> {book.name}</p>
             <div>
                 <ErrorMessage className="text-danger" component="small" name={name}/>
             </div>
+        </div>
+        <div className="col-sm-3">
+            <label>{book.price}</label>
         </div>
         <div className="col-sm-2">
             <Field id={name}

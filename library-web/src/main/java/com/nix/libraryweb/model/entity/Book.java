@@ -18,6 +18,7 @@ public class Book {
     private String picturePath;
     private int count;
     private BigDecimal price;
+    private String author;
 
     public UUID getId() {
         return id;
@@ -57,5 +58,13 @@ public class Book {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }

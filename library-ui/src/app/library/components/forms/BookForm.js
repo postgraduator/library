@@ -22,7 +22,14 @@ const validators = {
         .matches(/\d+(\.\d{1,2})*/, 'The price has incorrect format.')
         .required('The price is required.'),
     count: () => Yup.number()
-        .moreThan(-1, 'The min count must be positive')
+        .moreThan(-1, 'The min count must be positive'),
+    author: () => {
+        const minLength = 1, maxLength = 256;
+        return Yup.string()
+            .min(minLength, `The author must be more than ${minLength}.`)
+            .max(maxLength, `The author must be less than ${maxLength}.`)
+            .required('The author is required field.')
+    }
 };
 
 const BookForm = ({applyChanges, formSubmitter, initialValues}) => (
@@ -45,6 +52,16 @@ const BookForm = ({applyChanges, formSubmitter, initialValues}) => (
                                placeholder="Book name"
                                type="text"/>
                         <ErrorMessage className="text-danger" component="small" name="name"/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="book-name">Author</label>
+                        <Field id="author"
+                               className="form-control"
+                               name="author"
+                               component="input"
+                               placeholder="Author"
+                               type="text"/>
+                        <ErrorMessage className="text-danger" component="small" name="author"/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="book-price">Book price</label>

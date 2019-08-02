@@ -12,7 +12,7 @@ const BookList = ({orderedBooks}) => (<ul className="list-group">
     {_.map(orderedBooks, ({book, count, price}) => <li key={book.name} className="list-group-item">
         <div className="row">
             <div className="col-sm-6">
-                {book.name}
+                <p className="book-info"><span>Author:</span> {book.author} <span>Name:</span> {book.name}</p>
             </div>
             <div className="col-sm-3">
                 Count: {count}

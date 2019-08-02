@@ -26,7 +26,13 @@ export default connect(({books}) => ({
             header: 'Name',
             filterable: true,
             sortable: true,
-            width: '50%'
+            width: '30%'
+        }, {
+            field: 'author',
+            header: 'Author',
+            filterable: true,
+            sortable: true,
+            width: '20%'
         }, {
             field: 'price',
             header: 'Price',
