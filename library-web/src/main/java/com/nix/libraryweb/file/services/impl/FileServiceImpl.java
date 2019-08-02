@@ -66,6 +66,5 @@ public class FileServiceImpl implements FileService {
 
     private String getFullFilePath(String fileName) {
         return uploadPath + FileSystems.getDefault().getSeparator() + fileName;
-
     }
 }
