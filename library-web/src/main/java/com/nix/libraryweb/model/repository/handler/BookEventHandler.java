@@ -19,6 +19,8 @@ public class BookEventHandler {
 
     @HandleAfterDelete
     public void deleteBookFile(Book book) {
-        fileService.delete(book.getPicturePath());
+        if (book.getPicturePath() != null) {
+            fileService.delete(book.getPicturePath());
+        }
     }
 }
