@@ -18,8 +18,8 @@ class UserCard extends Component{
             <div className="card-body">
                 <h5 className="card-title">User info</h5>
                 <div className="card-body">
-                    <p className="card-text">{user.name}</p>
-                    <p className="card-text">{user.email}</p>
+                    <p className="card-text">Name: {user.name}</p>
+                    <p className="card-text">Email: {user.email}</p>
                     <Link to={path} className="card-link">Back to Users ></Link>
                 </div>
             </div>
