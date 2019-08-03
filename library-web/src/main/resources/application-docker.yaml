@@ -1,0 +1,3 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://library_db:${db-port}/${db-name}

@@ -1,0 +1,29 @@
+version: "3.6"
+services:
+  web:
+    container_name: library
+    image: library
+    build:
+      context: .
+      args:
+        JAR_FILE_VERSION: 0.0.1-SNAPSHOT
+        DB_PASSWORD: &db-password llibrarianpassword
+        DB_USERNAME: &db-username librarian
+        DB_NAME:  &db-name library
+        DB_PORT: 5432
+        FILE_STORAGE: /data/library/storage
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/usr/local/share/library/files:/data/library/storage"
+    links:
+      - "db:librarydb"
+  db:
+    image: postgres:10.5
+    container_name: librarydb
+    environment:
+      POSTGRES_PASSWORD: *db-password
+      POSTGRES_USER: *db-username
+      POSTGRES_DB: *db-name
+    volumes:
+      - "/usr/local/share/library/db:/var/lib/postgresql/data"
