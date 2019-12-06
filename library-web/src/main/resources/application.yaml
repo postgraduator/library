@@ -33,7 +33,3 @@ constraint:
     min: "5"
     max: "30"
     pattern: "[a-zA-Z0-9]+"
-user:
-  name: ladmin
-  password: lPassword
-  email: ladmin@service.com
